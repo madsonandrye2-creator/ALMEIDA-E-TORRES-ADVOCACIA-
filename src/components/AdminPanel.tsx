@@ -1175,6 +1175,11 @@ export const AdminPanel: React.FC = () => {
                 <LogoEditorSection
                   formData={settingsForm}
                   setFormData={setSettingsForm}
+                  onSaveDirectly={(updated) => {
+                    const merged = { ...settingsForm, ...updated };
+                    setSettingsForm(merged);
+                    updateOfficeSettings(merged);
+                  }}
                 />
               </div>
 

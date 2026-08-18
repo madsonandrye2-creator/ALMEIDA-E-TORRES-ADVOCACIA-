@@ -710,6 +710,11 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                 <LogoEditorSection
                   formData={formData}
                   setFormData={setFormData}
+                  onSaveDirectly={(updated) => {
+                    const merged = { ...formData, ...updated };
+                    setFormData(merged);
+                    updateOfficeSettings(merged);
+                  }}
                 />
               </div>
             )}

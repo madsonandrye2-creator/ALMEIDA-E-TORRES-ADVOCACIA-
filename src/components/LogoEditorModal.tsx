@@ -82,6 +82,11 @@ export const LogoEditorModal: React.FC<LogoEditorModalProps> = ({
           <LogoEditorSection
             formData={formData}
             setFormData={setFormData}
+            onSaveDirectly={(updated) => {
+              const merged = { ...formData, ...updated };
+              setFormData(merged);
+              updateOfficeSettings(merged);
+            }}
             isStandalone={true}
           />
 

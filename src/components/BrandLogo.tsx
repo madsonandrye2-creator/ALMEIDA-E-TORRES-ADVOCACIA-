@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Scale, 
   Shield, 
@@ -107,6 +107,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   const logoType = cfg.logoType || (cfg.logoUrl ? 'image' : 'icon');
   const logoUrl = cfg.logoUrl;
+
+  useEffect(() => {
+    setImageError(false);
+  }, [logoUrl, logoType]);
   const iconName = cfg.logoIcon || 'Scale';
   const IconComponent = LOGO_ICONS[iconName] || Scale;
   const logoText = cfg.logoText || cfg.officeName || 'ALMEIDA & TORRES';

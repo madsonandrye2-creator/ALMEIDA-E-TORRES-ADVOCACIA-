@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { OfficeSettings } from '../types';
 import { BrandLogo, LOGO_ICONS, LOGO_PRESETS } from './BrandLogo';
+import { optimizeImageFile } from '../utils/imageOptimizer';
 
 interface LogoEditorSectionProps {
   formData: OfficeSettings;
@@ -58,16 +59,16 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
     }
   };
 
-  // File Upload Handler (converts to base64 Data URL)
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // File Upload Handler (converts to lightweight, optimized WebP / Data URL)
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setUploadError('');
     setUploadSuccess(false);
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate size (max 3MB for base64 storage)
-    if (file.size > 3 * 1024 * 1024) {
-      setUploadError('A imagem deve ter no máximo 3MB. Tente uma imagem mais leve ou otimizada.');
+    // Validate size (support up to 10MB original file size since we compress locally)
+    if (file.size > 12 * 1024 * 1024) {
+      setUploadError('O arquivo selecionado é muito grande (acima de 12MB). Selecione uma imagem menor.');
       return;
     }
 
@@ -77,22 +78,24 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const result = event.target?.result as string;
-      if (result) {
-        handleUpdate({
-          logoType: 'image',
-          logoUrl: result,
-        });
-        setUploadSuccess(true);
-        setTimeout(() => setUploadSuccess(false), 3000);
-      }
-    };
-    reader.onerror = () => {
-      setUploadError('Erro ao ler a imagem. Tente novamente.');
-    };
-    reader.readAsDataURL(file);
+    try {
+      const optimizedDataUrl = await optimizeImageFile(file, {
+        maxWidth: 900,
+        maxHeight: 900,
+        quality: 0.9,
+        format: file.type === 'image/png' ? 'image/png' : 'image/webp',
+      });
+
+      handleUpdate({
+        logoType: 'image',
+        logoUrl: optimizedDataUrl,
+      });
+      setUploadSuccess(true);
+      setTimeout(() => setUploadSuccess(false), 3500);
+    } catch (err) {
+      console.error('Error optimizing image:', err);
+      setUploadError('Não foi possível processar esta imagem. Tente outro arquivo ou formato PNG/JPG.');
+    }
   };
 
   const handleApplyUrl = () => {

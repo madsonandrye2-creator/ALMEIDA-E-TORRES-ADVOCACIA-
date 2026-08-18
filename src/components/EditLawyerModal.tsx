@@ -12,10 +12,12 @@ import {
   AlertCircle,
   Phone,
   Mail,
-  Award
+  Award,
+  Upload
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Lawyer } from '../types';
+import { optimizeImageFile } from '../utils/imageOptimizer';
 
 interface EditLawyerModalProps {
   isOpen: boolean;
@@ -83,6 +85,29 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
   const [showAvatarPresets, setShowAvatarPresets] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleAvatarFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadLoading(true);
+    try {
+      const optimized = await optimizeImageFile(file, {
+        maxWidth: 600,
+        maxHeight: 600,
+        quality: 0.88,
+        format: 'image/webp'
+      });
+      setFormData(prev => ({ ...prev, avatarUrl: optimized }));
+    } catch (err) {
+      console.error('Error optimizing avatar:', err);
+      alert('Erro ao processar imagem. Tente outra foto.');
+    } finally {
+      setUploadLoading(false);
+    }
+  };
 
   useEffect(() => {
     setIsConfirmingDelete(false);
@@ -238,9 +263,28 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                 type="url"
                 value={formData.avatarUrl || ''}
                 onChange={(e) => setFormData({ ...formData, avatarUrl: e.target.value })}
-                placeholder="https://images.unsplash.com/..."
+                placeholder="Cole o link da imagem (URL) ou envie um arquivo abaixo"
                 className="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-mono"
               />
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png, image/jpeg, image/webp"
+                  onChange={handleAvatarFileUpload}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadLoading}
+                  className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <Upload className="w-3.5 h-3.5 text-[#c5a059]" />
+                  <span>{uploadLoading ? 'Otimizando Foto...' : 'Enviar Foto do Computador'}</span>
+                </button>
+              </div>
 
               {showAvatarPresets && (
                 <div className="pt-2">
