@@ -20,6 +20,9 @@ import {
 } from '../data/initialData';
 import {
   db,
+  auth,
+  googleProvider,
+  isEmailAdmin,
   COLLECTIONS,
   seedInitialFirestoreData,
   syncOfficeSettings,
@@ -35,11 +38,27 @@ import {
   deleteContactRequestDoc
 } from '../lib/firebase';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { 
+  signInWithPopup, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signOut,
+  updateProfile,
+  onAuthStateChanged
+} from 'firebase/auth';
 
 interface AppContextType {
   currentUser: User | null;
-  login: (identifier: string, passwordPlain: string) => { success: boolean; message?: string; user?: User };
-  logout: () => void;
+  login: (identifier: string, passwordPlain: string) => Promise<{ success: boolean; message?: string; user?: User }>;
+  loginWithGoogle: () => Promise<{ success: boolean; message?: string; user?: User }>;
+  registerWithEmail: (data: {
+    name: string;
+    email: string;
+    passwordPlain: string;
+    cpf?: string;
+    phone?: string;
+  }) => Promise<{ success: boolean; message?: string; user?: User }>;
+  logout: () => Promise<void>;
   
   officeSettings: OfficeSettings;
   updateOfficeSettings: (newSettings: Partial<OfficeSettings>) => void;
@@ -323,13 +342,160 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   }, []);
 
+  // Safe ActiveView setter ensuring clients CANNOT open admin-panel
+  const handleSetActiveView = (view: 'home' | 'client-area' | 'admin-panel') => {
+    if (view === 'admin-panel') {
+      if (!currentUser || currentUser.role !== 'admin') {
+        console.warn('Acesso negado: Somente administradores autorizados têm acesso a esta área.');
+        openAuthModal('admin');
+        return;
+      }
+    }
+    setActiveView(view);
+  };
+
   // Auth methods
-  const login = (identifier: string, passwordPlain: string) => {
+  const loginWithGoogle = async (): Promise<{ success: boolean; message?: string; user?: User }> => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const fbUser = result.user;
+      const email = (fbUser.email || '').toLowerCase().trim();
+      const isAdmin = isEmailAdmin(email);
+
+      if (isAdmin) {
+        const adminUser: User = {
+          id: fbUser.uid || 'admin-root',
+          name: fbUser.displayName || 'Administrador Almeida & Torres',
+          email: email,
+          role: 'admin',
+          phone: fbUser.phoneNumber || INITIAL_ADMIN_USER.phone,
+          avatar: fbUser.photoURL || INITIAL_ADMIN_USER.avatar,
+        };
+        setCurrentUser(adminUser);
+        setActiveView('admin-panel');
+        setIsAuthModalOpen(false);
+        return { success: true, user: adminUser };
+      }
+
+      // Regular user: STRICTLY ROLE 'client' (Zero admin privileges)
+      const existingClient = clients.find(c => c.email.toLowerCase() === email);
+      const clientUser: User = {
+        id: existingClient?.id || `cli-${fbUser.uid}`,
+        name: existingClient?.name || fbUser.displayName || email.split('@')[0],
+        email: email,
+        cpf: existingClient?.cpf || '',
+        role: 'client', // GUARANTEED CLIENT
+        phone: existingClient?.phone || fbUser.phoneNumber || '',
+        avatar: fbUser.photoURL || existingClient?.avatar || `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+      };
+
+      const fullClientRecord = {
+        ...clientUser,
+        passwordPlain: existingClient?.passwordPlain || 'google-auth',
+        address: existingClient?.address || '',
+      };
+
+      if (!existingClient) {
+        setClients(prev => [fullClientRecord, ...prev]);
+      }
+      syncClient(fullClientRecord);
+
+      setCurrentUser(clientUser);
+      setActiveView('client-area');
+      setIsAuthModalOpen(false);
+      return { success: true, user: clientUser };
+    } catch (err: any) {
+      console.error('Google Sign-In Error:', err);
+      const isPopupClosed = err?.code === 'auth/popup-closed-by-user' || err?.message?.includes('closed');
+      return { 
+        success: false, 
+        message: isPopupClosed 
+          ? 'O login com Google foi cancelado na janela pop-up.' 
+          : 'Não foi possível autenticar com o Google. Você também pode se cadastrar ou entrar usando seu e-mail e senha.' 
+      };
+    }
+  };
+
+  const registerWithEmail = async (data: {
+    name: string;
+    email: string;
+    passwordPlain: string;
+    cpf?: string;
+    phone?: string;
+  }): Promise<{ success: boolean; message?: string; user?: User }> => {
+    try {
+      const cleanEmail = data.email.trim().toLowerCase();
+      const cleanCpf = (data.cpf || '').trim();
+
+      // Check if client with this email already exists in local list
+      const existing = clients.find(c => c.email.toLowerCase() === cleanEmail);
+      if (existing) {
+        return { 
+          success: false, 
+          message: 'Já existe uma conta cadastrada com este e-mail. Por favor, acesse a aba "Entrar".' 
+        };
+      }
+
+      let uid = `cli-${Date.now()}`;
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, cleanEmail, data.passwordPlain);
+        if (userCred.user) {
+          uid = userCred.user.uid;
+          await updateProfile(userCred.user, { displayName: data.name });
+        }
+      } catch (firebaseErr: any) {
+        console.warn('Firebase Auth email creation note (handled seamlessly):', firebaseErr);
+        if (firebaseErr?.code === 'auth/email-already-in-use') {
+          return { success: false, message: 'Este e-mail já está cadastrado no sistema. Acesse a aba Entrar.' };
+        }
+        if (firebaseErr?.code === 'auth/weak-password') {
+          return { success: false, message: 'A senha deve conter pelo menos 6 caracteres.' };
+        }
+        if (firebaseErr?.code === 'auth/invalid-email') {
+          return { success: false, message: 'Formato de e-mail inválido.' };
+        }
+      }
+
+      // CRITICAL: NEVER GRANT ADMIN TO USER CREATION. Always role 'client'
+      const newClientUser: User = {
+        id: uid,
+        name: data.name.trim(),
+        email: cleanEmail,
+        cpf: cleanCpf,
+        role: 'client', // STRICTLY CLIENT ONLY
+        phone: data.phone?.trim() || '',
+        avatar: `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+      };
+
+      const fullClientRecord = {
+        ...newClientUser,
+        passwordPlain: data.passwordPlain,
+        address: '',
+      };
+
+      setClients(prev => [fullClientRecord, ...prev]);
+      syncClient(fullClientRecord);
+
+      setCurrentUser(newClientUser);
+      setActiveView('client-area');
+      setIsAuthModalOpen(false);
+      return { success: true, user: newClientUser };
+    } catch (err: any) {
+      console.error('Registration error:', err);
+      return { 
+        success: false, 
+        message: err?.message || 'Erro ao realizar cadastro. Verifique os dados e tente novamente.' 
+      };
+    }
+  };
+
+  const login = async (identifier: string, passwordPlain: string): Promise<{ success: boolean; message?: string; user?: User }> => {
     const cleanIdentifier = identifier.trim().toLowerCase();
     const cleanCpf = identifier.replace(/\D/g, '');
 
-    // Check Admin first
+    // 1. Check Admin Account (Hardened check)
     if (
+      isEmailAdmin(cleanIdentifier) ||
       cleanIdentifier === INITIAL_ADMIN_USER.email.toLowerCase() ||
       cleanIdentifier === 'admin' ||
       cleanIdentifier === 'admin@almeidaetorres.adv.br'
@@ -351,7 +517,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return { success: false, message: 'Senha incorreta para a conta de administrador.' };
     }
 
-    // Check Clients by CPF or Email
+    // 2. Try Firebase Auth with Email if cleanIdentifier is an email
+    if (cleanIdentifier.includes('@')) {
+      try {
+        const cred = await signInWithEmailAndPassword(auth, cleanIdentifier, passwordPlain);
+        if (cred.user) {
+          const fbEmail = (cred.user.email || '').toLowerCase();
+          const foundClient = clients.find(c => c.email.toLowerCase() === fbEmail);
+
+          const clientUser: User = {
+            id: foundClient?.id || cred.user.uid,
+            name: foundClient?.name || cred.user.displayName || fbEmail.split('@')[0],
+            email: fbEmail,
+            cpf: foundClient?.cpf || '',
+            role: 'client', // STRICTLY CLIENT
+            phone: foundClient?.phone || cred.user.phoneNumber || '',
+            avatar: cred.user.photoURL || foundClient?.avatar || `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+          };
+
+          setCurrentUser(clientUser);
+          setActiveView('client-area');
+          setIsAuthModalOpen(false);
+          return { success: true, user: clientUser };
+        }
+      } catch (authErr: any) {
+        console.warn('Firebase Email login check (trying clients store fallback):', authErr);
+      }
+    }
+
+    // 3. Check Clients by CPF or Email in database
     const foundClient = clients.find(c => {
       const cCpfDigits = (c.cpf || '').replace(/\D/g, '');
       const matchCpf = cleanCpf.length > 0 && cCpfDigits === cleanCpf;
@@ -378,10 +572,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return { success: false, message: 'Senha incorreta para o cliente informado.' };
     }
 
-    return { success: false, message: 'Usuário não encontrado. Verifique seu CPF ou e-mail cadastrado.' };
+    return { 
+      success: false, 
+      message: 'Usuário não encontrado. Se ainda não possui conta, crie a sua na aba "Criar Conta" com Google ou E-mail.' 
+    };
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      // non-blocking
+    }
     setCurrentUser(null);
     setActiveView('home');
   };
@@ -678,6 +880,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         currentUser,
         login,
+        loginWithGoogle,
+        registerWithEmail,
         logout,
         officeSettings,
         updateOfficeSettings,
@@ -704,7 +908,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateContactRequestStatus,
         deleteContactRequest,
         activeView,
-        setActiveView,
+        setActiveView: handleSetActiveView,
         isAuthModalOpen,
         authModalInitialRole,
         openAuthModal,

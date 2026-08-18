@@ -11,6 +11,17 @@ import {
   query,
   writeBatch
 } from 'firebase/firestore';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  onAuthStateChanged,
+  User as FirebaseUser
+} from 'firebase/auth';
 import firebaseConfigData from '../../firebase-applet-config.json';
 import {
   OfficeSettings,
@@ -41,6 +52,24 @@ export const db = getFirestore(
     ? firebaseConfig.firestoreDatabaseId 
     : undefined
 );
+
+// Initialize Firebase Auth
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+// Designated Administrator Accounts
+export const ADMIN_EMAILS = [
+  'admin@almeidaetorres.adv.br',
+  'admin@almeidaetorres.com.br',
+  'madsonandrye2@gmail.com'
+];
+
+export function isEmailAdmin(email?: string | null): boolean {
+  if (!email) return false;
+  const clean = email.trim().toLowerCase();
+  return ADMIN_EMAILS.some(admin => admin.toLowerCase() === clean);
+}
 
 // Collection references
 export const COLLECTIONS = {

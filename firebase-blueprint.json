@@ -1,0 +1,132 @@
+{
+  "entities": {
+    "OfficeSettings": {
+      "title": "OfficeSettings",
+      "description": "Institutional settings, contacts, brand logo, and texts of Almeida & Torres law firm.",
+      "type": "object",
+      "properties": {
+        "officeName": { "type": "string" },
+        "tagline": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "whatsappFormatted": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "cityState": { "type": "string" },
+        "workingHours": { "type": "string" },
+        "aboutHistory": { "type": "string" },
+        "aboutMission": { "type": "string" },
+        "aboutValues": { "type": "string" },
+        "aboutApproach": { "type": "string" },
+        "statsLawyersCount": { "type": "string" },
+        "statsYearsExperience": { "type": "string" },
+        "statsClientsServed": { "type": "string" },
+        "statsCasesHandled": { "type": "string" },
+        "statsSatisfactionRate": { "type": "string" }
+      },
+      "required": ["officeName", "phone", "whatsapp", "email"]
+    },
+    "Lawyer": {
+      "title": "Lawyer",
+      "description": "Attorneys and legal team members.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "oab": { "type": "string" },
+        "specialty": { "type": "string" },
+        "roleTitle": { "type": "string" },
+        "bio": { "type": "string" },
+        "email": { "type": "string" },
+        "avatarUrl": { "type": "string" }
+      },
+      "required": ["id", "name", "oab", "specialty"]
+    },
+    "PracticeArea": {
+      "title": "PracticeArea",
+      "description": "Legal practice areas and rights specializations.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "fullDescription": { "type": "string" },
+        "iconName": { "type": "string" }
+      },
+      "required": ["id", "title", "shortDescription", "fullDescription"]
+    },
+    "Client": {
+      "title": "Client",
+      "description": "Registered law firm client profiles with client-only role.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "cpf": { "type": "string" },
+        "role": { "type": "string", "enum": ["client"] },
+        "phone": { "type": "string" },
+        "avatar": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "LegalProcess": {
+      "title": "LegalProcess",
+      "description": "Legal labor lawsuit case and timeline tracking.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "processNumber": { "type": "string" },
+        "clientId": { "type": "string" },
+        "clientName": { "type": "string" },
+        "lawyerId": { "type": "string" },
+        "lawyerName": { "type": "string" },
+        "title": { "type": "string" },
+        "currentStatus": { "type": "string" },
+        "lastUpdateDate": { "type": "string" }
+      },
+      "required": ["id", "processNumber", "clientId", "title", "currentStatus"]
+    },
+    "ContactRequest": {
+      "title": "ContactRequest",
+      "description": "Inquiries and labor assessment submissions.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "subject": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["pendente", "em_atendimento", "concluido"] }
+      },
+      "required": ["id", "name", "phone", "description", "status"]
+    }
+  },
+  "firestore": {
+    "/office_settings/{settingId}": {
+      "schema": "OfficeSettings",
+      "description": "Law firm institutional parameters"
+    },
+    "/lawyers/{lawyerId}": {
+      "schema": "Lawyer",
+      "description": "Law firm attorney profiles"
+    },
+    "/practice_areas/{areaId}": {
+      "schema": "PracticeArea",
+      "description": "Areas of labor practice"
+    },
+    "/clients/{clientId}": {
+      "schema": "Client",
+      "description": "Clients of the office"
+    },
+    "/processes/{processId}": {
+      "schema": "LegalProcess",
+      "description": "Legal lawsuits tracking"
+    },
+    "/contact_requests/{requestId}": {
+      "schema": "ContactRequest",
+      "description": "Contact inquiries from website visitors"
+    }
+  }
+}

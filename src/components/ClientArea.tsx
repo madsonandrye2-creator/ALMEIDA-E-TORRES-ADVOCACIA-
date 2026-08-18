@@ -323,8 +323,35 @@ export const ClientArea: React.FC = () => {
                 <ProcessTimeline process={activeProcess} />
               </>
             ) : (
-              <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 shadow-md">
-                <p className="text-slate-500 text-sm">Selecione um processo ao lado para visualizar a linha do tempo.</p>
+              <div className="bg-white rounded-2xl p-8 sm:p-12 text-center border border-slate-200 shadow-md">
+                <div className="w-16 h-16 bg-amber-50 text-[#b38e42] border border-[#c5a059]/40 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                  <ShieldCheck className="w-8 h-8" />
+                </div>
+                <h3 className="font-serif-title text-xl sm:text-2xl font-bold text-[#0b192c] mb-2">
+                  Cadastro Concluído com Sucesso!
+                </h3>
+                <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed">
+                  Sua conta de cliente está ativa. Assim que seu processo trabalhista for distribuído ou vinculado pela nossa equipe jurídica, todas as etapas e intimações aparecerão nesta linha do tempo.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      const msg = encodeURIComponent(`Olá! Acabei de criar minha conta no Portal do Cliente (${currentUser.name}) e gostaria de verificar o cadastro do meu processo.`);
+                      window.open(`https://wa.me/${officeSettings.whatsapp}?text=${msg}`, '_blank');
+                    }}
+                    className="bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all shadow-md flex items-center gap-2"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-[#07111e]/20" />
+                    <span>Vincular Meu Processo no WhatsApp</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveView('home')}
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs px-5 py-3 rounded-xl transition-colors"
+                  >
+                    Voltar ao Site Inicial
+                  </button>
+                </div>
               </div>
             )}
 
