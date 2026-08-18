@@ -1,0 +1,7 @@
+{
+  "name": "Almeida e Torres Advocacia",
+  "description": "Site institucional, área do cliente com acompanhamento de processos trabalhistas e painel administrativo para Almeida e Torres Advocacia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

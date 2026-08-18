@@ -1,0 +1,227 @@
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { 
+  getFirestore, 
+  collection, 
+  doc, 
+  setDoc, 
+  getDocs, 
+  getDoc,
+  deleteDoc, 
+  onSnapshot,
+  query,
+  writeBatch
+} from 'firebase/firestore';
+import firebaseConfigData from '../../firebase-applet-config.json';
+import {
+  OfficeSettings,
+  Lawyer,
+  PracticeArea,
+  User,
+  LegalProcess,
+  ContactRequest,
+} from '../types';
+
+const firebaseConfig = {
+  projectId: firebaseConfigData.projectId,
+  appId: firebaseConfigData.appId,
+  apiKey: firebaseConfigData.apiKey,
+  authDomain: firebaseConfigData.authDomain,
+  firestoreDatabaseId: firebaseConfigData.firestoreDatabaseId || '(default)',
+  storageBucket: firebaseConfigData.storageBucket,
+  messagingSenderId: firebaseConfigData.messagingSenderId,
+};
+
+// Initialize Firebase App
+export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+
+// Initialize Firestore with custom database ID
+export const db = getFirestore(
+  app, 
+  firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== '(default)'
+    ? firebaseConfig.firestoreDatabaseId 
+    : undefined
+);
+
+// Collection references
+export const COLLECTIONS = {
+  SETTINGS: 'office_settings',
+  LAWYERS: 'lawyers',
+  AREAS: 'practice_areas',
+  CLIENTS: 'clients',
+  PROCESSES: 'processes',
+  REQUESTS: 'contact_requests',
+} as const;
+
+// Helper to sanitize objects for Firestore (removes undefined values which cause setDoc to crash)
+export function sanitizeForFirestore<T extends Record<string, any>>(obj: T): Record<string, any> {
+  const clean: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+        clean[key] = sanitizeForFirestore(value);
+      } else if (Array.isArray(value)) {
+        clean[key] = value.map(item => (item !== null && typeof item === 'object' ? sanitizeForFirestore(item) : item));
+      } else {
+        clean[key] = value;
+      }
+    }
+  }
+  return clean;
+}
+
+// Helper to seed initial data if collections are empty
+export async function seedInitialFirestoreData(seeds: {
+  settings: OfficeSettings;
+  lawyers: Lawyer[];
+  areas: PracticeArea[];
+  clients: (User & { passwordPlain: string; address?: string })[];
+  processes: LegalProcess[];
+  requests: ContactRequest[];
+}) {
+  try {
+    const settingsDoc = await getDoc(doc(db, COLLECTIONS.SETTINGS, 'general'));
+    if (!settingsDoc.exists()) {
+      await setDoc(doc(db, COLLECTIONS.SETTINGS, 'general'), sanitizeForFirestore(seeds.settings));
+    }
+
+    const lawyersSnap = await getDocs(collection(db, COLLECTIONS.LAWYERS));
+    if (lawyersSnap.empty && seeds.lawyers.length > 0) {
+      const batch = writeBatch(db);
+      seeds.lawyers.forEach(l => {
+        batch.set(doc(db, COLLECTIONS.LAWYERS, l.id), sanitizeForFirestore(l));
+      });
+      await batch.commit();
+    }
+
+    const areasSnap = await getDocs(collection(db, COLLECTIONS.AREAS));
+    if (areasSnap.empty && seeds.areas.length > 0) {
+      const batch = writeBatch(db);
+      seeds.areas.forEach(a => {
+        batch.set(doc(db, COLLECTIONS.AREAS, a.id), sanitizeForFirestore(a));
+      });
+      await batch.commit();
+    }
+
+    const clientsSnap = await getDocs(collection(db, COLLECTIONS.CLIENTS));
+    if (clientsSnap.empty && seeds.clients.length > 0) {
+      const batch = writeBatch(db);
+      seeds.clients.forEach(c => {
+        batch.set(doc(db, COLLECTIONS.CLIENTS, c.id), sanitizeForFirestore(c));
+      });
+      await batch.commit();
+    }
+
+    const procSnap = await getDocs(collection(db, COLLECTIONS.PROCESSES));
+    if (procSnap.empty && seeds.processes.length > 0) {
+      const batch = writeBatch(db);
+      seeds.processes.forEach(p => {
+        batch.set(doc(db, COLLECTIONS.PROCESSES, p.id), sanitizeForFirestore(p));
+      });
+      await batch.commit();
+    }
+
+    const reqSnap = await getDocs(collection(db, COLLECTIONS.REQUESTS));
+    if (reqSnap.empty && seeds.requests.length > 0) {
+      const batch = writeBatch(db);
+      seeds.requests.forEach(r => {
+        batch.set(doc(db, COLLECTIONS.REQUESTS, r.id), sanitizeForFirestore(r));
+      });
+      await batch.commit();
+    }
+  } catch (err) {
+    console.warn('Firestore initial seeding skipped or encountered non-blocking note:', err);
+  }
+}
+
+// Firestore operations
+export async function syncOfficeSettings(settings: OfficeSettings): Promise<boolean> {
+  try {
+    const cleanData = sanitizeForFirestore(settings);
+    await setDoc(doc(db, COLLECTIONS.SETTINGS, 'general'), cleanData, { merge: true });
+    console.log('✅ Informações do escritório sincronizadas com sucesso no Firestore');
+    return true;
+  } catch (err) {
+    console.error('❌ Erro ao salvar configurações no Firestore:', err);
+    return false;
+  }
+}
+
+export async function syncLawyer(lawyer: Lawyer) {
+  try {
+    await setDoc(doc(db, COLLECTIONS.LAWYERS, lawyer.id), sanitizeForFirestore(lawyer), { merge: true });
+  } catch (err) {
+    console.error('Error saving lawyer to Firestore:', err);
+  }
+}
+
+export async function deleteLawyerDoc(id: string) {
+  try {
+    await deleteDoc(doc(db, COLLECTIONS.LAWYERS, id));
+  } catch (err) {
+    console.error('Error deleting lawyer from Firestore:', err);
+  }
+}
+
+export async function syncPracticeArea(area: PracticeArea) {
+  try {
+    await setDoc(doc(db, COLLECTIONS.AREAS, area.id), sanitizeForFirestore(area), { merge: true });
+  } catch (err) {
+    console.error('Error saving practice area to Firestore:', err);
+  }
+}
+
+export async function deletePracticeAreaDoc(id: string) {
+  try {
+    await deleteDoc(doc(db, COLLECTIONS.AREAS, id));
+  } catch (err) {
+    console.error('Error deleting practice area from Firestore:', err);
+  }
+}
+
+export async function syncClient(client: User & { passwordPlain: string; address?: string }) {
+  try {
+    await setDoc(doc(db, COLLECTIONS.CLIENTS, client.id), sanitizeForFirestore(client), { merge: true });
+  } catch (err) {
+    console.error('Error saving client to Firestore:', err);
+  }
+}
+
+export async function deleteClientDoc(id: string) {
+  try {
+    await deleteDoc(doc(db, COLLECTIONS.CLIENTS, id));
+  } catch (err) {
+    console.error('Error deleting client from Firestore:', err);
+  }
+}
+
+export async function syncProcess(proc: LegalProcess) {
+  try {
+    await setDoc(doc(db, COLLECTIONS.PROCESSES, proc.id), sanitizeForFirestore(proc), { merge: true });
+  } catch (err) {
+    console.error('Error saving process to Firestore:', err);
+  }
+}
+
+export async function deleteProcessDoc(id: string) {
+  try {
+    await deleteDoc(doc(db, COLLECTIONS.PROCESSES, id));
+  } catch (err) {
+    console.error('Error deleting process from Firestore:', err);
+  }
+}
+
+export async function syncContactRequest(req: ContactRequest) {
+  try {
+    await setDoc(doc(db, COLLECTIONS.REQUESTS, req.id), sanitizeForFirestore(req), { merge: true });
+  } catch (err) {
+    console.error('Error saving contact request to Firestore:', err);
+  }
+}
+
+export async function deleteContactRequestDoc(id: string) {
+  try {
+    await deleteDoc(doc(db, COLLECTIONS.REQUESTS, id));
+  } catch (err) {
+    console.error('Error deleting contact request from Firestore:', err);
+  }
+}
