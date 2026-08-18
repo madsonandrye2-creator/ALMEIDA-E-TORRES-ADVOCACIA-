@@ -98,7 +98,7 @@ export function sanitizeForFirestore<T extends Record<string, any>>(obj: T): Rec
   return clean;
 }
 
-// Helper to seed initial data if collections are empty
+// Helper to seed initial data if collections are empty and purge demo accounts
 export async function seedInitialFirestoreData(seeds: {
   settings: OfficeSettings;
   lawyers: Lawyer[];
@@ -131,22 +131,30 @@ export async function seedInitialFirestoreData(seeds: {
       await batch.commit();
     }
 
-    const clientsSnap = await getDocs(collection(db, COLLECTIONS.CLIENTS));
-    if (clientsSnap.empty && seeds.clients.length > 0) {
-      const batch = writeBatch(db);
-      seeds.clients.forEach(c => {
-        batch.set(doc(db, COLLECTIONS.CLIENTS, c.id), sanitizeForFirestore(c));
-      });
-      await batch.commit();
+    // Clean up any existing legacy demo accounts from Firestore
+    const demoClientIds = ['cli-1', 'cli-2', 'cli-3'];
+    for (const demoId of demoClientIds) {
+      try {
+        const demoDoc = await getDoc(doc(db, COLLECTIONS.CLIENTS, demoId));
+        if (demoDoc.exists()) {
+          await deleteDoc(doc(db, COLLECTIONS.CLIENTS, demoId));
+        }
+      } catch (e) {
+        // non-blocking
+      }
     }
 
-    const procSnap = await getDocs(collection(db, COLLECTIONS.PROCESSES));
-    if (procSnap.empty && seeds.processes.length > 0) {
-      const batch = writeBatch(db);
-      seeds.processes.forEach(p => {
-        batch.set(doc(db, COLLECTIONS.PROCESSES, p.id), sanitizeForFirestore(p));
-      });
-      await batch.commit();
+    // Clean up any existing legacy demo processes from Firestore
+    const demoProcessIds = ['proc-1', 'proc-2', 'proc-3'];
+    for (const procId of demoProcessIds) {
+      try {
+        const procDoc = await getDoc(doc(db, COLLECTIONS.PROCESSES, procId));
+        if (procDoc.exists()) {
+          await deleteDoc(doc(db, COLLECTIONS.PROCESSES, procId));
+        }
+      } catch (e) {
+        // non-blocking
+      }
     }
 
     const reqSnap = await getDocs(collection(db, COLLECTIONS.REQUESTS));

@@ -255,14 +255,6 @@ export const Footer: React.FC = () => {
             >
               Termos de Uso
             </button>
-            <span className="text-white/20">|</span>
-            <button
-              onClick={() => openAuthModal('admin')}
-              className="text-slate-500 hover:text-slate-300 flex items-center gap-1"
-            >
-              <Lock className="w-3 h-3" />
-              <span>Painel Interno</span>
-            </button>
           </div>
 
           <button

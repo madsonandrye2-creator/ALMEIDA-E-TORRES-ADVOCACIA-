@@ -131,7 +131,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.USER);
-      return saved ? JSON.parse(saved) : null;
+      if (saved) {
+        const u = JSON.parse(saved);
+        if (['cli-1', 'cli-2', 'cli-3'].includes(u.id)) {
+          localStorage.removeItem(STORAGE_KEYS.USER);
+          return null;
+        }
+        return u;
+      }
+      return null;
     } catch {
       return null;
     }
@@ -177,7 +185,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [clients, setClients] = useState<(User & { passwordPlain: string; address?: string })[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.CLIENTS);
-      return saved ? JSON.parse(saved) : INITIAL_CLIENTS;
+      if (saved) {
+        const list = JSON.parse(saved);
+        return Array.isArray(list) ? list.filter(c => !['cli-1', 'cli-2', 'cli-3'].includes(c.id)) : INITIAL_CLIENTS;
+      }
+      return INITIAL_CLIENTS;
     } catch {
       return INITIAL_CLIENTS;
     }
@@ -186,7 +198,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [processes, setProcesses] = useState<LegalProcess[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.PROCESSES);
-      return saved ? JSON.parse(saved) : INITIAL_PROCESSES;
+      if (saved) {
+        const list = JSON.parse(saved);
+        return Array.isArray(list) ? list.filter(p => !['proc-1', 'proc-2', 'proc-3'].includes(p.id)) : INITIAL_PROCESSES;
+      }
+      return INITIAL_PROCESSES;
     } catch {
       return INITIAL_PROCESSES;
     }
@@ -303,9 +319,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     // Subscribe to Clients
     const unsubClients = onSnapshot(collection(db, COLLECTIONS.CLIENTS), snapshot => {
-      if (!snapshot.empty) {
-        const items = snapshot.docs.map(d => d.data() as User & { passwordPlain: string; address?: string });
-        setClients(items);
+      const items = snapshot.docs
+        .map(d => d.data() as User & { passwordPlain: string; address?: string })
+        .filter(c => !['cli-1', 'cli-2', 'cli-3'].includes(c.id));
+      setClients(items);
+      try {
+        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(items));
+      } catch (e) {
+        console.warn('LocalStorage save error:', e);
       }
     }, err => {
       console.warn('Clients snapshot listener note:', err);
@@ -313,9 +334,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     // Subscribe to Processes
     const unsubProcesses = onSnapshot(collection(db, COLLECTIONS.PROCESSES), snapshot => {
-      if (!snapshot.empty) {
-        const items = snapshot.docs.map(d => d.data() as LegalProcess);
-        setProcesses(items);
+      const items = snapshot.docs
+        .map(d => d.data() as LegalProcess)
+        .filter(p => !['proc-1', 'proc-2', 'proc-3'].includes(p.id));
+      setProcesses(items);
+      try {
+        localStorage.setItem(STORAGE_KEYS.PROCESSES, JSON.stringify(items));
+      } catch (e) {
+        console.warn('LocalStorage save error:', e);
       }
     }, err => {
       console.warn('Processes snapshot listener note:', err);

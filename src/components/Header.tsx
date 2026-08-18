@@ -110,17 +110,10 @@ export const Header: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <button
                   onClick={() => openAuthModal('client')}
-                  className="text-xs text-slate-300 hover:text-white font-semibold flex items-center transition-colors"
+                  className="text-xs text-slate-200 hover:text-[#f6e088] font-bold flex items-center transition-colors bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded-md border border-white/10 shadow-sm"
                 >
-                  <UserIcon className="w-3 h-3 mr-1 text-[#c5a059]" />
-                  Área do Cliente
-                </button>
-                <span className="text-white/20">|</span>
-                <button
-                  onClick={() => openAuthModal('admin')}
-                  className="text-xs text-slate-400 hover:text-amber-300 transition-colors"
-                >
-                  Acesso Restrito
+                  <UserIcon className="w-3.5 h-3.5 mr-1.5 text-[#c5a059]" />
+                  Portal do Cliente
                 </button>
               </div>
             )}
@@ -304,27 +297,16 @@ export const Header: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    openAuthModal('client');
-                  }}
-                  className="bg-white/10 text-white py-2.5 rounded-md text-sm font-medium flex items-center justify-center gap-1.5"
-                >
-                  <LogIn className="w-4 h-4 text-[#c5a059]" />
-                  Área do Cliente
-                </button>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    openAuthModal('admin');
-                  }}
-                  className="bg-white/5 text-slate-300 py-2.5 rounded-md text-xs font-medium flex items-center justify-center"
-                >
-                  Painel Admin
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openAuthModal('client');
+                }}
+                className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white border border-[#c5a059]/40 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-md"
+              >
+                <LogIn className="w-4 h-4 text-[#c5a059]" />
+                <span>Portal do Cliente (Entrar / Criar Conta)</span>
+              </button>
             )}
           </div>
         </div>
