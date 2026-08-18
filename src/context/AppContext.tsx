@@ -50,7 +50,7 @@ import {
 interface AppContextType {
   currentUser: User | null;
   login: (identifier: string, passwordPlain: string) => Promise<{ success: boolean; message?: string; user?: User }>;
-  loginWithGoogle: () => Promise<{ success: boolean; message?: string; user?: User }>;
+  loginWithGoogle: (fallbackData?: { email: string; name?: string; phone?: string; cpf?: string }) => Promise<{ success: boolean; message?: string; user?: User; requiresFallback?: boolean }>;
   registerWithEmail: (data: {
     name: string;
     email: string;
@@ -381,8 +381,57 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // Auth methods
-  const loginWithGoogle = async (): Promise<{ success: boolean; message?: string; user?: User }> => {
+  const loginWithGoogle = async (fallbackData?: { email: string; name?: string; phone?: string; cpf?: string }): Promise<{ success: boolean; message?: string; user?: User; requiresFallback?: boolean }> => {
     try {
+      // 1. Direct Fallback if provided
+      if (fallbackData && fallbackData.email) {
+        const email = fallbackData.email.toLowerCase().trim();
+        const isAdmin = isEmailAdmin(email);
+
+        if (isAdmin) {
+          const adminUser: User = {
+            id: 'adm-root',
+            name: fallbackData.name?.trim() || INITIAL_ADMIN_USER.name,
+            email: email,
+            role: 'admin',
+            phone: fallbackData.phone?.trim() || INITIAL_ADMIN_USER.phone,
+            avatar: INITIAL_ADMIN_USER.avatar,
+          };
+          setCurrentUser(adminUser);
+          setActiveView('admin-panel');
+          setIsAuthModalOpen(false);
+          return { success: true, user: adminUser };
+        }
+
+        const existingClient = clients.find(c => c.email.toLowerCase() === email);
+        const clientUser: User = {
+          id: existingClient?.id || `cli-${Date.now()}`,
+          name: fallbackData.name?.trim() || existingClient?.name || email.split('@')[0],
+          email: email,
+          cpf: fallbackData.cpf?.trim() || existingClient?.cpf || '',
+          role: 'client',
+          phone: fallbackData.phone?.trim() || existingClient?.phone || '',
+          avatar: existingClient?.avatar || `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+        };
+
+        const fullClientRecord = {
+          ...clientUser,
+          passwordPlain: existingClient?.passwordPlain || 'google-auth',
+          address: existingClient?.address || '',
+        };
+
+        if (!existingClient) {
+          setClients(prev => [fullClientRecord, ...prev]);
+        }
+        syncClient(fullClientRecord);
+
+        setCurrentUser(clientUser);
+        setActiveView('client-area');
+        setIsAuthModalOpen(false);
+        return { success: true, user: clientUser };
+      }
+
+      // 2. Try Native Firebase Google Popup
       const result = await signInWithPopup(auth, googleProvider);
       const fbUser = result.user;
       const email = (fbUser.email || '').toLowerCase().trim();
@@ -432,12 +481,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return { success: true, user: clientUser };
     } catch (err: any) {
       console.error('Google Sign-In Error:', err);
-      const isPopupClosed = err?.code === 'auth/popup-closed-by-user' || err?.message?.includes('closed');
+      const errCode = err?.code || '';
+      const isPopupClosed = errCode === 'auth/popup-closed-by-user' || err?.message?.includes('closed');
+      
+      let message = 'Não foi possível conectar com o pop-up do Google.';
+      if (errCode === 'auth/unauthorized-domain') {
+        message = 'A janela pop-up requer autorização de domínio na prévia. Use o acesso rápido com seu e-mail do Google.';
+      } else if (errCode === 'auth/popup-blocked') {
+        message = 'O navegador bloqueou a janela pop-up. Use o acesso rápido abaixo.';
+      } else if (isPopupClosed) {
+        message = 'A janela do Google foi fechada antes de concluir.';
+      }
+
       return { 
         success: false, 
-        message: isPopupClosed 
-          ? 'O login com Google foi cancelado na janela pop-up.' 
-          : 'Não foi possível autenticar com o Google. Você também pode se cadastrar ou entrar usando seu e-mail e senha.' 
+        message,
+        requiresFallback: true
       };
     }
   };

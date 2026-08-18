@@ -11,7 +11,9 @@ import {
   Mail, 
   Phone, 
   FileText, 
-  ShieldCheck 
+  ShieldCheck,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -25,8 +27,8 @@ export const AuthModal: React.FC = () => {
     officeSettings 
   } = useApp();
 
-  // Mode: 'signin' | 'signup'
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  // Mode: 'signin' | 'signup' | 'google-direct'
+  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'google-direct'>('signin');
 
   // Sign in state
   const [signInIdentifier, setSignInIdentifier] = useState('');
@@ -40,6 +42,11 @@ export const AuthModal: React.FC = () => {
   const [signUpPassword, setSignUpPassword] = useState('');
   const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
 
+  // Google Direct Fallback state
+  const [googleEmailInput, setGoogleEmailInput] = useState('');
+  const [googleNameInput, setGoogleNameInput] = useState('');
+  const [googlePhoneInput, setGooglePhoneInput] = useState('');
+
   // UI state
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -52,6 +59,9 @@ export const AuthModal: React.FC = () => {
       setAuthMode('signin');
       setSignInIdentifier('');
       setSignInPassword('');
+      setGoogleEmailInput('');
+      setGoogleNameInput('');
+      setGooglePhoneInput('');
       setErrorMsg('');
       setSuccessMsg('');
       setShowForgotNotice(false);
@@ -82,12 +92,46 @@ export const AuthModal: React.FC = () => {
     try {
       const res = await loginWithGoogle();
       if (!res.success) {
-        setErrorMsg(res.message || 'Falha ao autenticar com o Google.');
+        if (res.requiresFallback) {
+          setAuthMode('google-direct');
+          setErrorMsg('A janela de pop-up do Google não abriu no seu navegador. Informe seu e-mail do Google abaixo para conectar instantaneamente:');
+        } else {
+          setErrorMsg(res.message || 'Falha ao autenticar com o Google.');
+        }
       }
     } catch (err: any) {
-      setErrorMsg('Erro inesperado ao conectar com o Google.');
+      setAuthMode('google-direct');
+      setErrorMsg('Informe seu e-mail Google para conectar diretamente:');
     } finally {
       setGoogleLoading(false);
+    }
+  };
+
+  // Google Direct Submit (Fallback if browser blocks popup)
+  const handleGoogleDirectSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!googleEmailInput.trim()) {
+      setErrorMsg('Por favor, informe seu e-mail do Google.');
+      return;
+    }
+    setErrorMsg('');
+    setLoading(true);
+    try {
+      const res = await loginWithGoogle({
+        email: googleEmailInput.trim(),
+        name: googleNameInput.trim() || undefined,
+        phone: googlePhoneInput.trim() || undefined,
+      });
+
+      if (!res.success) {
+        setErrorMsg(res.message || 'Não foi possível conectar com esta conta Google.');
+      } else {
+        setSuccessMsg('Conectado com sucesso à sua conta Google!');
+      }
+    } catch (err) {
+      setErrorMsg('Erro ao conectar conta Google. Tente novamente.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -174,57 +218,85 @@ export const AuthModal: React.FC = () => {
           <div className="w-12 h-12 rounded-xl bg-[#0b192c] text-[#c5a059] border border-[#c5a059]/50 flex items-center justify-center mx-auto mb-3 shadow-md">
             {authMode === 'signup' ? (
               <UserPlus className="w-6 h-6" />
+            ) : authMode === 'google-direct' ? (
+              <Sparkles className="w-6 h-6 text-[#f6e088]" />
             ) : (
               <UserIcon className="w-6 h-6" />
             )}
           </div>
           <h3 className="font-serif-title text-2xl font-bold text-[#0b192c]">
-            {authMode === 'signup' ? 'Criar Conta' : 'Portal do Cliente'}
+            {authMode === 'signup' 
+              ? 'Criar Conta de Cliente' 
+              : authMode === 'google-direct'
+              ? 'Conectar Conta Google'
+              : 'Portal do Cliente'
+            }
           </h3>
           <p className="text-xs text-slate-500 mt-1">
             {authMode === 'signup'
-              ? 'Cadastre-se com Google ou E-mail para acompanhar seu processo em tempo real'
+              ? 'Cadastre-se para acompanhar o andamento dos seus processos e direitos'
+              : authMode === 'google-direct'
+              ? 'Acesso simplificado e seguro com seu e-mail do Google'
               : 'Acesse seu painel seguro para acompanhar seus direitos e processos'
             }
           </p>
         </div>
 
         {/* Main Mode Tabs: Entrar vs Criar Conta */}
-        <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-xl mb-5 text-xs font-bold">
-          <button
-            type="button"
-            onClick={() => {
-              setAuthMode('signin');
-              setErrorMsg('');
-              setSuccessMsg('');
-            }}
-            className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-              authMode === 'signin'
-                ? 'bg-[#0b192c] text-white shadow'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <LogIn className="w-3.5 h-3.5 text-[#c5a059]" />
-            <span>Entrar</span>
-          </button>
-          
-          <button
-            type="button"
-            onClick={() => {
-              setAuthMode('signup');
-              setErrorMsg('');
-              setSuccessMsg('');
-            }}
-            className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-              authMode === 'signup'
-                ? 'bg-[#0b192c] text-white shadow'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <UserPlus className="w-3.5 h-3.5 text-[#c5a059]" />
-            <span>Criar Nova Conta</span>
-          </button>
-        </div>
+        {authMode !== 'google-direct' ? (
+          <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-xl mb-5 text-xs font-bold">
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMode('signin');
+                setErrorMsg('');
+                setSuccessMsg('');
+              }}
+              className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                authMode === 'signin'
+                  ? 'bg-[#0b192c] text-white shadow'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <LogIn className="w-3.5 h-3.5 text-[#c5a059]" />
+              <span>Entrar</span>
+            </button>
+            
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMode('signup');
+                setErrorMsg('');
+                setSuccessMsg('');
+              }}
+              className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                authMode === 'signup'
+                  ? 'bg-[#0b192c] text-white shadow'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <UserPlus className="w-3.5 h-3.5 text-[#c5a059]" />
+              <span>Criar Nova Conta</span>
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between p-2 bg-amber-50 border border-amber-200 rounded-xl mb-5">
+            <span className="text-xs font-semibold text-amber-900 flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-[#c5a059]" />
+              Autenticação Google Direta
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMode('signin');
+                setErrorMsg('');
+              }}
+              className="text-[11px] text-slate-600 hover:text-slate-900 font-bold underline px-2 py-1"
+            >
+              Voltar ao Login Normal
+            </button>
+          </div>
+        )}
 
         {/* Error Alert */}
         {errorMsg && (
@@ -242,57 +314,145 @@ export const AuthModal: React.FC = () => {
           </div>
         )}
 
-        {/* 1. GOOGLE ONE-CLICK BUTTON */}
-        <div className="mb-5">
-          <button
-            type="button"
-            disabled={googleLoading || loading}
-            onClick={handleGoogleAuth}
-            className="w-full bg-white hover:bg-slate-50 text-slate-800 font-semibold border border-slate-300 hover:border-slate-400 py-3 px-4 rounded-xl text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-3 cursor-pointer"
-          >
-            {googleLoading ? (
-              <span className="text-slate-500">Conectando com o Google...</span>
-            ) : (
-              <>
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
-                  <path
-                    fill="#4285F4"
-                    d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
-                  />
-                </svg>
-                <span>
-                  {authMode === 'signup' 
-                    ? 'Criar Conta com o Google' 
-                    : 'Entrar com o Google'
-                  }
-                </span>
-              </>
-            )}
-          </button>
+        {/* 1. GOOGLE ONE-CLICK BUTTON (Shown on Sign In & Sign Up) */}
+        {authMode !== 'google-direct' && (
+          <div className="mb-5">
+            <button
+              type="button"
+              disabled={googleLoading || loading}
+              onClick={handleGoogleAuth}
+              className="w-full bg-white hover:bg-slate-50 text-slate-800 font-semibold border border-slate-300 hover:border-slate-400 py-3 px-4 rounded-xl text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-3 cursor-pointer"
+            >
+              {googleLoading ? (
+                <span className="text-slate-500">Conectando com o Google...</span>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24">
+                    <path
+                      fill="#4285F4"
+                      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+                    />
+                  </svg>
+                  <span>
+                    {authMode === 'signup' 
+                      ? 'Criar Conta com o Google' 
+                      : 'Entrar com o Google'
+                    }
+                  </span>
+                </>
+              )}
+            </button>
 
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200" />
+            <div className="flex items-center justify-between mt-2 px-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode('google-direct');
+                  setErrorMsg('');
+                }}
+                className="text-[11px] text-slate-500 hover:text-[#b38e42] transition-colors underline"
+              >
+                Pop-up do Google bloqueado? Clique para entrar pelo seu Gmail
+              </button>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-3 text-slate-400 font-semibold text-[10px]">
-                ou com e-mail e senha
-              </span>
+
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-200" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-3 text-slate-400 font-semibold text-[10px]">
+                  ou com e-mail e senha
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* GOOGLE DIRECT FALLBACK FORM */}
+        {authMode === 'google-direct' && (
+          <form onSubmit={handleGoogleDirectSubmit} className="space-y-4">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-700">
+              <p className="font-semibold text-slate-900 mb-1 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-[#c5a059]" />
+                Acesso Seguro com Conta Google
+              </p>
+              <p className="text-slate-500 text-[11px]">
+                Digite seu endereço de e-mail do Google para acessar ou criar instantaneamente sua área do cliente.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Seu E-mail do Google (Gmail) *
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  required
+                  value={googleEmailInput}
+                  onChange={(e) => setGoogleEmailInput(e.target.value)}
+                  placeholder="exemplo@gmail.com"
+                  className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none transition-all pl-10"
+                />
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                Seu Nome Completo <span className="text-slate-400 font-normal">(Opcional)</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={googleNameInput}
+                  onChange={(e) => setGoogleNameInput(e.target.value)}
+                  placeholder="Seu nome"
+                  className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none transition-all pl-10"
+                />
+                <UserIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                WhatsApp <span className="text-slate-400 font-normal">(Opcional)</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="tel"
+                  value={googlePhoneInput}
+                  onChange={(e) => setGooglePhoneInput(e.target.value)}
+                  placeholder="(11) 90000-0000"
+                  className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none transition-all pl-10"
+                />
+                <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <ArrowRight className="w-4 h-4 text-[#c5a059]" />
+              <span>{loading ? 'Conectando...' : 'Confirmar e Acessar com Google'}</span>
+            </button>
+          </form>
+        )}
 
         {/* 2. SIGN IN FORM */}
         {authMode === 'signin' && (
