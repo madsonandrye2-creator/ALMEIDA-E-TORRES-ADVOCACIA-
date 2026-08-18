@@ -608,6 +608,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const cred = await signInWithEmailAndPassword(auth, cleanIdentifier, passwordPlain);
         if (cred.user) {
           const fbEmail = (cred.user.email || '').toLowerCase();
+          const isAdmin = isEmailAdmin(fbEmail);
+
+          if (isAdmin) {
+            const adminUser: User = {
+              id: cred.user.uid || 'admin-root',
+              name: cred.user.displayName || 'Madson Andrye (Administrador)',
+              email: fbEmail,
+              role: 'admin',
+              phone: cred.user.phoneNumber || INITIAL_ADMIN_USER.phone,
+              avatar: cred.user.photoURL || INITIAL_ADMIN_USER.avatar,
+            };
+            setCurrentUser(adminUser);
+            setActiveView('admin-panel');
+            setIsAuthModalOpen(false);
+            return { success: true, user: adminUser };
+          }
+
           const foundClient = clients.find(c => c.email.toLowerCase() === fbEmail);
 
           const clientUser: User = {
