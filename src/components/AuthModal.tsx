@@ -14,7 +14,9 @@ import {
   ShieldCheck,
   Sparkles,
   ArrowRight,
-  Check
+  Check,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -34,6 +36,7 @@ export const AuthModal: React.FC = () => {
   // Sign in state
   const [signInIdentifier, setSignInIdentifier] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
+  const [showSignInPassword, setShowSignInPassword] = useState(false);
 
   // Sign up state
   const [signUpName, setSignUpName] = useState('');
@@ -42,6 +45,8 @@ export const AuthModal: React.FC = () => {
   const [signUpPhone, setSignUpPhone] = useState('');
   const [signUpPassword, setSignUpPassword] = useState('');
   const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
+  const [showSignUpPassword, setShowSignUpPassword] = useState(false);
+  const [showSignUpConfirmPassword, setShowSignUpConfirmPassword] = useState(false);
 
   // Google Direct Fallback state
   const [googleEmailInput, setGoogleEmailInput] = useState('');
@@ -62,6 +67,9 @@ export const AuthModal: React.FC = () => {
       setShowForgotNotice(false);
       setSignInIdentifier('');
       setSignInPassword('');
+      setShowSignInPassword(false);
+      setShowSignUpPassword(false);
+      setShowSignUpConfirmPassword(false);
       setGoogleEmailInput('');
       setGoogleNameInput('');
       setGooglePhoneInput('');
@@ -236,7 +244,7 @@ export const AuthModal: React.FC = () => {
         {/* Close button */}
         <button
           onClick={closeAuthModal}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100 transition-colors"
+          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
           aria-label="Fechar"
         >
           <X className="w-5 h-5" />
@@ -257,7 +265,7 @@ export const AuthModal: React.FC = () => {
             {authMode === 'signup' 
               ? 'Criar Conta de Cliente' 
               : authMode === 'google-direct'
-              ? 'Conectar Conta Google'
+              ? 'Conectar com o Google'
               : 'Portal do Cliente'
             }
           </h3>
@@ -265,7 +273,7 @@ export const AuthModal: React.FC = () => {
             {authMode === 'signup'
               ? 'Cadastre-se para acompanhar o andamento dos seus processos e direitos'
               : authMode === 'google-direct'
-              ? 'Confirme seus dados do Google para acesso imediato ao seu painel'
+              ? 'Acesso verificado e seguro com sua conta Google'
               : 'Acesse seu painel seguro para acompanhar seus direitos e processos'
             }
           </p>
@@ -281,7 +289,7 @@ export const AuthModal: React.FC = () => {
                 setErrorMsg('');
                 setSuccessMsg('');
               }}
-              className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 authMode === 'signup'
                   ? 'bg-[#0b192c] text-white shadow'
                   : 'text-slate-600 hover:text-slate-900'
@@ -298,7 +306,7 @@ export const AuthModal: React.FC = () => {
                 setErrorMsg('');
                 setSuccessMsg('');
               }}
-              className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 authMode === 'signin'
                   ? 'bg-[#0b192c] text-white shadow'
                   : 'text-slate-600 hover:text-slate-900'
@@ -329,7 +337,7 @@ export const AuthModal: React.FC = () => {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 text-xs p-3 rounded-lg flex items-start gap-2">
+          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 text-xs p-3 rounded-lg flex items-start gap-2 animate-in fade-in">
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span>{errorMsg}</span>
           </div>
@@ -337,7 +345,7 @@ export const AuthModal: React.FC = () => {
 
         {/* Success Alert */}
         {successMsg && (
-          <div className="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs p-3 rounded-lg flex items-start gap-2">
+          <div className="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs p-3 rounded-lg flex items-start gap-2 animate-in fade-in">
             <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" />
             <span>{successMsg}</span>
           </div>
@@ -397,37 +405,53 @@ export const AuthModal: React.FC = () => {
           </div>
         )}
 
-        {/* GOOGLE DIRECT ACCESS CARD */}
+        {/* GOOGLE DIRECT ACCESS CARD (1-Click Google Sign-In Picker) */}
         {authMode === 'google-direct' && (
           <div className="space-y-4">
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-700">
-              <p className="font-bold text-slate-900 mb-1 flex items-center gap-1.5 text-sm">
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
-                  <path
-                    fill="#4285F4"
-                    d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
-                  />
-                </svg>
-                Confirmar Conta Google
-              </p>
-              <p className="text-slate-600 text-xs mt-1">
-                Conecte seu e-mail do Google para criar e acessar seu painel de cliente de forma instantânea e sem senhas adicionais.
-              </p>
+            
+            {/* Detected Account Quick Tap */}
+            <div className="bg-gradient-to-br from-amber-50 to-slate-50 border border-[#c5a059]/40 rounded-xl p-3.5 shadow-sm">
+              <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-2">
+                Conta Google Detectada (1 Clique):
+              </span>
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => handleQuickAccountClick('madsonandrye2@gmail.com', 'Madson Andrye')}
+                className="w-full bg-white hover:bg-amber-50/50 border border-slate-200 hover:border-[#c5a059] p-3 rounded-xl flex items-center justify-between transition-all cursor-pointer group shadow-sm"
+              >
+                <div className="flex items-center gap-3 text-left">
+                  <div className="w-10 h-10 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-sm border-2 border-[#c5a059]">
+                    MA
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-900 group-hover:text-[#b38e42] transition-colors">
+                      Madson Andrye
+                    </h5>
+                    <p className="text-[11px] text-slate-500 font-mono">
+                      madsonandrye2@gmail.com
+                    </p>
+                  </div>
+                </div>
+                <div className="bg-[#0b192c] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 group-hover:bg-[#c5a059] group-hover:text-[#07111e] transition-colors">
+                  <span>Conectar</span>
+                  <ArrowRight className="w-3 h-3" />
+                </div>
+              </button>
             </div>
 
-            <form onSubmit={handleGoogleDirectSubmit} className="space-y-3.5">
+            <div className="relative my-3">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-200" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-slate-400 font-semibold text-[10px]">
+                  ou digite outro e-mail Google
+                </span>
+              </div>
+            </div>
+
+            <form onSubmit={handleGoogleDirectSubmit} className="space-y-3">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
                   Seu E-mail do Google (Gmail) *
@@ -461,29 +485,13 @@ export const AuthModal: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  WhatsApp / Celular <span className="text-slate-400 font-normal">(Opcional)</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="tel"
-                    value={googlePhoneInput}
-                    onChange={(e) => setGooglePhoneInput(e.target.value)}
-                    placeholder="(11) 90000-0000"
-                    className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none transition-all pl-10"
-                  />
-                  <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                </div>
-              </div>
-
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer mt-2"
+                className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer mt-1"
               >
                 <Check className="w-4 h-4 text-[#c5a059]" />
-                <span>{loading ? 'Criando Conta...' : 'Concluir Cadastro com Google'}</span>
+                <span>{loading ? 'Acessando...' : 'Acessar com este E-mail Google'}</span>
               </button>
             </form>
           </div>
@@ -524,14 +532,29 @@ export const AuthModal: React.FC = () => {
               </div>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showSignInPassword ? 'text' : 'password'}
                   required
                   value={signInPassword}
                   onChange={(e) => setSignInPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none transition-all pl-10"
+                  className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none transition-all pl-10 pr-10"
                 />
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                
+                {/* PASSWORD VISIBILITY TOGGLE BUTTON */}
+                <button
+                  type="button"
+                  onClick={() => setShowSignInPassword(!showSignInPassword)}
+                  className="absolute right-3 top-2.5 p-1 text-slate-400 hover:text-slate-700 rounded transition-colors cursor-pointer"
+                  title={showSignInPassword ? 'Ocultar senha' : 'Ver senha digitada'}
+                  aria-label={showSignInPassword ? 'Ocultar senha' : 'Ver senha digitada'}
+                >
+                  {showSignInPassword ? (
+                    <EyeOff className="w-4 h-4 text-[#b38e42]" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
               </div>
             </div>
 
@@ -639,15 +662,30 @@ export const AuthModal: React.FC = () => {
                 </label>
                 <div className="relative">
                   <input
-                    type="password"
+                    type={showSignUpPassword ? 'text' : 'password'}
                     required
                     minLength={6}
                     value={signUpPassword}
                     onChange={(e) => setSignUpPassword(e.target.value)}
                     placeholder="Mínimo 6 dígitos"
-                    className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none transition-all pl-9"
+                    className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none transition-all pl-9 pr-8"
                   />
                   <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                  
+                  {/* PASSWORD TOGGLE BUTTON */}
+                  <button
+                    type="button"
+                    onClick={() => setShowSignUpPassword(!showSignUpPassword)}
+                    className="absolute right-2 top-2 p-1 text-slate-400 hover:text-slate-700 rounded transition-colors cursor-pointer"
+                    title={showSignUpPassword ? 'Ocultar senha' : 'Ver senha digitada'}
+                    aria-label={showSignUpPassword ? 'Ocultar senha' : 'Ver senha digitada'}
+                  >
+                    {showSignUpPassword ? (
+                      <EyeOff className="w-3.5 h-3.5 text-[#b38e42]" />
+                    ) : (
+                      <Eye className="w-3.5 h-3.5" />
+                    )}
+                  </button>
                 </div>
               </div>
 
@@ -657,15 +695,30 @@ export const AuthModal: React.FC = () => {
                 </label>
                 <div className="relative">
                   <input
-                    type="password"
+                    type={showSignUpConfirmPassword ? 'text' : 'password'}
                     required
                     minLength={6}
                     value={signUpConfirmPassword}
                     onChange={(e) => setSignUpConfirmPassword(e.target.value)}
                     placeholder="Repita a senha"
-                    className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none transition-all pl-9"
+                    className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none transition-all pl-9 pr-8"
                   />
                   <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                  
+                  {/* PASSWORD TOGGLE BUTTON */}
+                  <button
+                    type="button"
+                    onClick={() => setShowSignUpConfirmPassword(!showSignUpConfirmPassword)}
+                    className="absolute right-2 top-2 p-1 text-slate-400 hover:text-slate-700 rounded transition-colors cursor-pointer"
+                    title={showSignUpConfirmPassword ? 'Ocultar senha' : 'Ver senha digitada'}
+                    aria-label={showSignUpConfirmPassword ? 'Ocultar senha' : 'Ver senha digitada'}
+                  >
+                    {showSignUpConfirmPassword ? (
+                      <EyeOff className="w-3.5 h-3.5 text-[#b38e42]" />
+                    ) : (
+                      <Eye className="w-3.5 h-3.5" />
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
@@ -699,6 +752,7 @@ export const AuthModal: React.FC = () => {
               setAuthMode('signin');
               setSignInIdentifier('madsonandrye2@gmail.com');
               setSignInPassword('admin123');
+              setShowSignInPassword(false);
               setErrorMsg('');
             }}
             className="text-[10px] text-slate-300 hover:text-slate-500 transition-colors flex items-center gap-1 cursor-pointer mt-1 opacity-60 hover:opacity-100"
