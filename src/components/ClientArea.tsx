@@ -143,6 +143,17 @@ export const ClientArea: React.FC = () => {
       return;
     }
 
+    const cleanCpf = profileForm.cpf.replace(/\D/g, '');
+    if (!cleanCpf || cleanCpf.length !== 11) {
+      setProfileSaveError('O CPF é obrigatório e deve conter 11 dígitos válidos (000.000.000-00).');
+      return;
+    }
+
+    if (!profileForm.phone.trim()) {
+      setProfileSaveError('Por favor, informe seu telefone / WhatsApp.');
+      return;
+    }
+
     setIsSavingProfile(true);
     setProfileSaveError('');
 
@@ -677,27 +688,30 @@ export const ClientArea: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    CPF (Cadastro de Pessoa Física)
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+                    <span>CPF (Obrigatório) *</span>
+                    <span className="text-[10px] font-semibold text-amber-700">11 dígitos</span>
                   </label>
                   <input
                     type="text"
+                    required
                     value={profileForm.cpf}
                     onChange={(e) => setProfileForm({ ...profileForm, cpf: formatCPF(e.target.value) })}
                     placeholder="000.000.000-00"
                     maxLength={14}
                     className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-mono font-semibold text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
                   />
-                  <span className="text-[10px] text-slate-400 mt-0.5 block">
+                  <span className="text-[10px] text-slate-400 mt-1 block">
                     Usado para vincular seus processos trabalhistas
                   </span>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Telefone / WhatsApp *
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+                    <span>Telefone / WhatsApp *</span>
+                    <span className="text-[10px] font-normal text-slate-400">Com DDD</span>
                   </label>
                   <input
                     type="tel"
@@ -708,7 +722,7 @@ export const ClientArea: React.FC = () => {
                     maxLength={15}
                     className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
                   />
-                  <span className="text-[10px] text-slate-400 mt-0.5 block">
+                  <span className="text-[10px] text-slate-400 mt-1 block">
                     Para avisos de audiências e intimações
                   </span>
                 </div>
@@ -716,7 +730,7 @@ export const ClientArea: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                  E-mail de Acesso
+                  E-mail de Acesso *
                 </label>
                 <input
                   type="email"
@@ -728,23 +742,25 @@ export const ClientArea: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Profissão / Cargo Atual
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+                    <span>Profissão / Cargo</span>
+                    <span className="text-[10px] font-normal text-slate-400">Opcional</span>
                   </label>
                   <input
                     type="text"
                     value={profileForm.profession}
                     onChange={(e) => setProfileForm({ ...profileForm, profession: e.target.value })}
-                    placeholder="Ex: Motorista, Operador, Analista..."
+                    placeholder="Ex: Motorista, Operador, Analista"
                     className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Empresa Reclamada / Ex-Empregador
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+                    <span>Empresa Reclamada</span>
+                    <span className="text-[10px] font-normal text-slate-400">Ex-empregador</span>
                   </label>
                   <input
                     type="text"
@@ -769,10 +785,10 @@ export const ClientArea: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Cidade
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+                    <span>Cidade</span>
                   </label>
                   <input
                     type="text"
@@ -783,9 +799,9 @@ export const ClientArea: React.FC = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Estado (UF)
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+                    <span>Estado (UF)</span>
                   </label>
                   <input
                     type="text"

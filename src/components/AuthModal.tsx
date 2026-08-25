@@ -176,6 +176,12 @@ export const AuthModal: React.FC = () => {
     setErrorMsg('');
     setSuccessMsg('');
 
+    const cleanCpf = signUpCpf.replace(/\D/g, '');
+    if (!cleanCpf || cleanCpf.length !== 11) {
+      setErrorMsg('O CPF é obrigatório e deve conter 11 dígitos (000.000.000-00).');
+      return;
+    }
+
     if (signUpPassword.length < 6) {
       setErrorMsg('A senha precisa ter pelo menos 6 caracteres.');
       return;
@@ -560,19 +566,20 @@ export const AuthModal: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-start">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  CPF <span className="text-slate-400 font-normal">(Opcional)</span>
+                  CPF *
                 </label>
                 <div className="relative">
                   <input
                     type="text"
+                    required
                     value={signUpCpf}
                     onChange={handleCpfChange}
                     placeholder="000.000.000-00"
                     maxLength={14}
-                    className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none transition-all pl-9"
+                    className="w-full bg-slate-50 border border-slate-300 focus:border-[#c5a059] focus:bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none transition-all pl-9 font-mono"
                   />
                   <FileText className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                 </div>
