@@ -24,12 +24,15 @@ import {
   Globe,
   Share2,
   FileText,
-  Palette
+  Palette,
+  Bell,
+  AlertTriangle
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { LegalProcess, Lawyer, PracticeArea, ProcessStatus, User, OfficeSettings } from '../types';
 import { BrandLogo } from './BrandLogo';
 import { LogoEditorSection } from './LogoEditorSection';
+import { AlertsManagerSection } from './AlertsManagerSection';
 
 export const AdminPanel: React.FC = () => {
   const { 
@@ -57,12 +60,14 @@ export const AdminPanel: React.FC = () => {
     addPracticeArea,
     updatePracticeArea,
     deletePracticeArea,
+    systemAlerts,
+    unreadAlertsCount,
     setActiveView,
     resetToDefaultData
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<
-    'dashboard' | 'processes' | 'clients' | 'lawyers' | 'areas' | 'requests' | 'settings'
+    'dashboard' | 'processes' | 'clients' | 'lawyers' | 'areas' | 'requests' | 'alerts' | 'settings'
   >('dashboard');
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -496,6 +501,23 @@ export const AdminPanel: React.FC = () => {
             <span>Solicitações ({contactRequests.length})</span>
             {pendingRequestsCount > 0 && (
               <span className="w-2 h-2 rounded-full bg-red-500 animate-ping absolute top-2 right-2" />
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('alerts')}
+            className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 relative ${
+              activeTab === 'alerts'
+                ? 'bg-[#0b192c] text-white shadow'
+                : 'text-slate-600 hover:bg-slate-50'
+            }`}
+          >
+            <Bell className="w-4 h-4 text-[#c5a059]" />
+            <span>Alertas & Manutenção ({systemAlerts.length})</span>
+            {unreadAlertsCount > 0 && (
+              <span className="bg-red-500 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full animate-pulse shadow-sm">
+                {unreadAlertsCount}
+              </span>
             )}
           </button>
 
@@ -1687,6 +1709,9 @@ export const AdminPanel: React.FC = () => {
             </form>
           </div>
         )}
+
+        {/* 8. ALERTS & MAINTENANCE TAB */}
+        {activeTab === 'alerts' && <AlertsManagerSection />}
 
       </div>
 

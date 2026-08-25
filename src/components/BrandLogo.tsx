@@ -282,10 +282,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       case 'header':
       default:
         return logoScale === 'xlarge'
-          ? 'w-18 h-18 sm:w-20 sm:h-20'
+          ? 'w-14 h-14 sm:w-16 sm:h-16'
           : logoScale === 'large'
-          ? 'w-13 h-13 sm:w-16 sm:h-16'
-          : 'w-12 h-12';
+          ? 'w-12 h-12 sm:w-13 sm:h-13'
+          : 'w-10 h-10 sm:w-11 sm:h-11';
     }
   };
 
@@ -317,13 +317,13 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
             <div className="flex flex-col text-left">
               <span className={`font-serif-title font-black tracking-wider leading-tight ${
                 variant === 'header' 
-                  ? 'text-xl sm:text-2xl lg:text-3xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]' 
+                  ? 'text-lg sm:text-xl lg:text-2xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]' 
                   : 'text-lg sm:text-xl'
               } ${isLightMode ? 'text-[#0b192c]' : 'text-white'}`}>
                 {renderFormattedText(logoText, isLightMode)}
               </span>
               {logoSubtext && (
-                <span className={`text-[11px] sm:text-xs tracking-[0.25em] uppercase font-extrabold mt-0.5 ${
+                <span className={`text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-extrabold mt-0.5 ${
                   isLightMode ? 'text-slate-600' : 'text-[#f6e088] drop-shadow'
                 }`}>
                   {logoSubtext}
@@ -334,7 +334,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         </div>
       ) : (
         /* 2. Vector Emblem + Typography Mode */
-        <div className="flex items-center gap-3.5 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-3.5">
           <div
             className={`flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-105 ring-2 ring-[#c5a059]/60 group-hover:ring-[#f6e088] ${
               hasGlow ? 'shadow-[0_0_30px_rgba(197,160,89,0.4)] group-hover:shadow-[0_0_40px_rgba(197,160,89,0.65)]' : ''
@@ -350,7 +350,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
               <span
                 className={`font-serif-title font-black tracking-wider leading-tight flex items-center gap-1.5 ${
                   variant === 'header'
-                    ? 'text-xl sm:text-2xl lg:text-3xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]'
+                    ? 'text-lg sm:text-xl lg:text-2xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]'
                     : variant === 'footer'
                     ? 'text-2xl'
                     : variant === 'auth' || variant === 'preview'
@@ -363,7 +363,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
               {showSubtext && logoSubtext && (
                 <span
-                  className={`text-[11px] sm:text-xs tracking-[0.25em] uppercase font-extrabold mt-0.5 ${
+                  className={`text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-extrabold mt-0.5 ${
                     isLightMode ? 'text-slate-600' : 'text-[#f6e088] drop-shadow'
                   }`}
                 >

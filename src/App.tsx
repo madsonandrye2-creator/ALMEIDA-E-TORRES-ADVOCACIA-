@@ -15,6 +15,7 @@ import { AdminPanel } from './components/AdminPanel';
 import { AuthModal } from './components/AuthModal';
 import { Footer } from './components/Footer';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 const MainLayout: React.FC = () => {
   const { activeView } = useApp();
@@ -50,10 +51,38 @@ const MainLayout: React.FC = () => {
   );
 };
 
+const AppContent: React.FC = () => {
+  const { createSystemAlert, notificationConfig } = useApp();
+
+  const handleCatchError = (error: Error, errorInfo: React.ErrorInfo) => {
+    if (notificationConfig.notifyOnSystemError) {
+      createSystemAlert({
+        type: 'system_error',
+        title: '🚨 Erro de Renderização na Aplicação',
+        message: error.message || 'Falha capturada pelo ErrorBoundary durante a renderização.',
+        severity: 'error',
+        details: {
+          errorMessage: error.name ? `${error.name}: ${error.message}` : error.message,
+          errorStack: errorInfo.componentStack || error.stack,
+          componentName: 'ReactErrorBoundary',
+          pageUrl: window.location.href,
+          userAgent: navigator.userAgent,
+        },
+      });
+    }
+  };
+
+  return (
+    <ErrorBoundary onCatchError={handleCatchError}>
+      <MainLayout />
+    </ErrorBoundary>
+  );
+};
+
 export default function App() {
   return (
     <AppProvider>
-      <MainLayout />
+      <AppContent />
     </AppProvider>
   );
 }

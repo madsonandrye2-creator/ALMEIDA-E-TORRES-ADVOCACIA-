@@ -10,13 +10,15 @@ import {
   Sparkles,
   Users,
   ChevronDown,
-  Palette
+  Palette,
+  Bell,
+  AlertTriangle
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { QuickEditSiteModal } from './QuickEditSiteModal';
 
 export const AdminToolbar: React.FC = () => {
-  const { currentUser, activeView, setActiveView, lawyers } = useApp();
+  const { currentUser, activeView, setActiveView, lawyers, unreadAlertsCount } = useApp();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [initialEditTab, setInitialEditTab] = useState<'contacts' | 'location' | 'texts' | 'stats' | 'lawyers' | 'general' | 'logo'>('contacts');
 
@@ -111,6 +113,24 @@ export const AdminToolbar: React.FC = () => {
 
           {/* Right View Switcher */}
           <div className="flex items-center gap-2 ml-auto sm:ml-0">
+            <button
+              onClick={() => setActiveView('admin-panel')}
+              className={`text-[11px] px-2.5 py-1 rounded transition-colors font-bold flex items-center gap-1.5 cursor-pointer border ${
+                unreadAlertsCount > 0
+                  ? 'bg-red-600/90 hover:bg-red-600 text-white border-red-400 animate-pulse'
+                  : 'bg-[#162a45] hover:bg-[#203a5f] text-[#f6e088] border-[#c5a059]/40'
+              }`}
+              title="Central de Notificações de Contas e Manutenção"
+            >
+              <Bell className="w-3.5 h-3.5" />
+              <span>Alertas</span>
+              {unreadAlertsCount > 0 && (
+                <span className="bg-white text-red-700 text-[10px] font-black px-1.5 py-0.2 rounded-full shadow-sm">
+                  {unreadAlertsCount}
+                </span>
+              )}
+            </button>
+
             {activeView === 'admin-panel' ? (
               <button
                 onClick={() => setActiveView('home')}

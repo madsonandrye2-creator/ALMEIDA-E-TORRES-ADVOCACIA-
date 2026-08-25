@@ -7,7 +7,9 @@ import {
   ContactRequest, 
   OfficeSettings, 
   ProcessStatus,
-  ProcessTimelineEvent
+  ProcessTimelineEvent,
+  SystemAlert,
+  AdminAlertNotificationConfig
 } from '../types';
 import {
   INITIAL_OFFICE_SETTINGS,
@@ -16,7 +18,9 @@ import {
   INITIAL_CLIENTS,
   INITIAL_ADMIN_USER,
   INITIAL_PROCESSES,
-  INITIAL_CONTACT_REQUESTS
+  INITIAL_CONTACT_REQUESTS,
+  INITIAL_ADMIN_ALERT_CONFIG,
+  INITIAL_SYSTEM_ALERTS
 } from '../data/initialData';
 import {
   db,
@@ -35,7 +39,10 @@ import {
   syncProcess,
   deleteProcessDoc,
   syncContactRequest,
-  deleteContactRequestDoc
+  deleteContactRequestDoc,
+  syncSystemAlert,
+  deleteSystemAlertDoc,
+  syncAlertConfig
 } from '../lib/firebase';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { 
@@ -112,6 +119,22 @@ interface AppContextType {
 
   resetToDefaultData: () => void;
   isFirebaseConnected: boolean;
+
+  // System Alerts & Maintenance Notifications
+  systemAlerts: SystemAlert[];
+  notificationConfig: AdminAlertNotificationConfig;
+  unreadAlertsCount: number;
+  createSystemAlert: (alert: Omit<SystemAlert, 'id' | 'createdAt' | 'read'> & { id?: string; createdAt?: string }) => SystemAlert;
+  markAlertAsRead: (id: string) => void;
+  markAllAlertsAsRead: () => void;
+  deleteSystemAlert: (id: string) => void;
+  clearAllSystemAlerts: () => void;
+  updateNotificationConfig: (config: Partial<AdminAlertNotificationConfig>) => void;
+  sendWhatsappAlert: (alert: SystemAlert) => void;
+  sendEmailAlert: (alert: SystemAlert) => void;
+  triggerTestAlert: (type: 'new_user' | 'system_error' | 'maintenance') => void;
+  playNotificationSound: (type?: 'new_user' | 'error' | 'info') => void;
+  requestBrowserNotificationPermission: () => Promise<boolean>;
 }
 
 const STORAGE_KEYS = {
@@ -122,6 +145,8 @@ const STORAGE_KEYS = {
   CLIENTS: 'at_adv_clients',
   PROCESSES: 'at_adv_processes',
   REQUESTS: 'at_adv_requests',
+  ALERTS: 'at_adv_alerts',
+  ALERT_CONFIG: 'at_adv_alert_config',
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -217,6 +242,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
+  const [systemAlerts, setSystemAlerts] = useState<SystemAlert[]>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.ALERTS);
+      return saved ? JSON.parse(saved) : INITIAL_SYSTEM_ALERTS;
+    } catch {
+      return INITIAL_SYSTEM_ALERTS;
+    }
+  });
+
+  const [notificationConfig, setNotificationConfig] = useState<AdminAlertNotificationConfig>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.ALERT_CONFIG);
+      return saved ? JSON.parse(saved) : INITIAL_ADMIN_ALERT_CONFIG;
+    } catch {
+      return INITIAL_ADMIN_ALERT_CONFIG;
+    }
+  });
+
   const [activeView, setActiveView] = useState<'home' | 'client-area' | 'admin-panel'>('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalInitialRole, setAuthModalInitialRole] = useState<'client' | 'admin'>('client');
@@ -258,6 +301,88 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.REQUESTS, JSON.stringify(contactRequests));
   }, [contactRequests]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.ALERTS, JSON.stringify(systemAlerts));
+  }, [systemAlerts]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.ALERT_CONFIG, JSON.stringify(notificationConfig));
+  }, [notificationConfig]);
+
+  // Audio tone generator (Web Audio API - 0 external dependencies)
+  const playNotificationSound = (type: 'new_user' | 'error' | 'info' = 'info') => {
+    if (!notificationConfig.soundAlertsEnabled) return;
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+
+      if (type === 'new_user') {
+        // High pleasant double chime: D5 (587.33Hz) -> A5 (880Hz)
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.setValueAtTime(880, now + 0.12);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.5);
+      } else if (type === 'error') {
+        // Warning double tone: 440Hz -> 311Hz
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(311.13, now + 0.15);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.55);
+      } else {
+        // Gentle info tone
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(659.25, now);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+    } catch {
+      // Non-blocking
+    }
+  };
+
+  const requestBrowserNotificationPermission = async (): Promise<boolean> => {
+    if (!('Notification' in window)) return false;
+    try {
+      const permission = await Notification.requestPermission();
+      return permission === 'granted';
+    } catch {
+      return false;
+    }
+  };
+
+  const triggerBrowserNotification = (title: string, body: string) => {
+    if (!notificationConfig.browserNotificationsEnabled) return;
+    try {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(title, { body });
+      }
+    } catch {
+      // Non-blocking
+    }
+  };
 
   // Firebase initial seed and real-time listeners
   const hasSeededRef = useRef(false);
@@ -351,11 +476,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const unsubRequests = onSnapshot(collection(db, COLLECTIONS.REQUESTS), snapshot => {
       if (!snapshot.empty) {
         const items = snapshot.docs.map(d => d.data() as ContactRequest);
-        // Sort descending by date
         setContactRequests(items);
       }
     }, err => {
       console.warn('Requests snapshot listener note:', err);
+    });
+
+    // Subscribe to System Alerts
+    const unsubAlerts = onSnapshot(collection(db, COLLECTIONS.ALERTS), snapshot => {
+      if (!snapshot.empty) {
+        const items = snapshot.docs.map(d => d.data() as SystemAlert);
+        // Sort newest first
+        setSystemAlerts(items);
+      }
+    }, err => {
+      console.warn('Alerts snapshot listener note:', err);
+    });
+
+    // Subscribe to Alert Config
+    const unsubAlertConfig = onSnapshot(doc(db, COLLECTIONS.ALERT_CONFIG, 'primary'), snapshot => {
+      if (snapshot.exists()) {
+        const data = snapshot.data() as AdminAlertNotificationConfig;
+        setNotificationConfig(prev => ({ ...prev, ...data }));
+      }
+    }, err => {
+      console.warn('Alert config snapshot listener note:', err);
     });
 
     return () => {
@@ -365,10 +510,253 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       unsubClients();
       unsubProcesses();
       unsubRequests();
+      unsubAlerts();
+      unsubAlertConfig();
     };
   }, []);
 
-  // Safe ActiveView setter ensuring clients CANNOT open admin-panel
+  // Global System Alert and Maintenance Management
+  const createSystemAlert = (alertData: Omit<SystemAlert, 'id' | 'createdAt' | 'read'> & { id?: string; createdAt?: string }): SystemAlert => {
+    const now = new Date();
+    const formattedDate = alertData.createdAt || `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+    const newAlert: SystemAlert = {
+      ...alertData,
+      id: alertData.id || `alt-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      createdAt: formattedDate,
+      read: false,
+    };
+
+    setSystemAlerts(prev => [newAlert, ...prev]);
+    syncSystemAlert(newAlert);
+
+    // Audio sound trigger
+    if (newAlert.type === 'new_user') {
+      playNotificationSound('new_user');
+    } else if (newAlert.type === 'system_error' || newAlert.severity === 'error') {
+      playNotificationSound('error');
+    } else {
+      playNotificationSound('info');
+    }
+
+    // Browser push notification
+    triggerBrowserNotification(newAlert.title, newAlert.message);
+
+    return newAlert;
+  };
+
+  const markAlertAsRead = (id: string) => {
+    setSystemAlerts(prev => {
+      const target = prev.find(a => a.id === id);
+      if (!target) return prev;
+      const updated = { ...target, read: true };
+      syncSystemAlert(updated);
+      return prev.map(a => (a.id === id ? updated : a));
+    });
+  };
+
+  const markAllAlertsAsRead = () => {
+    setSystemAlerts(prev => {
+      const updated = prev.map(a => {
+        const item = { ...a, read: true };
+        syncSystemAlert(item);
+        return item;
+      });
+      return updated;
+    });
+  };
+
+  const deleteSystemAlert = (id: string) => {
+    setSystemAlerts(prev => prev.filter(a => a.id !== id));
+    deleteSystemAlertDoc(id);
+  };
+
+  const clearAllSystemAlerts = () => {
+    systemAlerts.forEach(a => deleteSystemAlertDoc(a.id));
+    setSystemAlerts([]);
+  };
+
+  const updateNotificationConfig = (config: Partial<AdminAlertNotificationConfig>) => {
+    setNotificationConfig(prev => {
+      const updated: AdminAlertNotificationConfig = { ...prev, ...config };
+      try {
+        localStorage.setItem(STORAGE_KEYS.ALERT_CONFIG, JSON.stringify(updated));
+      } catch (e) {
+        console.warn('LocalStorage error:', e);
+      }
+      syncAlertConfig(updated);
+      return updated;
+    });
+  };
+
+  const sendWhatsappAlert = (alert: SystemAlert) => {
+    const rawNumber = (notificationConfig.adminWhatsapp || '5511999998888').replace(/\D/g, '');
+    let text = '';
+    
+    if (alert.type === 'new_user') {
+      text = `🔔 *ALERTA DE NOVA CONTA CADASTRADA*\n\n` +
+        `*Almeida & Torres Advocacia*\n` +
+        `---------------------------------\n` +
+        `👤 *Cliente:* ${alert.details?.userName || alert.title}\n` +
+        `📧 *E-mail:* ${alert.details?.userEmail || 'Não informado'}\n` +
+        `📱 *WhatsApp/Tel:* ${alert.details?.userPhone || 'Não informado'}\n` +
+        `🆔 *CPF:* ${alert.details?.userCpf || 'Não informado'}\n` +
+        `🕒 *Data/Hora:* ${alert.createdAt}\n` +
+        `---------------------------------\n` +
+        `Acesse o Painel Administrativo para acompanhar o prontuário.`;
+    } else if (alert.type === 'system_error' || alert.type === 'maintenance') {
+      text = `🚨 *ALERTA DE MANUTENÇÃO / ERRO NO SITE*\n\n` +
+        `*Almeida & Torres Advocacia*\n` +
+        `---------------------------------\n` +
+        `⚠️ *Problema:* ${alert.title}\n` +
+        `📝 *Descrição:* ${alert.message}\n` +
+        `📍 *Componente/Origem:* ${alert.details?.componentName || 'Interface Web'}\n` +
+        `🌐 *Página:* ${alert.details?.pageUrl || window.location.href}\n` +
+        `🕒 *Registro:* ${alert.createdAt}\n` +
+        `---------------------------------\n` +
+        `Acesse o Painel Administrativo para verificar o relatório técnico completo.`;
+    } else if (alert.type === 'contact_request') {
+      text = `📩 *NOVA SOLICITAÇÃO DE CONTATO*\n\n` +
+        `*Almeida & Torres Advocacia*\n` +
+        `---------------------------------\n` +
+        `👤 *Nome:* ${alert.details?.userName || alert.title}\n` +
+        `📧 *E-mail:* ${alert.details?.userEmail || '-'}\n` +
+        `📱 *Telefone:* ${alert.details?.userPhone || '-'}\n` +
+        `📝 *Assunto:* ${alert.message}\n` +
+        `🕒 *Data:* ${alert.createdAt}\n` +
+        `---------------------------------`;
+    } else {
+      text = `📢 *NOTIFICAÇÃO DO SISTEMA*\n\n` +
+        `*Almeida & Torres Advocacia*\n` +
+        `*Título:* ${alert.title}\n` +
+        `*Mensagem:* ${alert.message}\n` +
+        `*Data:* ${alert.createdAt}`;
+    }
+
+    const url = `https://api.whatsapp.com/send?phone=${rawNumber}&text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
+  const sendEmailAlert = (alert: SystemAlert) => {
+    const targetEmail = notificationConfig.adminEmail || 'madsonandrye2@gmail.com';
+    const subject = `[Alerta Almeida & Torres] ${alert.title}`;
+    const body = `ALERTA DO SISTEMA - ALMEIDA & TORRES ADVOCACIA\n\n` +
+      `Tipo: ${alert.type.toUpperCase()}\n` +
+      `Data/Hora: ${alert.createdAt}\n` +
+      `Título: ${alert.title}\n` +
+      `Mensagem: ${alert.message}\n\n` +
+      (alert.details?.userName ? `Nome do Cliente: ${alert.details.userName}\n` : '') +
+      (alert.details?.userEmail ? `E-mail: ${alert.details.userEmail}\n` : '') +
+      (alert.details?.userPhone ? `Telefone: ${alert.details.userPhone}\n` : '') +
+      (alert.details?.userCpf ? `CPF: ${alert.details.userCpf}\n` : '') +
+      (alert.details?.errorMessage ? `Erro Técnico: ${alert.details.errorMessage}\n` : '') +
+      (alert.details?.errorStack ? `Stack Trace:\n${alert.details.errorStack}\n` : '') +
+      `\n--\nPainel Administrativo: ${window.location.origin}`;
+
+    window.open(`mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+  };
+
+  const triggerTestAlert = (type: 'new_user' | 'system_error' | 'maintenance') => {
+    if (type === 'new_user') {
+      createSystemAlert({
+        type: 'new_user',
+        title: '🎉 [TESTE] Nova Conta de Cliente Cadastrada',
+        message: 'Teste de notificação em tempo real para nova conta criada no portal do escritório.',
+        severity: 'success',
+        details: {
+          userName: 'Carlos Eduardo Silveira (Simulação)',
+          userEmail: 'carlos.silveira@teste.com',
+          userPhone: '(11) 98765-4321',
+          userCpf: '123.456.789-00',
+        },
+      });
+    } else if (type === 'system_error') {
+      createSystemAlert({
+        type: 'system_error',
+        title: '🚨 [TESTE] Erro Crítico do Sistema',
+        message: 'Simulação de falha técnica no carregamento de módulo para auditoria de manutenção.',
+        severity: 'error',
+        details: {
+          errorMessage: 'Uncaught TypeError: Test Error Simulation in Admin Diagnostic Tool',
+          componentName: 'DiagnosticSimulator',
+          pageUrl: window.location.href,
+          userAgent: navigator.userAgent,
+        },
+      });
+    } else {
+      createSystemAlert({
+        type: 'maintenance',
+        title: '🛠️ [TESTE] Aviso de Manutenção Preventiva',
+        message: 'Rotina de diagnóstico executada: Todos os serviços Firestore e Auth estão operando.',
+        severity: 'info',
+        details: {
+          componentName: 'MaintenanceAuditDaemon',
+          additionalInfo: 'Status dos microsserviços: 100% Saudável',
+        },
+      });
+    }
+  };
+
+  // Global Unhandled Error Listener for Automatic Maintenance Alerts
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      if (!notificationConfig.notifyOnSystemError) return;
+      if (
+        event.message?.includes('ResizeObserver') ||
+        event.message?.includes('vite') ||
+        event.message?.includes('Failed to fetch')
+      ) {
+        return;
+      }
+
+      createSystemAlert({
+        type: 'system_error',
+        title: 'Erro de Execução no Navegador (JavaScript)',
+        message: event.message || 'Erro inesperado detectado na interface.',
+        severity: 'error',
+        details: {
+          errorMessage: event.message,
+          errorStack: event.error?.stack || `${event.filename}:${event.lineno}:${event.colno}`,
+          pageUrl: window.location.href,
+          userAgent: navigator.userAgent,
+          componentName: event.filename ? event.filename.split('/').pop() : 'GlobalWindow',
+        },
+      });
+    };
+
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      if (!notificationConfig.notifyOnSystemError) return;
+      const reason = event.reason;
+      const msg = typeof reason === 'string' ? reason : reason?.message || 'Rejeição assíncrona não tratada';
+      
+      if (msg.includes('popup-closed-by-user') || msg.includes('ResizeObserver') || msg.includes('vite')) {
+        return;
+      }
+
+      createSystemAlert({
+        type: 'system_error',
+        title: 'Falha Assíncrona de Conexão / Promessa',
+        message: msg,
+        severity: 'warning',
+        details: {
+          errorMessage: msg,
+          errorStack: reason?.stack,
+          pageUrl: window.location.href,
+          userAgent: navigator.userAgent,
+          componentName: 'AsyncPromiseDaemon',
+        },
+      });
+    };
+
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, [notificationConfig.notifyOnSystemError]);
+
+  const unreadAlertsCount = systemAlerts.filter(a => !a.read).length;
   const handleSetActiveView = (view: 'home' | 'client-area' | 'admin-panel') => {
     if (view === 'admin-panel') {
       if (!currentUser || currentUser.role !== 'admin') {
@@ -422,6 +810,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         if (!existingClient) {
           setClients(prev => [fullClientRecord, ...prev]);
+          if (notificationConfig.notifyOnNewAccount) {
+            createSystemAlert({
+              type: 'new_user',
+              title: '🎉 Nova Conta Criada via Acesso Google',
+              message: `O cliente ${clientUser.name} cadastrou sua conta no site com o e-mail ${clientUser.email}.`,
+              severity: 'success',
+              details: {
+                userName: clientUser.name,
+                userEmail: clientUser.email,
+                userPhone: clientUser.phone,
+                userCpf: clientUser.cpf,
+                componentName: 'GoogleAuthFallback',
+              },
+            });
+          }
         }
         syncClient(fullClientRecord);
 
@@ -472,6 +875,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       if (!existingClient) {
         setClients(prev => [fullClientRecord, ...prev]);
+        if (notificationConfig.notifyOnNewAccount) {
+          createSystemAlert({
+            type: 'new_user',
+            title: '🎉 Nova Conta Criada via Google Auth',
+            message: `O cliente ${clientUser.name} conectou e cadastrou sua conta no portal (${clientUser.email}).`,
+            severity: 'success',
+            details: {
+              userName: clientUser.name,
+              userEmail: clientUser.email,
+              userPhone: clientUser.phone,
+              userCpf: clientUser.cpf,
+              componentName: 'GoogleAuthPopup',
+            },
+          });
+        }
       }
       syncClient(fullClientRecord);
 
@@ -560,6 +978,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       setClients(prev => [fullClientRecord, ...prev]);
       syncClient(fullClientRecord);
+
+      // Automated Notification to Administrator
+      if (notificationConfig.notifyOnNewAccount) {
+        createSystemAlert({
+          type: 'new_user',
+          title: '🎉 Nova Conta de Cliente Cadastrada',
+          message: `O cliente ${data.name.trim()} se cadastrou no portal com o e-mail ${cleanEmail}.`,
+          severity: 'success',
+          details: {
+            userName: data.name.trim(),
+            userEmail: cleanEmail,
+            userPhone: data.phone?.trim() || 'Não informado',
+            userCpf: cleanCpf || 'Não informado',
+            componentName: 'RegisterWithEmail',
+          },
+        });
+      }
 
       setCurrentUser(newClientUser);
       setActiveView('client-area');
@@ -801,6 +1236,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setClients(prev => [newClient, ...prev]);
     syncClient(newClient);
+
+    if (notificationConfig.notifyOnNewAccount) {
+      createSystemAlert({
+        type: 'new_user',
+        title: '👤 Novo Cliente Cadastrado no Painel',
+        message: `O cliente ${newClient.name} foi cadastrado diretamente no sistema (${newClient.email}).`,
+        severity: 'info',
+        details: {
+          userName: newClient.name,
+          userEmail: newClient.email,
+          userPhone: newClient.phone,
+          userCpf: newClient.cpf,
+          componentName: 'AdminClientsSection',
+        },
+      });
+    }
+
     return newClient;
   };
 
@@ -941,6 +1393,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setContactRequests(prev => [newReq, ...prev]);
     syncContactRequest(newReq);
+
+    if (notificationConfig.notifyOnContactRequest) {
+      createSystemAlert({
+        type: 'contact_request',
+        title: '📩 Nova Mensagem de Contato Recebida',
+        message: `${reqData.name} enviou uma solicitação de atendimento sobre: "${reqData.subject || reqData.practiceArea || 'Consulta Trabalhista'}".`,
+        severity: 'info',
+        details: {
+          userName: reqData.name,
+          userEmail: reqData.email,
+          userPhone: reqData.phone,
+          additionalInfo: reqData.description,
+          componentName: 'ContactForm',
+        },
+      });
+    }
+
     return newReq;
   };
 
@@ -966,6 +1435,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setClients(INITIAL_CLIENTS);
     setProcesses(INITIAL_PROCESSES);
     setContactRequests(INITIAL_CONTACT_REQUESTS);
+    setSystemAlerts(INITIAL_SYSTEM_ALERTS);
+    setNotificationConfig(INITIAL_ADMIN_ALERT_CONFIG);
     localStorage.clear();
 
     // Re-sync to Firestore
@@ -975,6 +1446,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     INITIAL_CLIENTS.forEach(c => syncClient(c));
     INITIAL_PROCESSES.forEach(p => syncProcess(p));
     INITIAL_CONTACT_REQUESTS.forEach(r => syncContactRequest(r));
+    INITIAL_SYSTEM_ALERTS.forEach(alt => syncSystemAlert(alt));
+    syncAlertConfig(INITIAL_ADMIN_ALERT_CONFIG);
   };
 
   return (
@@ -1009,6 +1482,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addContactRequest,
         updateContactRequestStatus,
         deleteContactRequest,
+        systemAlerts,
+        unreadAlertsCount,
+        createSystemAlert,
+        markAlertAsRead,
+        markAllAlertsAsRead,
+        deleteSystemAlert,
+        clearAllSystemAlerts,
+        notificationConfig,
+        updateNotificationConfig,
+        sendWhatsappAlert,
+        sendEmailAlert,
+        triggerTestAlert,
+        playNotificationSound,
+        requestBrowserNotificationPermission,
         activeView,
         setActiveView: handleSetActiveView,
         isAuthModalOpen,

@@ -42,7 +42,7 @@ export const Hero: React.FC = () => {
     if (currentUser && currentUser.role === 'client') {
       setActiveView('client-area');
     } else {
-      openAuthModal('signin');
+      openAuthModal('client');
     }
   };
 
@@ -51,7 +51,7 @@ export const Hero: React.FC = () => {
     if (currentUser && currentUser.role === 'client') {
       setActiveView('client-area');
     } else {
-      openAuthModal('signin');
+      openAuthModal('client');
     }
   };
 

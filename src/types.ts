@@ -129,11 +129,16 @@ export interface OfficeSettings {
   postalCode?: string;
   cityState: string;
   mapsUrl?: string;
+  cep?: string;
+  city?: string;
+  state?: string;
+  googleMapsUrl?: string;
   workingHours: string;
   aboutHistory: string;
   aboutMission: string;
   aboutValues: string;
   aboutApproach: string;
+  aboutText?: string;
   
   // Editable Stats Numbers
   statsLawyersCount: string;
@@ -141,8 +146,45 @@ export interface OfficeSettings {
   statsClientsServed: string;
   statsCasesHandled: string;
   statsSatisfactionRate: string;
+  statsValuesRecovered?: string;
 
   socialInstagram?: string;
   socialLinkedin?: string;
   socialFacebook?: string;
+}
+
+export type AlertType = 'new_user' | 'system_error' | 'maintenance' | 'contact_request' | 'security';
+export type AlertSeverity = 'info' | 'warning' | 'error' | 'success';
+
+export interface SystemAlert {
+  id: string;
+  type: AlertType;
+  title: string;
+  message: string;
+  createdAt: string;
+  read: boolean;
+  severity: AlertSeverity;
+  details?: {
+    userName?: string;
+    userEmail?: string;
+    userPhone?: string;
+    userCpf?: string;
+    errorMessage?: string;
+    errorStack?: string;
+    componentName?: string;
+    pageUrl?: string;
+    userAgent?: string;
+    additionalInfo?: string;
+  };
+}
+
+export interface AdminAlertNotificationConfig {
+  adminEmail: string;
+  adminWhatsapp: string;
+  notifyOnNewAccount: boolean;
+  notifyOnSystemError: boolean;
+  notifyOnContactRequest: boolean;
+  browserNotificationsEnabled: boolean;
+  soundAlertsEnabled: boolean;
+  autoOpenWhatsappAlert?: boolean;
 }

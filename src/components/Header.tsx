@@ -122,9 +122,9 @@ export const Header: React.FC = () => {
       </div>
 
       {/* Main navigation header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-4 lg:gap-8">
         {/* Brand Logo */}
-        <div className="flex items-center gap-2 relative py-0.5 flex-shrink-0">
+        <div className="flex items-center gap-2 relative py-0.5 flex-shrink-0 mr-4 lg:mr-8 xl:mr-10">
           <BrandLogo 
             settings={officeSettings} 
             variant="header" 
@@ -144,8 +144,8 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Desktop Nav Links & Action Button grouped harmoniously */}
-        <div className="hidden lg:flex items-center gap-6">
-          <nav className="flex items-center gap-5 text-sm font-semibold">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-shrink-0">
+          <nav className="flex items-center gap-3.5 xl:gap-5 text-xs xl:text-sm font-semibold">
             <button
               onClick={() => scrollToSection('hero')}
               className={`whitespace-nowrap transition-colors hover:text-[#f6e088] cursor-pointer ${activeView === 'home' ? 'text-[#f6e088]' : 'text-slate-200'}`}
@@ -192,10 +192,10 @@ export const Header: React.FC = () => {
           </nav>
 
           {/* Action Button - Vibrant Glowing Gold */}
-          <div className="flex items-center flex-shrink-0 pl-2">
+          <div className="flex items-center flex-shrink-0 pl-1 xl:pl-2">
             <button
               onClick={handleWhatsAppClick}
-              className="whitespace-nowrap bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#c5a059] hover:brightness-110 text-[#07111e] font-black text-xs uppercase tracking-wider px-4.5 py-2.5 rounded-lg shadow-[0_0_20px_rgba(197,160,89,0.4)] hover:shadow-[0_0_30px_rgba(246,224,136,0.6)] transition-all flex items-center gap-2 cursor-pointer transform hover:scale-105 active:scale-95 flex-shrink-0"
+              className="whitespace-nowrap bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#c5a059] hover:brightness-110 text-[#07111e] font-black text-xs uppercase tracking-wider px-3.5 xl:px-4.5 py-2.5 rounded-lg shadow-[0_0_20px_rgba(197,160,89,0.4)] hover:shadow-[0_0_30px_rgba(246,224,136,0.6)] transition-all flex items-center gap-2 cursor-pointer transform hover:scale-105 active:scale-95 flex-shrink-0"
               id="btn-header-fale-conosco"
             >
               <MessageCircle className="w-4 h-4 fill-[#07111e]/30 flex-shrink-0" />

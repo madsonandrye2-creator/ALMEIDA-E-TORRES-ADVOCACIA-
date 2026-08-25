@@ -79,6 +79,8 @@ export const COLLECTIONS = {
   CLIENTS: 'clients',
   PROCESSES: 'processes',
   REQUESTS: 'contact_requests',
+  ALERTS: 'system_alerts',
+  ALERT_CONFIG: 'alert_config',
 } as const;
 
 // Helper to sanitize objects for Firestore (removes undefined values which cause setDoc to crash)
@@ -260,5 +262,29 @@ export async function deleteContactRequestDoc(id: string) {
     await deleteDoc(doc(db, COLLECTIONS.REQUESTS, id));
   } catch (err) {
     console.error('Error deleting contact request from Firestore:', err);
+  }
+}
+
+export async function syncSystemAlert(alert: any) {
+  try {
+    await setDoc(doc(db, COLLECTIONS.ALERTS, alert.id), sanitizeForFirestore(alert), { merge: true });
+  } catch (err) {
+    console.error('Error saving system alert to Firestore:', err);
+  }
+}
+
+export async function deleteSystemAlertDoc(id: string) {
+  try {
+    await deleteDoc(doc(db, COLLECTIONS.ALERTS, id));
+  } catch (err) {
+    console.error('Error deleting system alert from Firestore:', err);
+  }
+}
+
+export async function syncAlertConfig(config: any) {
+  try {
+    await setDoc(doc(db, COLLECTIONS.ALERT_CONFIG, 'primary'), sanitizeForFirestore(config), { merge: true });
+  } catch (err) {
+    console.error('Error saving alert config to Firestore:', err);
   }
 }

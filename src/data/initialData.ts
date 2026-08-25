@@ -1,4 +1,4 @@
-import { LegalProcess, Lawyer, PracticeArea, ContactRequest, OfficeSettings, User } from '../types';
+import { LegalProcess, Lawyer, PracticeArea, ContactRequest, OfficeSettings, User, SystemAlert, AdminAlertNotificationConfig } from '../types';
 
 export const INITIAL_OFFICE_SETTINGS: OfficeSettings = {
   officeName: 'Almeida e Torres Advocacia',
@@ -324,5 +324,32 @@ export const INITIAL_CONTACT_REQUESTS: ContactRequest[] = [
     createdAt: '15/08/2026 11:20',
     status: 'concluido',
     adminNotes: 'Cliente orientado e triagem agendada presencialmente no escritório.',
+  },
+];
+
+export const INITIAL_ADMIN_ALERT_CONFIG: AdminAlertNotificationConfig = {
+  adminEmail: 'madsonandrye2@gmail.com',
+  adminWhatsapp: '5511999998888',
+  notifyOnNewAccount: true,
+  notifyOnSystemError: true,
+  notifyOnContactRequest: true,
+  browserNotificationsEnabled: true,
+  soundAlertsEnabled: true,
+  autoOpenWhatsappAlert: false,
+};
+
+export const INITIAL_SYSTEM_ALERTS: SystemAlert[] = [
+  {
+    id: 'alt-sys-1',
+    type: 'maintenance',
+    title: 'Monitoramento de Saúde do Sistema Ativo',
+    message: 'O subsistema de monitoramento e auditoria em tempo real foi inicializado com sucesso. Alertas de novas contas e falhas no site serão registrados automaticamente.',
+    createdAt: new Date().toLocaleString('pt-BR'),
+    read: false,
+    severity: 'info',
+    details: {
+      componentName: 'SystemHealthMonitor',
+      additionalInfo: 'Banco de Dados Firestore Conectado e Operacional',
+    },
   },
 ];
