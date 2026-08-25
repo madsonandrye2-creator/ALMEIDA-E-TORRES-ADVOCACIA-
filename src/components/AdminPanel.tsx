@@ -72,6 +72,7 @@ export const AdminPanel: React.FC = () => {
   >('dashboard');
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [clientSearchQuery, setClientSearchQuery] = useState('');
   const [successToast, setSuccessToast] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -376,6 +377,37 @@ export const AdminPanel: React.FC = () => {
     const msg = encodeURIComponent(`Olá, ${reqName}! Aqui é da equipe da ${officeSettings.officeName}. Recebemos sua solicitação de atendimento trabalhista.`);
     window.open(`https://wa.me/55${rawPhone}?text=${msg}`, '_blank');
   };
+
+  const handleOpenWhatsAppDirect = (phone?: string, name?: string) => {
+    if (!phone) {
+      alert('Este cliente não possui telefone cadastrado.');
+      return;
+    }
+    const rawPhone = phone.replace(/\D/g, '');
+    const clientGreetingName = name ? ` ${name}` : '';
+    const msg = encodeURIComponent(`Olá${clientGreetingName}! Aqui é do escritório ${officeSettings.officeName}. Estamos à disposição para atendê-lo(a) e atualizar sobre suas demandas jurídicas.`);
+    window.open(`https://wa.me/55${rawPhone}?text=${msg}`, '_blank');
+  };
+
+  const handleOpenNewProcessForClient = (client: User) => {
+    setNewProcForm(prev => ({
+      ...prev,
+      clientId: client.id,
+      title: `Ação Trabalhista - ${client.name}`,
+    }));
+    setIsNewProcessModalOpen(true);
+  };
+
+  // Client filtering
+  const filteredClients = clients.filter(c => {
+    if (!clientSearchQuery.trim()) return true;
+    const q = clientSearchQuery.toLowerCase();
+    const nameMatch = (c.name || '').toLowerCase().includes(q);
+    const emailMatch = (c.email || '').toLowerCase().includes(q);
+    const cpfMatch = (c.cpf || '').replace(/\D/g, '').includes(q.replace(/\D/g, '')) || (c.cpf || '').toLowerCase().includes(q);
+    const phoneMatch = (c.phone || '').replace(/\D/g, '').includes(q.replace(/\D/g, '')) || (c.phone || '').toLowerCase().includes(q);
+    return nameMatch || emailMatch || cpfMatch || phoneMatch;
+  });
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-800 pb-24">
@@ -692,6 +724,127 @@ export const AdminPanel: React.FC = () => {
                 >
                   Ver Todas as Solicitações ({contactRequests.length})
                 </button>
+              </div>
+            </div>
+
+            {/* REAL-TIME AUTOMATIC CLIENTS FEED SECTION */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif-title text-lg font-bold text-[#0b192c] flex items-center gap-2">
+                      <span>Cadastros Automáticos de Clientes</span>
+                      <span className="inline-flex items-center gap-1 text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded-full">
+                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Tempo Real Firestore
+                      </span>
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Novas contas de clientes criadas pelo portal ou Google aparecem automaticamente aqui com acesso instantâneo.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setActiveTab('clients')}
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3.5 py-2 rounded-lg transition-colors"
+                  >
+                    Ver Todos os Clientes ({clients.length})
+                  </button>
+                  <button
+                    onClick={() => setIsNewClientModalOpen(true)}
+                    className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1"
+                  >
+                    <Plus className="w-3.5 h-3.5 text-[#c5a059]" />
+                    <span>Cadastrar Manualmente</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {clients.slice(0, 4).map((client) => {
+                  const clientProcCount = processes.filter(p => p.clientId === client.id || (client.cpf && p.clientCpf === client.cpf)).length;
+                  return (
+                    <div
+                      key={client.id}
+                      className="bg-slate-50 rounded-xl p-4 border border-slate-200 hover:border-[#c5a059] transition-all flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span className="text-[10px] font-mono font-bold bg-[#c5a059]/15 text-[#916b24] px-2 py-0.5 rounded">
+                            {client.cpf || 'Sem CPF'}
+                          </span>
+                          <span className="text-[10px] text-slate-400">
+                            {client.createdAt?.split(' ')[0] || 'Cadastrado'}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2.5 mb-2.5">
+                          <UserAvatar
+                            name={client.name}
+                            src={client.avatar}
+                            size="sm"
+                            className="flex-shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <h4 className="font-serif-title text-sm font-bold text-[#0b192c] truncate">
+                              {client.name}
+                            </h4>
+                            <p className="text-[11px] text-slate-500 truncate">{client.email}</p>
+                          </div>
+                        </div>
+
+                        <div className="text-[11px] text-slate-600 space-y-1 mb-3">
+                          <p className="truncate">
+                            <strong>Tel:</strong> {client.phone || 'Não informado'}
+                          </p>
+                          <p>
+                            <strong>Processos:</strong>{' '}
+                            <span className={clientProcCount > 0 ? 'text-green-700 font-bold' : 'text-amber-700'}>
+                              {clientProcCount} vinculado(s)
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="pt-2.5 border-t border-slate-200/80 flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleOpenNewProcessForClient(client)}
+                          className="flex-1 bg-[#0b192c] hover:bg-[#162a45] text-white text-[11px] font-bold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 transition-colors"
+                          title="Vincular Novo Processo a este Cliente"
+                        >
+                          <Briefcase className="w-3 h-3 text-[#c5a059]" />
+                          <span>+ Processo</span>
+                        </button>
+
+                        {client.phone && (
+                          <button
+                            onClick={() => handleOpenWhatsAppDirect(client.phone, client.name)}
+                            className="bg-green-600 hover:bg-green-700 text-white p-1.5 rounded-lg transition-colors"
+                            title="Conversar no WhatsApp"
+                          >
+                            <Phone className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+
+                        <button
+                          onClick={() => {
+                            setSelectedClient(client as any);
+                            setIsEditClientModalOpen(true);
+                          }}
+                          className="bg-slate-200 hover:bg-slate-300 text-slate-700 p-1.5 rounded-lg transition-colors"
+                          title="Editar Cadastro"
+                        >
+                          <Edit3 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

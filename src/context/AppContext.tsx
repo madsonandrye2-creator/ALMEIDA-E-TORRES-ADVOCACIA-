@@ -792,6 +792,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         const existingClient = clients.find(c => c.email.toLowerCase() === email);
+        const now = new Date();
+        const formattedDate = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+
         const clientUser: User = {
           id: existingClient?.id || `cli-${Date.now()}`,
           name: fallbackData.name?.trim() || existingClient?.name || email.split('@')[0],
@@ -800,6 +803,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           role: 'client',
           phone: fallbackData.phone?.trim() || existingClient?.phone || '',
           avatar: existingClient?.avatar || '',
+          createdAt: existingClient?.createdAt || formattedDate,
         };
 
         const fullClientRecord = {
@@ -857,6 +861,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       // Regular user: STRICTLY ROLE 'client' (Zero admin privileges)
       const existingClient = clients.find(c => c.email.toLowerCase() === email);
+      const now = new Date();
+      const formattedDate = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+
       const clientUser: User = {
         id: existingClient?.id || `cli-${fbUser.uid}`,
         name: existingClient?.name || fbUser.displayName || email.split('@')[0],
@@ -865,6 +872,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         role: 'client', // GUARANTEED CLIENT
         phone: existingClient?.phone || fbUser.phoneNumber || '',
         avatar: fbUser.photoURL || existingClient?.avatar || '',
+        createdAt: existingClient?.createdAt || formattedDate,
       };
 
       const fullClientRecord = {
@@ -960,6 +968,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
 
       // CRITICAL: NEVER GRANT ADMIN TO USER CREATION. Always role 'client'
+      const now = new Date();
+      const formattedDate = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+
       const newClientUser: User = {
         id: uid,
         name: data.name.trim(),
@@ -968,6 +979,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         role: 'client', // STRICTLY CLIENT ONLY
         phone: data.phone?.trim() || '',
         avatar: '',
+        createdAt: formattedDate,
       };
 
       const fullClientRecord = {
@@ -1228,11 +1240,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Clients CRUD
   const addClient = (clientData: Omit<User & { passwordPlain: string; address?: string }, 'id' | 'role'>) => {
+    const now = new Date();
+    const formattedDate = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+
     const newClient: User & { passwordPlain: string; address?: string } = {
       ...clientData,
       id: `cli-${Date.now()}`,
       role: 'client',
       avatar: clientData.avatar || '',
+      createdAt: clientData.createdAt || formattedDate,
     };
     setClients(prev => [newClient, ...prev]);
     syncClient(newClient);
