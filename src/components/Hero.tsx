@@ -10,14 +10,28 @@ import {
   Sparkles,
   Lock,
   CheckCircle2,
-  PhoneCall
+  PhoneCall,
+  ExternalLink,
+  ChevronRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { AdminSectionEditButton } from './AdminSectionEditButton';
+import { PrivacyModal } from './PrivacyModal';
 
 export const Hero: React.FC = () => {
   const { officeSettings, openAuthModal, currentUser, setActiveView, lawyers } = useApp();
   const [quickQuery, setQuickQuery] = useState('');
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveView('home');
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
 
   const handleWhatsApp = () => {
     const msg = encodeURIComponent(`Olá! Gostaria de conversar com um advogado trabalhista da ${officeSettings.officeName}.`);
@@ -28,7 +42,7 @@ export const Hero: React.FC = () => {
     if (currentUser && currentUser.role === 'client') {
       setActiveView('client-area');
     } else {
-      openAuthModal('client');
+      openAuthModal('signin');
     }
   };
 
@@ -37,7 +51,7 @@ export const Hero: React.FC = () => {
     if (currentUser && currentUser.role === 'client') {
       setActiveView('client-area');
     } else {
-      openAuthModal('client');
+      openAuthModal('signin');
     }
   };
 
@@ -66,7 +80,12 @@ export const Hero: React.FC = () => {
         <div className="max-w-4xl mx-auto text-center">
           
           {/* Top Real-time Trust Bar & Live Lawyers Pill */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 bg-[#07111e]/90 border border-[#c5a059]/50 px-4 py-2 rounded-full mb-6 shadow-[0_0_25px_rgba(197,160,89,0.25)] backdrop-blur-md">
+          <button
+            type="button"
+            onClick={() => scrollToSection('equipe')}
+            className="inline-flex flex-wrap items-center justify-center gap-3 bg-[#07111e]/90 hover:bg-[#0f223a] border border-[#c5a059]/50 hover:border-[#f6e088] px-4 py-2 rounded-full mb-6 shadow-[0_0_25px_rgba(197,160,89,0.25)] hover:shadow-[0_0_35px_rgba(246,224,136,0.4)] backdrop-blur-md transition-all cursor-pointer group"
+            title="Conheça nosso corpo jurídico completo"
+          >
             
             {/* Lawyer Avatar Stack */}
             <div className="flex items-center -space-x-2">
@@ -75,7 +94,7 @@ export const Hero: React.FC = () => {
                   key={law.id}
                   src={law.avatarUrl}
                   alt={law.name}
-                  className="w-7 h-7 rounded-full object-cover border-2 border-[#c5a059] shadow-sm"
+                  className="w-7 h-7 rounded-full object-cover border-2 border-[#c5a059] shadow-sm group-hover:scale-105 transition-transform"
                   referrerPolicy="no-referrer"
                 />
               ))}
@@ -90,11 +109,11 @@ export const Hero: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
               </span>
-              <span className="text-xs font-extrabold text-[#f6e088] uppercase tracking-wider">
+              <span className="text-xs font-extrabold text-[#f6e088] uppercase tracking-wider group-hover:underline decoration-[#f6e088]">
                 {officeSettings.heroBadge || 'Corpo Jurídico com 10 Advogados Online'}
               </span>
             </div>
-          </div>
+          </button>
 
           {/* Main Title with Luminous Golden Shimmer Highlight */}
           <h1 className="font-serif-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15] mb-6 drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)]">
@@ -174,50 +193,99 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Trust Badges Strip - Luminous & Elevated */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-[#c5a059]/20">
-          <div className="bg-[#0b192c]/80 border border-[#c5a059]/30 hover:border-[#c5a059] rounded-xl p-4 flex items-center gap-3.5 shadow-lg hover:shadow-[0_0_20px_rgba(197,160,89,0.25)] hover:-translate-y-0.5 transition-all group">
-            <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
-              <ShieldCheck className="w-5 h-5" />
+        {/* Trust Badges Strip - Interactive Hyperlinks */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-[#c5a059]/20">
+          
+          {/* Unit 1: Sigilo & Privacidade (Conforme LGPD) -> Abre Política de Privacidade & LGPD */}
+          <button
+            type="button"
+            onClick={() => setIsPrivacyModalOpen(true)}
+            id="badge-link-lgpd"
+            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            title="Clique para ler a Política de Sigilo, Proteção de Dados e LGPD"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div className="truncate">
+                <p className="text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">Sigilo &amp; Privacidade</p>
+                <p className="text-sm font-bold text-white group-hover:text-[#f6e088] transition-colors truncate">Conforme LGPD</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-slate-400 font-medium">Sigilo &amp; Privacidade</p>
-              <p className="text-sm font-bold text-white">Conforme LGPD</p>
-            </div>
-          </div>
+            <ChevronRight className="w-4 h-4 text-[#c5a059]/60 group-hover:text-[#f6e088] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+          </button>
 
-          <div className="bg-[#0b192c]/80 border border-[#c5a059]/30 hover:border-[#c5a059] rounded-xl p-4 flex items-center gap-3.5 shadow-lg hover:shadow-[0_0_20px_rgba(197,160,89,0.25)] hover:-translate-y-0.5 transition-all group">
-            <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
-              <Users className="w-5 h-5" />
+          {/* Unit 2: Corpo Jurídico (10 Advogados) -> Vai para a seção da Equipe */}
+          <button
+            type="button"
+            onClick={() => scrollToSection('equipe')}
+            id="badge-link-equipe"
+            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            title="Clique para conhecer os 10 advogados do Corpo Jurídico"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+                <Users className="w-5 h-5" />
+              </div>
+              <div className="truncate">
+                <p className="text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">Corpo Jurídico</p>
+                <p className="text-sm font-bold text-white group-hover:text-[#f6e088] transition-colors truncate">10 Advogados</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-slate-400 font-medium">Corpo Jurídico</p>
-              <p className="text-sm font-bold text-white">10 Advogados</p>
-            </div>
-          </div>
+            <ChevronRight className="w-4 h-4 text-[#c5a059]/60 group-hover:text-[#f6e088] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+          </button>
 
-          <div className="bg-[#0b192c]/80 border border-[#c5a059]/30 hover:border-[#c5a059] rounded-xl p-4 flex items-center gap-3.5 shadow-lg hover:shadow-[0_0_20px_rgba(197,160,89,0.25)] hover:-translate-y-0.5 transition-all group">
-            <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
-              <Award className="w-5 h-5" />
+          {/* Unit 3: Foco Exclusivo (Direito Trabalhista) -> Vai para Áreas de Atuação */}
+          <button
+            type="button"
+            onClick={() => scrollToSection('areas')}
+            id="badge-link-areas"
+            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            title="Clique para ver as Especialidades em Direito Trabalhista"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+                <Award className="w-5 h-5" />
+              </div>
+              <div className="truncate">
+                <p className="text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">Foco Exclusivo</p>
+                <p className="text-sm font-bold text-white group-hover:text-[#f6e088] transition-colors truncate">Direito Trabalhista</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-slate-400 font-medium">Foco Exclusivo</p>
-              <p className="text-sm font-bold text-white">Direito Trabalhista</p>
-            </div>
-          </div>
+            <ChevronRight className="w-4 h-4 text-[#c5a059]/60 group-hover:text-[#f6e088] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+          </button>
 
-          <div className="bg-[#0b192c]/80 border border-[#c5a059]/30 hover:border-[#c5a059] rounded-xl p-4 flex items-center gap-3.5 shadow-lg hover:shadow-[0_0_20px_rgba(197,160,89,0.25)] hover:-translate-y-0.5 transition-all group">
-            <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
-              <FileText className="w-5 h-5" />
+          {/* Unit 4: Portal Online (Linha do Tempo 24h) -> Abre Portal do Cliente / Linha do Tempo */}
+          <button
+            type="button"
+            onClick={handleProcessTracking}
+            id="badge-link-portal"
+            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            title="Clique para acessar a Linha do Tempo do seu Processo 24h"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+                <FileText className="w-5 h-5" />
+              </div>
+              <div className="truncate">
+                <p className="text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">Portal Online</p>
+                <p className="text-sm font-bold text-white group-hover:text-[#f6e088] transition-colors truncate">Linha do Tempo 24h</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-slate-400 font-medium">Portal Online</p>
-              <p className="text-sm font-bold text-white">Linha do Tempo 24h</p>
-            </div>
-          </div>
+            <ChevronRight className="w-4 h-4 text-[#c5a059]/60 group-hover:text-[#f6e088] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+          </button>
+
         </div>
 
       </div>
+
+      {/* LGPD & Privacy Modal */}
+      <PrivacyModal
+        isOpen={isPrivacyModalOpen}
+        type="privacy"
+        onClose={() => setIsPrivacyModalOpen(false)}
+      />
     </section>
   );
 };
