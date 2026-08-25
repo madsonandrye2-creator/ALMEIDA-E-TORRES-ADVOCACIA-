@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   User as UserIcon, 
   Briefcase, 
@@ -21,11 +21,18 @@ import {
   X,
   Building,
   Save,
-  AlertCircle
+  AlertCircle,
+  Camera,
+  Upload,
+  Trash2,
+  Sparkles,
+  Image as ImageIcon
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ProcessTimeline } from './ProcessTimeline';
 import { LegalProcess } from '../types';
+import { UserAvatar } from './UserAvatar';
+import { optimizeImageFile } from '../utils/imageOptimizer';
 
 export const ClientArea: React.FC = () => {
   const { 
@@ -60,6 +67,7 @@ export const ClientArea: React.FC = () => {
     cpf: currentUser.cpf || '',
     phone: currentUser.phone || '',
     email: currentUser.email || '',
+    avatar: currentUser.avatar || '',
     address: currentUser.address || '',
     city: currentUser.city || '',
     state: currentUser.state || '',
@@ -69,6 +77,8 @@ export const ClientArea: React.FC = () => {
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [profileSaveSuccess, setProfileSaveSuccess] = useState(false);
   const [profileSaveError, setProfileSaveError] = useState('');
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const avatarFileInputRef = useRef<HTMLInputElement>(null);
 
   // Helper formatters
   const formatCPF = (val: string) => {
@@ -93,6 +103,7 @@ export const ClientArea: React.FC = () => {
       cpf: currentUser.cpf || '',
       phone: currentUser.phone || '',
       email: currentUser.email || '',
+      avatar: currentUser.avatar || '',
       address: currentUser.address || '',
       city: currentUser.city || '',
       state: currentUser.state || '',
@@ -102,6 +113,27 @@ export const ClientArea: React.FC = () => {
     setProfileSaveSuccess(false);
     setProfileSaveError('');
     setIsEditProfileOpen(true);
+  };
+
+  const handleAvatarFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingPhoto(true);
+    try {
+      const optimized = await optimizeImageFile(file, {
+        maxWidth: 500,
+        maxHeight: 500,
+        quality: 0.88,
+        format: 'image/webp'
+      });
+      setProfileForm(prev => ({ ...prev, avatar: optimized }));
+    } catch (err) {
+      console.error('Error optimizing avatar:', err);
+      setProfileSaveError('Não foi possível carregar esta foto. Tente outra imagem.');
+    } finally {
+      setIsUploadingPhoto(false);
+    }
   };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
@@ -120,6 +152,7 @@ export const ClientArea: React.FC = () => {
         cpf: profileForm.cpf.trim(),
         phone: profileForm.phone.trim(),
         email: profileForm.email.trim(),
+        avatar: profileForm.avatar.trim(),
         address: profileForm.address.trim(),
         city: profileForm.city.trim(),
         state: profileForm.state.trim(),
@@ -166,18 +199,14 @@ export const ClientArea: React.FC = () => {
       <div className="bg-[#07111e] text-white border-b border-[#c5a059]/30 pt-10 pb-16 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-[#0b192c] border-2 border-[#c5a059] flex items-center justify-center text-[#f6e088] shadow-lg flex-shrink-0">
-              {currentUser.avatar ? (
-                <img
-                  src={currentUser.avatar}
-                  alt={currentUser.name}
-                  className="w-full h-full rounded-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-              ) : (
-                <UserIcon className="w-8 h-8" />
-              )}
-            </div>
+            <UserAvatar
+              name={currentUser.name}
+              src={currentUser.avatar}
+              size="xl"
+              editable
+              onEditClick={handleOpenEditProfile}
+              ringGlow
+            />
 
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs text-[#f6e088] font-bold uppercase tracking-wider mb-1">
@@ -551,7 +580,89 @@ export const ClientArea: React.FC = () => {
               </div>
             )}
 
-            <form onSubmit={handleSaveProfile} className="space-y-4">
+            <form onSubmit={handleSaveProfile} className="space-y-5">
+              
+              {/* Photo & Initial Monogram Section */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                <label className="block text-xs font-bold text-slate-800 uppercase mb-2 flex items-center justify-between">
+                  <span>Foto de Perfil / Identidade Visual</span>
+                  <span className="text-[11px] font-normal text-slate-500 lowercase">
+                    {profileForm.avatar ? 'Foto personalizada' : 'Letra inicial ativa'}
+                  </span>
+                </label>
+
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  {/* Real-time Avatar Preview */}
+                  <div className="flex flex-col items-center">
+                    <UserAvatar
+                      name={profileForm.name || 'Cliente'}
+                      src={profileForm.avatar}
+                      size="xl"
+                      ringGlow
+                    />
+                    <span className="text-[10px] text-slate-400 mt-1 font-semibold">
+                      {profileForm.avatar ? 'Foto ativa' : 'Letra Dourada'}
+                    </span>
+                  </div>
+
+                  {/* Photo Actions */}
+                  <div className="flex-1 w-full space-y-2">
+                    <div className="flex flex-wrap gap-2">
+                      {/* Hidden File Input */}
+                      <input
+                        type="file"
+                        ref={avatarFileInputRef}
+                        onChange={handleAvatarFileUpload}
+                        accept="image/*"
+                        className="hidden"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => avatarFileInputRef.current?.click()}
+                        disabled={isUploadingPhoto}
+                        className="flex-1 min-w-[140px] bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors shadow-sm disabled:opacity-50"
+                      >
+                        {isUploadingPhoto ? (
+                          <span>Otimizando...</span>
+                        ) : (
+                          <>
+                            <Upload className="w-3.5 h-3.5 text-[#f6e088]" />
+                            <span>Enviar Foto</span>
+                          </>
+                        )}
+                      </button>
+
+                      {profileForm.avatar && (
+                        <button
+                          type="button"
+                          onClick={() => setProfileForm(prev => ({ ...prev, avatar: '' }))}
+                          className="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors"
+                          title="Remover foto e exibir a letra inicial estilizada"
+                        >
+                          <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                          <span>Remover Foto (Usar Letra)</span>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* URL Input */}
+                    <div className="relative">
+                      <input
+                        type="url"
+                        value={profileForm.avatar}
+                        onChange={(e) => setProfileForm(prev => ({ ...prev, avatar: e.target.value }))}
+                        placeholder="Ou cole o link de uma imagem (URL)..."
+                        className="w-full bg-white border border-slate-300 rounded-lg py-1.5 px-3 text-[11px] text-slate-700 focus:border-[#c5a059] focus:outline-none"
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-500">
+                      💡 Se você não colocar uma foto, exibiremos automaticamente a primeira letra do seu nome em monograma dourado.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
                   Nome Completo *

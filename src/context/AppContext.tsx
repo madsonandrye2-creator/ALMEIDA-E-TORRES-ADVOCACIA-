@@ -799,7 +799,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           cpf: fallbackData.cpf?.trim() || existingClient?.cpf || '',
           role: 'client',
           phone: fallbackData.phone?.trim() || existingClient?.phone || '',
-          avatar: existingClient?.avatar || `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+          avatar: existingClient?.avatar || '',
         };
 
         const fullClientRecord = {
@@ -864,7 +864,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         cpf: existingClient?.cpf || '',
         role: 'client', // GUARANTEED CLIENT
         phone: existingClient?.phone || fbUser.phoneNumber || '',
-        avatar: fbUser.photoURL || existingClient?.avatar || `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+        avatar: fbUser.photoURL || existingClient?.avatar || '',
       };
 
       const fullClientRecord = {
@@ -967,7 +967,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         cpf: cleanCpf,
         role: 'client', // STRICTLY CLIENT ONLY
         phone: data.phone?.trim() || '',
-        avatar: `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+        avatar: '',
       };
 
       const fullClientRecord = {
@@ -1232,7 +1232,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ...clientData,
       id: `cli-${Date.now()}`,
       role: 'client',
-      avatar: clientData.avatar || `https://images.unsplash.com/photo-${1535713875002 + Math.floor(Math.random() * 50)}?auto=format&fit=crop&q=80&w=200`,
+      avatar: clientData.avatar || '',
     };
     setClients(prev => [newClient, ...prev]);
     syncClient(newClient);

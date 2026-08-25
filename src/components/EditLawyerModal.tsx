@@ -18,6 +18,7 @@ import {
 import { useApp } from '../context/AppContext';
 import { Lawyer } from '../types';
 import { optimizeImageFile } from '../utils/imageOptimizer';
+import { UserAvatar } from './UserAvatar';
 
 interface EditLawyerModalProps {
   isOpen: boolean;
@@ -233,14 +234,11 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
           {/* Avatar Preview & URL */}
           <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center gap-5">
             <div className="relative group flex-shrink-0">
-              <img
+              <UserAvatar
+                name={formData.name || 'Advogado'}
                 src={formData.avatarUrl}
-                alt={formData.name || 'Advogado'}
-                className="w-24 h-24 rounded-xl object-cover border-2 border-[#c5a059] shadow-md bg-slate-200"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLElement).setAttribute('src', PRESET_AVATARS[0].url);
-                }}
+                size="2xl"
+                ringGlow
               />
             </div>
 
@@ -267,7 +265,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                 className="w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-mono"
               />
 
-              <div className="flex items-center gap-2 pt-1">
+              <div className="flex flex-wrap items-center gap-2 pt-1">
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -284,6 +282,17 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                   <Upload className="w-3.5 h-3.5 text-[#c5a059]" />
                   <span>{uploadLoading ? 'Otimizando Foto...' : 'Enviar Foto do Computador'}</span>
                 </button>
+
+                {formData.avatarUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, avatarUrl: '' })}
+                    className="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                    <span>Usar Letra Inicial</span>
+                  </button>
+                )}
               </div>
 
               {showAvatarPresets && (

@@ -33,6 +33,7 @@ import { LegalProcess, Lawyer, PracticeArea, ProcessStatus, User, OfficeSettings
 import { BrandLogo } from './BrandLogo';
 import { LogoEditorSection } from './LogoEditorSection';
 import { AlertsManagerSection } from './AlertsManagerSection';
+import { UserAvatar } from './UserAvatar';
 
 export const AdminPanel: React.FC = () => {
   const { 
@@ -848,7 +849,7 @@ export const AdminPanel: React.FC = () => {
               {clients.map((client) => (
                 <div key={client.id} className="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col justify-between hover:border-[#c5a059] transition-all">
                   <div>
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center justify-between mb-3">
                       <span className="text-xs font-mono font-bold text-[#b38e42]">
                         {client.cpf || 'Sem CPF'}
                       </span>
@@ -857,9 +858,17 @@ export const AdminPanel: React.FC = () => {
                       </span>
                     </div>
 
-                    <h4 className="font-serif-title text-base font-bold text-[#0b192c] mb-2">
-                      {client.name}
-                    </h4>
+                    <div className="flex items-center gap-3 mb-3">
+                      <UserAvatar
+                        name={client.name}
+                        src={client.avatar}
+                        size="md"
+                        className="flex-shrink-0"
+                      />
+                      <h4 className="font-serif-title text-base font-bold text-[#0b192c]">
+                        {client.name}
+                      </h4>
+                    </div>
 
                     <div className="space-y-1 text-xs text-slate-600 mb-4">
                       <div className="flex items-center gap-1.5">
@@ -942,11 +951,12 @@ export const AdminPanel: React.FC = () => {
                 <div key={lawyer.id} className="bg-slate-50 rounded-xl p-5 border border-slate-200 flex flex-col justify-between hover:border-[#c5a059] transition-all">
                   <div>
                     <div className="flex items-center gap-3 mb-3">
-                      <img
+                      <UserAvatar
+                        name={lawyer.name}
                         src={lawyer.avatarUrl}
-                        alt={lawyer.name}
-                        className="w-14 h-14 rounded-full object-cover border-2 border-[#c5a059]"
-                        referrerPolicy="no-referrer"
+                        size="lg"
+                        ringGlow
+                        className="flex-shrink-0"
                       />
                       <div>
                         <h4 className="font-bold text-sm text-[#0b192c]">{lawyer.name}</h4>

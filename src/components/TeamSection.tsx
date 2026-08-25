@@ -4,6 +4,37 @@ import { useApp } from '../context/AppContext';
 import { Lawyer } from '../types';
 import { EditLawyerModal } from './EditLawyerModal';
 import { AdminSectionEditButton } from './AdminSectionEditButton';
+import { UserAvatar } from './UserAvatar';
+
+const LawyerCardImage: React.FC<{ lawyer: Lawyer }> = ({ lawyer }) => {
+  const [imageFailed, setImageFailed] = useState(false);
+  const hasPhoto = Boolean(lawyer.avatarUrl && lawyer.avatarUrl.trim().length > 5 && !imageFailed);
+
+  return (
+    <div className="relative h-56 w-full overflow-hidden bg-[#07111e] flex items-center justify-center">
+      {hasPhoto ? (
+        <img
+          src={lawyer.avatarUrl}
+          alt=""
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          referrerPolicy="no-referrer"
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        <div className="w-full h-full bg-gradient-to-br from-[#07111e] via-[#0b192c] to-[#162a45] flex flex-col items-center justify-center p-4">
+          <UserAvatar name={lawyer.name} size="3xl" ringGlow />
+        </div>
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#07111e]/90 via-transparent to-transparent pointer-events-none" />
+      
+      <div className="absolute bottom-3 left-3 right-3 z-10">
+        <span className="text-[11px] font-semibold text-[#f6e088] bg-[#07111e]/80 px-2 py-0.5 rounded backdrop-blur-sm border border-[#c5a059]/40">
+          {lawyer.roleTitle}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 export const TeamSection: React.FC = () => {
   const { 
@@ -114,24 +145,7 @@ export const TeamSection: React.FC = () => {
 
               <div>
                 {/* Photo & Role Badge */}
-                <div className="relative h-56 w-full overflow-hidden bg-slate-200">
-                  <img
-                    src={lawyer.avatarUrl}
-                    alt={lawyer.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      (e.target as HTMLElement).setAttribute('src', 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400');
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#07111e]/90 via-transparent to-transparent" />
-                  
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <span className="text-[11px] font-semibold text-[#f6e088] bg-[#07111e]/80 px-2 py-0.5 rounded backdrop-blur-sm border border-[#c5a059]/40">
-                      {lawyer.roleTitle}
-                    </span>
-                  </div>
-                </div>
+                <LawyerCardImage lawyer={lawyer} />
 
                 {/* Info Content */}
                 <div className="p-5">
@@ -215,11 +229,12 @@ export const TeamSection: React.FC = () => {
             </button>
 
             <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start mb-6">
-              <img
+              <UserAvatar
+                name={selectedLawyerForDetail.name}
                 src={selectedLawyerForDetail.avatarUrl}
-                alt={selectedLawyerForDetail.name}
-                className="w-24 h-24 rounded-full object-cover border-2 border-[#c5a059] shadow-md flex-shrink-0"
-                referrerPolicy="no-referrer"
+                size="2xl"
+                ringGlow
+                className="flex-shrink-0"
               />
               <div className="text-center sm:text-left">
                 <span className="text-xs uppercase font-bold text-[#c5a059] tracking-wider">
