@@ -122,9 +122,9 @@ export const Header: React.FC = () => {
       </div>
 
       {/* Main navigation header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between">
-        {/* Brand Logo - Highlighted & Prominent */}
-        <div className="flex items-center gap-3 relative py-0.5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between">
+        {/* Brand Logo */}
+        <div className="flex items-center gap-2 relative py-0.5 flex-shrink-0">
           <BrandLogo 
             settings={officeSettings} 
             variant="header" 
@@ -143,63 +143,65 @@ export const Header: React.FC = () => {
           )}
         </div>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center space-x-7 text-sm font-semibold">
-          <button
-            onClick={() => scrollToSection('hero')}
-            className={`transition-colors hover:text-[#f6e088] ${activeView === 'home' ? 'text-[#f6e088]' : 'text-slate-200'}`}
-          >
-            Início
-          </button>
-          <button
-            onClick={() => scrollToSection('sobre')}
-            className="text-slate-200 hover:text-[#f6e088] transition-colors"
-          >
-            O Escritório
-          </button>
-          <button
-            onClick={() => scrollToSection('areas')}
-            className="text-slate-200 hover:text-[#f6e088] transition-colors"
-          >
-            Áreas de Atuação
-          </button>
-          <button
-            onClick={() => scrollToSection('equipe')}
-            className="text-slate-200 hover:text-[#f6e088] transition-colors"
-          >
-            Nossa Equipe
-          </button>
-          <button
-            onClick={() => {
-              if (currentUser && currentUser.role === 'client') {
-                setActiveView('client-area');
-              } else {
-                openAuthModal('client');
-              }
-            }}
-            className="text-[#f6e088] hover:text-white transition-colors flex items-center gap-1.5 font-bold bg-[#0b192c] border border-[#c5a059]/40 px-3 py-1.5 rounded-lg shadow-sm"
-          >
-            <Briefcase className="w-3.5 h-3.5 text-[#c5a059]" />
-            Acompanhe seu Processo
-          </button>
-          <button
-            onClick={() => scrollToSection('contato')}
-            className="text-slate-200 hover:text-[#f6e088] transition-colors"
-          >
-            Contato
-          </button>
-        </nav>
+        {/* Desktop Nav Links & Action Button grouped harmoniously */}
+        <div className="hidden lg:flex items-center gap-6">
+          <nav className="flex items-center gap-5 text-sm font-semibold">
+            <button
+              onClick={() => scrollToSection('hero')}
+              className={`whitespace-nowrap transition-colors hover:text-[#f6e088] cursor-pointer ${activeView === 'home' ? 'text-[#f6e088]' : 'text-slate-200'}`}
+            >
+              Início
+            </button>
+            <button
+              onClick={() => scrollToSection('sobre')}
+              className="whitespace-nowrap text-slate-200 hover:text-[#f6e088] transition-colors cursor-pointer"
+            >
+              O Escritório
+            </button>
+            <button
+              onClick={() => scrollToSection('areas')}
+              className="whitespace-nowrap text-slate-200 hover:text-[#f6e088] transition-colors cursor-pointer"
+            >
+              Áreas de Atuação
+            </button>
+            <button
+              onClick={() => scrollToSection('equipe')}
+              className="whitespace-nowrap text-slate-200 hover:text-[#f6e088] transition-colors cursor-pointer"
+            >
+              Nossa Equipe
+            </button>
+            <button
+              onClick={() => {
+                if (currentUser && currentUser.role === 'client') {
+                  setActiveView('client-area');
+                } else {
+                  openAuthModal('client');
+                }
+              }}
+              className="whitespace-nowrap text-[#f6e088] hover:text-white transition-colors inline-flex items-center gap-1.5 font-bold bg-[#0b192c] border border-[#c5a059]/40 px-2.5 py-1 rounded-lg shadow-sm text-xs cursor-pointer"
+            >
+              <Briefcase className="w-3.5 h-3.5 text-[#c5a059] flex-shrink-0" />
+              <span>Acompanhe seu Processo</span>
+            </button>
+            <button
+              onClick={() => scrollToSection('contato')}
+              className="whitespace-nowrap text-slate-200 hover:text-[#f6e088] transition-colors cursor-pointer"
+            >
+              Contato
+            </button>
+          </nav>
 
-        {/* Action Button - Vibrant Glowing Gold */}
-        <div className="hidden sm:flex items-center space-x-3">
-          <button
-            onClick={handleWhatsAppClick}
-            className="bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#c5a059] hover:brightness-110 text-[#07111e] font-black text-xs uppercase tracking-wider px-5 py-2.5 rounded-lg shadow-[0_0_20px_rgba(197,160,89,0.4)] hover:shadow-[0_0_30px_rgba(246,224,136,0.6)] transition-all flex items-center space-x-1.5 cursor-pointer transform hover:scale-105 active:scale-95"
-            id="btn-header-fale-conosco"
-          >
-            <MessageCircle className="w-4 h-4 fill-[#07111e]/30" />
-            <span>Fale Conosco</span>
-          </button>
+          {/* Action Button - Vibrant Glowing Gold */}
+          <div className="flex items-center flex-shrink-0 pl-2">
+            <button
+              onClick={handleWhatsAppClick}
+              className="whitespace-nowrap bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#c5a059] hover:brightness-110 text-[#07111e] font-black text-xs uppercase tracking-wider px-4.5 py-2.5 rounded-lg shadow-[0_0_20px_rgba(197,160,89,0.4)] hover:shadow-[0_0_30px_rgba(246,224,136,0.6)] transition-all flex items-center gap-2 cursor-pointer transform hover:scale-105 active:scale-95 flex-shrink-0"
+              id="btn-header-fale-conosco"
+            >
+              <MessageCircle className="w-4 h-4 fill-[#07111e]/30 flex-shrink-0" />
+              <span className="whitespace-nowrap font-black">Fale Conosco</span>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Hamburger Toggle */}

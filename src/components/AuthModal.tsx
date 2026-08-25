@@ -151,27 +151,6 @@ export const AuthModal: React.FC = () => {
     }
   };
 
-  // One-click quick login for detected account
-  const handleQuickAccountClick = async (email: string, name: string) => {
-    setErrorMsg('');
-    setLoading(true);
-    try {
-      const res = await loginWithGoogle({
-        email,
-        name,
-      });
-      if (res.success) {
-        setSuccessMsg(`Bem-vindo, ${name}! Entrando no portal...`);
-      } else {
-        setErrorMsg(res.message || 'Erro ao conectar conta.');
-      }
-    } catch (err) {
-      setErrorMsg('Erro ao conectar conta.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Sign In submit
   const handleSignInSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -405,51 +384,12 @@ export const AuthModal: React.FC = () => {
           </div>
         )}
 
-        {/* GOOGLE DIRECT ACCESS CARD (1-Click Google Sign-In Picker) */}
+        {/* GOOGLE DIRECT ACCESS CARD */}
         {authMode === 'google-direct' && (
           <div className="space-y-4">
-            
-            {/* Detected Account Quick Tap */}
-            <div className="bg-gradient-to-br from-amber-50 to-slate-50 border border-[#c5a059]/40 rounded-xl p-3.5 shadow-sm">
-              <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-2">
-                Conta Google Detectada (1 Clique):
-              </span>
-              <button
-                type="button"
-                disabled={loading}
-                onClick={() => handleQuickAccountClick('madsonandrye2@gmail.com', 'Madson Andrye')}
-                className="w-full bg-white hover:bg-amber-50/50 border border-slate-200 hover:border-[#c5a059] p-3 rounded-xl flex items-center justify-between transition-all cursor-pointer group shadow-sm"
-              >
-                <div className="flex items-center gap-3 text-left">
-                  <div className="w-10 h-10 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-sm border-2 border-[#c5a059]">
-                    MA
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-bold text-slate-900 group-hover:text-[#b38e42] transition-colors">
-                      Madson Andrye
-                    </h5>
-                    <p className="text-[11px] text-slate-500 font-mono">
-                      madsonandrye2@gmail.com
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-[#0b192c] text-white text-[11px] font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 group-hover:bg-[#c5a059] group-hover:text-[#07111e] transition-colors">
-                  <span>Conectar</span>
-                  <ArrowRight className="w-3 h-3" />
-                </div>
-              </button>
-            </div>
-
-            <div className="relative my-3">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-slate-400 font-semibold text-[10px]">
-                  ou digite outro e-mail Google
-                </span>
-              </div>
-            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Informe o seu e-mail do Google (Gmail) para conectar ou criar seu cadastro de cliente com segurança e agilidade:
+            </p>
 
             <form onSubmit={handleGoogleDirectSubmit} className="space-y-3">
               <div>
