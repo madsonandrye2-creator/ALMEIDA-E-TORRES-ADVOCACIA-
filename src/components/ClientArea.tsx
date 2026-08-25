@@ -15,7 +15,13 @@ import {
   ChevronRight,
   ExternalLink,
   HelpCircle,
-  FolderOpen
+  FolderOpen,
+  Edit3,
+  CheckCircle2,
+  X,
+  Building,
+  Save,
+  AlertCircle
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ProcessTimeline } from './ProcessTimeline';
@@ -28,7 +34,8 @@ export const ClientArea: React.FC = () => {
     processes, 
     officeSettings, 
     setActiveView,
-    lawyers
+    lawyers,
+    updateClient
   } = useApp();
 
   // If somehow not logged in as client
@@ -45,6 +52,92 @@ export const ClientArea: React.FC = () => {
       </div>
     );
   }
+
+  // Profile Edit State
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    name: currentUser.name || '',
+    cpf: currentUser.cpf || '',
+    phone: currentUser.phone || '',
+    email: currentUser.email || '',
+    address: currentUser.address || '',
+    city: currentUser.city || '',
+    state: currentUser.state || '',
+    profession: currentUser.profession || '',
+    companyName: currentUser.companyName || '',
+  });
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+  const [profileSaveSuccess, setProfileSaveSuccess] = useState(false);
+  const [profileSaveError, setProfileSaveError] = useState('');
+
+  // Helper formatters
+  const formatCPF = (val: string) => {
+    const digits = val.replace(/\D/g, '').slice(0, 11);
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+    if (digits.length <= 9) return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9, 11)}`;
+  };
+
+  const formatPhone = (val: string) => {
+    const digits = val.replace(/\D/g, '').slice(0, 11);
+    if (digits.length <= 2) return digits;
+    if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+    if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7, 11)}`;
+  };
+
+  const handleOpenEditProfile = () => {
+    setProfileForm({
+      name: currentUser.name || '',
+      cpf: currentUser.cpf || '',
+      phone: currentUser.phone || '',
+      email: currentUser.email || '',
+      address: currentUser.address || '',
+      city: currentUser.city || '',
+      state: currentUser.state || '',
+      profession: currentUser.profession || '',
+      companyName: currentUser.companyName || '',
+    });
+    setProfileSaveSuccess(false);
+    setProfileSaveError('');
+    setIsEditProfileOpen(true);
+  };
+
+  const handleSaveProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!profileForm.name.trim()) {
+      setProfileSaveError('Por favor, informe seu nome completo.');
+      return;
+    }
+
+    setIsSavingProfile(true);
+    setProfileSaveError('');
+
+    try {
+      updateClient(currentUser.id, {
+        name: profileForm.name.trim(),
+        cpf: profileForm.cpf.trim(),
+        phone: profileForm.phone.trim(),
+        email: profileForm.email.trim(),
+        address: profileForm.address.trim(),
+        city: profileForm.city.trim(),
+        state: profileForm.state.trim(),
+        profession: profileForm.profession.trim(),
+        companyName: profileForm.companyName.trim(),
+      });
+
+      setProfileSaveSuccess(true);
+      setTimeout(() => {
+        setIsEditProfileOpen(false);
+        setProfileSaveSuccess(false);
+      }, 1200);
+    } catch (err: any) {
+      setProfileSaveError('Erro ao salvar os dados. Tente novamente.');
+    } finally {
+      setIsSavingProfile(false);
+    }
+  };
 
   // Filter processes belonging strictly to this client (by ID or CPF)
   const clientProcesses = processes.filter(
@@ -63,6 +156,8 @@ export const ClientArea: React.FC = () => {
     );
     window.open(`https://wa.me/${officeSettings.whatsapp}?text=${text}`, '_blank');
   };
+
+  const isProfileIncomplete = !currentUser.cpf || !currentUser.phone;
 
   return (
     <div className="min-h-screen bg-slate-100/70 pb-20">
@@ -93,7 +188,7 @@ export const ClientArea: React.FC = () => {
                 Olá, {currentUser.name}
               </h1>
               <p className="text-xs sm:text-sm text-slate-300">
-                Seja bem-vindo(a) à sua área exclusiva de acompanhamento processual.
+                Seja bem-vindo(a) à sua área exclusiva de acompanhamento processual e cadastro.
               </p>
             </div>
           </div>
@@ -127,10 +222,40 @@ export const ClientArea: React.FC = () => {
             
             {/* Personal Data Card */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
-              <h3 className="font-serif-title text-base font-bold text-[#0b192c] mb-4 pb-3 border-b border-slate-100 flex items-center gap-2">
-                <UserIcon className="w-4 h-4 text-[#c5a059]" />
-                Seus Dados Cadastrais
-              </h3>
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                <h3 className="font-serif-title text-base font-bold text-[#0b192c] flex items-center gap-2">
+                  <UserIcon className="w-4 h-4 text-[#c5a059]" />
+                  Seus Dados Cadastrais
+                </h3>
+
+                <button
+                  onClick={handleOpenEditProfile}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#b38e42] bg-amber-50 hover:bg-amber-100/80 border border-[#c5a059]/40 px-2.5 py-1 rounded-lg transition-colors"
+                  title="Editar ou atualizar seus dados cadastrais"
+                >
+                  <Edit3 className="w-3.5 h-3.5 text-[#c5a059]" />
+                  <span>Editar Dados</span>
+                </button>
+              </div>
+
+              {/* Incomplete profile callout */}
+              {isProfileIncomplete && (
+                <div className="mb-4 bg-amber-50/90 border border-amber-300 rounded-xl p-3 flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-[#b38e42] flex-shrink-0 mt-0.5" />
+                  <div className="text-xs">
+                    <p className="font-bold text-amber-950">Cadastro Incompleto</p>
+                    <p className="text-amber-900/80 text-[11px] mb-2">
+                      Cadastre seu CPF e WhatsApp para vincularmos seus processos automaticamente.
+                    </p>
+                    <button
+                      onClick={handleOpenEditProfile}
+                      className="bg-[#c5a059] hover:bg-[#b38e42] text-[#07111e] font-extrabold text-[11px] px-3 py-1 rounded-md transition-colors"
+                    >
+                      Cadastrar Dados Agora
+                    </button>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-3 text-xs">
                 <div>
@@ -140,7 +265,9 @@ export const ClientArea: React.FC = () => {
 
                 <div>
                   <span className="text-slate-400 block uppercase text-[10px] font-bold">CPF</span>
-                  <span className="font-semibold text-slate-800">{currentUser.cpf || 'Não informado'}</span>
+                  <span className={`font-semibold ${currentUser.cpf ? 'text-slate-800 font-mono' : 'text-amber-700 italic'}`}>
+                    {currentUser.cpf || 'Não informado (clique em Editar)'}
+                  </span>
                 </div>
 
                 <div>
@@ -150,13 +277,37 @@ export const ClientArea: React.FC = () => {
 
                 <div>
                   <span className="text-slate-400 block uppercase text-[10px] font-bold">Telefone / WhatsApp</span>
-                  <span className="font-semibold text-slate-800">{currentUser.phone || '(11) 98765-4321'}</span>
+                  <span className={`font-semibold ${currentUser.phone ? 'text-slate-800' : 'text-amber-700 italic'}`}>
+                    {currentUser.phone || 'Não informado (clique em Editar)'}
+                  </span>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100">
-                  <span className="text-[11px] text-slate-400 block">
-                    * Para atualizar seus dados pessoais ou endereço, solicite à nossa recepção via WhatsApp.
+                {currentUser.profession && (
+                  <div>
+                    <span className="text-slate-400 block uppercase text-[10px] font-bold">Profissão / Cargo</span>
+                    <span className="font-semibold text-slate-800">{currentUser.profession}</span>
+                  </div>
+                )}
+
+                {(currentUser.address || currentUser.city) && (
+                  <div>
+                    <span className="text-slate-400 block uppercase text-[10px] font-bold">Endereço</span>
+                    <span className="font-semibold text-slate-800">
+                      {[currentUser.address, currentUser.city, currentUser.state].filter(Boolean).join(', ')}
+                    </span>
+                  </div>
+                )}
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[11px] text-slate-500">
+                    Mantenha seus dados atualizados
                   </span>
+                  <button
+                    onClick={handleOpenEditProfile}
+                    className="text-[#b38e42] hover:underline font-bold text-xs"
+                  >
+                    Alterar Cadastro →
+                  </button>
                 </div>
               </div>
             </div>
@@ -258,7 +409,7 @@ export const ClientArea: React.FC = () => {
 
                     <div className="text-right">
                       <span className="text-[10px] text-slate-400 block uppercase font-bold">Nº do Processo</span>
-                      <span className="text-sm sm:text-base font-mono font-bold text-[#0b192c] bg-slate-100 px-3 py-1 rounded-md border border-slate-200">
+                      <span className="text-sm sm:base font-mono font-bold text-[#0b192c] bg-slate-100 px-3 py-1 rounded-md border border-slate-200">
                         {activeProcess.processNumber}
                       </span>
                     </div>
@@ -361,6 +512,211 @@ export const ClientArea: React.FC = () => {
 
       </div>
 
+      {/* MODAL: Editar / Cadastrar Dados do Usuário */}
+      {isEditProfileOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#c5a059]/40 relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setIsEditProfileOpen(false)}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+              <div className="w-10 h-10 rounded-xl bg-amber-50 border border-[#c5a059]/30 flex items-center justify-center text-[#c5a059]">
+                <Edit3 className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                  Atualizar Dados Cadastrais
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Preencha seus dados para mantermos seu prontuário e processo atualizados
+                </p>
+              </div>
+            </div>
+
+            {profileSaveSuccess && (
+              <div className="mb-4 bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-2 text-green-800 text-xs font-semibold">
+                <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
+                <span>Dados cadastrais atualizados com sucesso!</span>
+              </div>
+            )}
+
+            {profileSaveError && (
+              <div className="mb-4 bg-red-50 border border-red-200 rounded-xl p-3 flex items-center gap-2 text-red-800 text-xs">
+                <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                <span>{profileSaveError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSaveProfile} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Nome Completo *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={profileForm.name}
+                  onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                  placeholder="Seu nome completo"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    CPF (Cadastro de Pessoa Física)
+                  </label>
+                  <input
+                    type="text"
+                    value={profileForm.cpf}
+                    onChange={(e) => setProfileForm({ ...profileForm, cpf: formatCPF(e.target.value) })}
+                    placeholder="000.000.000-00"
+                    maxLength={14}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-mono font-semibold text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                  />
+                  <span className="text-[10px] text-slate-400 mt-0.5 block">
+                    Usado para vincular seus processos trabalhistas
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Telefone / WhatsApp *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={profileForm.phone}
+                    onChange={(e) => setProfileForm({ ...profileForm, phone: formatPhone(e.target.value) })}
+                    placeholder="(11) 98765-4321"
+                    maxLength={15}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                  />
+                  <span className="text-[10px] text-slate-400 mt-0.5 block">
+                    Para avisos de audiências e intimações
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  E-mail de Acesso
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={profileForm.email}
+                  onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
+                  placeholder="seuemail@gmail.com"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Profissão / Cargo Atual
+                  </label>
+                  <input
+                    type="text"
+                    value={profileForm.profession}
+                    onChange={(e) => setProfileForm({ ...profileForm, profession: e.target.value })}
+                    placeholder="Ex: Motorista, Operador, Analista..."
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Empresa Reclamada / Ex-Empregador
+                  </label>
+                  <input
+                    type="text"
+                    value={profileForm.companyName}
+                    onChange={(e) => setProfileForm({ ...profileForm, companyName: e.target.value })}
+                    placeholder="Nome da empresa do processo"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Endereço Residencial Completo
+                </label>
+                <input
+                  type="text"
+                  value={profileForm.address}
+                  onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
+                  placeholder="Rua, número, complemento, bairro"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Cidade
+                  </label>
+                  <input
+                    type="text"
+                    value={profileForm.city}
+                    onChange={(e) => setProfileForm({ ...profileForm, city: e.target.value })}
+                    placeholder="Ex: São Paulo"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Estado (UF)
+                  </label>
+                  <input
+                    type="text"
+                    value={profileForm.state}
+                    onChange={(e) => setProfileForm({ ...profileForm, state: e.target.value.toUpperCase() })}
+                    placeholder="Ex: SP"
+                    maxLength={2}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:bg-white focus:border-[#c5a059] focus:outline-none uppercase"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setIsEditProfileOpen(false)}
+                  disabled={isSavingProfile}
+                  className="px-4 py-2.5 border border-slate-300 hover:bg-slate-50 rounded-xl text-xs font-semibold text-slate-700 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingProfile}
+                  className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2"
+                >
+                  {isSavingProfile ? (
+                    <span>Salvando...</span>
+                  ) : (
+                    <>
+                      <Save className="w-3.5 h-3.5 text-[#c5a059]" />
+                      <span>Salvar Dados Cadastrais</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
+

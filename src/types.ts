@@ -8,6 +8,13 @@ export interface User {
   role: UserRole;
   phone?: string;
   avatar?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  profession?: string;
+  companyName?: string;
+  notes?: string;
+  createdAt?: string;
 }
 
 export type ProcessStatus = 
