@@ -133,18 +133,18 @@ export const WorkerRightsActionHub: React.FC = () => {
       
       {/* Decorative ambient elements */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-[#7e1735]/15 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         
         {/* Section Header: Focused on Worker Pain-Points */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 bg-[#0b192c] text-[#f6e088] text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider mb-3.5 shadow-md border border-[#c5a059]">
+          <div className="inline-flex items-center gap-2 bg-[#240710] text-[#f6e088] text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider mb-3.5 shadow-md border border-[#c5a059]">
             <Sparkles className="w-3.5 h-3.5 text-[#c5a059]" />
             <span>Orientação Imediata ao Trabalhador</span>
           </div>
 
-          <h2 className="font-serif-title text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0b192c] leading-tight mb-4">
+          <h2 className="font-serif-title text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#240710] leading-tight mb-4">
             Identifique sua Situação e Saiba Seus Direitos
           </h2>
           
@@ -170,7 +170,7 @@ export const WorkerRightsActionHub: React.FC = () => {
               >
                 {/* Top Badge */}
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0b192c] to-[#162a45] text-[#f6e088] border border-[#c5a059]/60 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#240710] to-[#3d0f1e] text-[#f6e088] border border-[#c5a059]/60 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
                     <Icon className="w-6 h-6" />
                   </div>
 
@@ -181,7 +181,7 @@ export const WorkerRightsActionHub: React.FC = () => {
 
                 {/* Content */}
                 <div className="space-y-2 mb-5">
-                  <h3 className="font-serif-title text-xl font-bold text-[#0b192c] group-hover:text-amber-900 transition-colors">
+                  <h3 className="font-serif-title text-xl font-bold text-[#240710] group-hover:text-amber-900 transition-colors">
                     {card.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -206,7 +206,7 @@ export const WorkerRightsActionHub: React.FC = () => {
         </div>
 
         {/* 4 Guarantees for the Consumer / Worker */}
-        <div className="bg-gradient-to-br from-[#07111e] via-[#0b192c] to-[#162a45] rounded-3xl p-8 sm:p-10 text-white border border-[#c5a059]/50 shadow-2xl relative overflow-hidden mb-16">
+        <div className="bg-gradient-to-br from-[#180309] via-[#240710] to-[#3d0f1e] rounded-3xl p-8 sm:p-10 text-white border border-[#c5a059]/50 shadow-2xl relative overflow-hidden mb-16">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#c5a059]/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="text-center max-w-2xl mx-auto mb-8 relative z-10">
@@ -268,7 +268,7 @@ export const WorkerRightsActionHub: React.FC = () => {
               <Star className="w-3.5 h-3.5 fill-[#c5a059] text-[#c5a059]" />
               <span>Avaliações Verificadas (4.9/5 estrelas)</span>
             </div>
-            <h3 className="font-serif-title text-2xl sm:text-3xl font-bold text-[#0b192c]">
+            <h3 className="font-serif-title text-2xl sm:text-3xl font-bold text-[#240710]">
               O que dizem os trabalhadores que atendemos
             </h3>
           </div>
@@ -289,7 +289,7 @@ export const WorkerRightsActionHub: React.FC = () => {
 
                 <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <h5 className="font-bold text-xs text-[#0b192c]">{t.name}</h5>
+                    <h5 className="font-bold text-xs text-[#240710]">{t.name}</h5>
                     <p className="text-[11px] text-slate-500">{t.role} • {t.city}</p>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">

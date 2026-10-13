@@ -25,7 +25,7 @@ export const AdminSectionEditButton: React.FC<AdminSectionEditButtonProps> = ({
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={`inline-flex items-center gap-1.5 bg-[#0b192c] hover:bg-[#162a45] text-[#f6e088] hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg border border-[#c5a059] shadow-md transition-all z-20 cursor-pointer ${className}`}
+        className={`inline-flex items-center gap-1.5 bg-[#240710] hover:bg-[#3d0f1e] text-[#f6e088] hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg border border-[#c5a059] shadow-md transition-all z-20 cursor-pointer ${className}`}
         title={`Alterar informações de ${label} (Admin)`}
       >
         <Edit3 className="w-3.5 h-3.5 text-[#c5a059]" />

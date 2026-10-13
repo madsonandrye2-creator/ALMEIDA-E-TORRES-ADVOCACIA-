@@ -36,7 +36,7 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ process }) => 
     <div className="space-y-8">
       {/* 1. Horizontal / Stepper Visual Pipeline */}
       <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-8">
-        <h4 className="font-serif-title text-base font-bold text-[#0b192c] mb-6 flex items-center justify-between">
+        <h4 className="font-serif-title text-base font-bold text-[#240710] mb-6 flex items-center justify-between">
           <span className="flex items-center gap-2">
             <Scale className="w-5 h-5 text-[#c5a059]" />
             Etapas do Procedimento Trabalhista
@@ -71,7 +71,7 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ process }) => 
                   {/* Step Bubble */}
                   <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs mb-2 shadow-sm ${
                     isCurrent
-                      ? 'bg-[#c5a059] text-[#07111e] ring-4 ring-amber-200 animate-pulse'
+                      ? 'bg-[#c5a059] text-[#180309] ring-4 ring-amber-200 animate-pulse'
                       : isCompleted
                       ? 'bg-green-600 text-white'
                       : 'bg-slate-200 text-slate-500'
@@ -86,7 +86,7 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ process }) => 
                   </div>
 
                   <span className={`text-xs font-bold leading-tight ${
-                    isCurrent ? 'text-[#0b192c]' : isCompleted ? 'text-green-800' : 'text-slate-500'
+                    isCurrent ? 'text-[#240710]' : isCompleted ? 'text-green-800' : 'text-slate-500'
                   }`}>
                     {stage.shortLabel}
                   </span>
@@ -105,7 +105,7 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ process }) => 
       <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
         <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
           <div>
-            <h4 className="font-serif-title text-lg font-bold text-[#0b192c]">
+            <h4 className="font-serif-title text-lg font-bold text-[#240710]">
               Histórico Detalhado &amp; Pareceres do Advogado
             </h4>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -137,7 +137,7 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ process }) => 
 
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#0b192c] text-[#f6e088]">
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#240710] text-[#f6e088]">
                       {event.date}
                     </span>
                     {isLatest && (
@@ -153,7 +153,7 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ process }) => 
                   </span>
                 </div>
 
-                <h5 className="font-serif-title text-base font-bold text-[#0b192c] mb-1.5">
+                <h5 className="font-serif-title text-base font-bold text-[#240710] mb-1.5">
                   {event.title}
                 </h5>
 
@@ -163,7 +163,7 @@ export const ProcessTimeline: React.FC<ProcessTimelineProps> = ({ process }) => 
 
                 {event.notes && (
                   <div className="bg-white border-l-4 border-[#c5a059] p-3 rounded-r-lg shadow-sm text-xs text-slate-700 mt-2">
-                    <span className="font-bold text-[#0b192c] block mb-0.5">
+                    <span className="font-bold text-[#240710] block mb-0.5">
                       Observação / Orientação Jurídica:
                     </span>
                     {event.notes}

@@ -52,12 +52,12 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#07111e]/95 backdrop-blur-md border-b border-[#c5a059]/40 text-white transition-all shadow-xl">
+    <header className="sticky top-0 z-50 bg-[#180309]/95 backdrop-blur-md border-b border-[#c5a059]/40 text-white transition-all shadow-xl">
       {/* Radiant Gold Shimmer Top Bar Line */}
       <div className="h-[2.5px] w-full bg-gradient-to-r from-[#b38e42] via-[#f6e088] to-[#b38e42] shadow-[0_0_15px_rgba(246,224,136,0.7)]" />
 
       {/* Top micro-bar */}
-      <div className="bg-[#091524] border-b border-white/5 py-1.5 px-4 sm:px-8 text-xs text-slate-300">
+      <div className="bg-[#1c050b] border-b border-white/5 py-1.5 px-4 sm:px-8 text-xs text-slate-300">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center space-x-4">
             {/* Live Online Badge */}
@@ -101,7 +101,7 @@ export const Header: React.FC = () => {
                 </span>
                 <button
                   onClick={() => setActiveView(currentUser.role === 'admin' ? 'admin-panel' : 'client-area')}
-                  className="text-xs bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] px-2.5 py-1 rounded font-black border border-[#f6e088] transition-all shadow"
+                  className="text-xs bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] px-2.5 py-1 rounded font-black border border-[#f6e088] transition-all shadow"
                 >
                   {currentUser.role === 'admin' ? 'Painel Admin' : 'Meu Painel'}
                 </button>
@@ -141,7 +141,7 @@ export const Header: React.FC = () => {
           {currentUser?.role === 'admin' && (
             <button
               onClick={() => setIsLogoModalOpen(true)}
-              className="bg-[#0b192c] hover:bg-[#162a45] text-[#f6e088] hover:text-white border border-[#c5a059] px-2 py-1 rounded-lg text-[10px] font-bold transition-all shadow-md flex items-center gap-1 cursor-pointer ml-1"
+              className="bg-[#240710] hover:bg-[#3d0f1e] text-[#f6e088] hover:text-white border border-[#c5a059] px-2 py-1 rounded-lg text-[10px] font-bold transition-all shadow-md flex items-center gap-1 cursor-pointer ml-1"
               title="Trocar Logomarca da Empresa (Admin)"
             >
               <Edit3 className="w-3 h-3 text-[#c5a059]" />
@@ -185,7 +185,7 @@ export const Header: React.FC = () => {
                   openAuthModal('client');
                 }
               }}
-              className="whitespace-nowrap text-[#f6e088] hover:text-white transition-colors inline-flex items-center gap-1.5 font-bold bg-[#0b192c] border border-[#c5a059]/40 px-2.5 py-1 rounded-lg shadow-sm text-xs cursor-pointer"
+              className="whitespace-nowrap text-[#f6e088] hover:text-white transition-colors inline-flex items-center gap-1.5 font-bold bg-[#240710] border border-[#c5a059]/40 px-2.5 py-1 rounded-lg shadow-sm text-xs cursor-pointer"
             >
               <Briefcase className="w-3.5 h-3.5 text-[#c5a059] flex-shrink-0" />
               <span>Acompanhe seu Processo</span>
@@ -202,10 +202,10 @@ export const Header: React.FC = () => {
           <div className="flex items-center flex-shrink-0 pl-1 xl:pl-2">
             <button
               onClick={handleWhatsAppClick}
-              className="whitespace-nowrap bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#c5a059] hover:brightness-110 text-[#07111e] font-black text-xs uppercase tracking-wider px-3.5 xl:px-4.5 py-2.5 rounded-lg shadow-[0_0_20px_rgba(197,160,89,0.4)] hover:shadow-[0_0_30px_rgba(246,224,136,0.6)] transition-all flex items-center gap-2 cursor-pointer transform hover:scale-105 active:scale-95 flex-shrink-0"
+              className="whitespace-nowrap bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#c5a059] hover:brightness-110 text-[#180309] font-black text-xs uppercase tracking-wider px-3.5 xl:px-4.5 py-2.5 rounded-lg shadow-[0_0_20px_rgba(197,160,89,0.4)] hover:shadow-[0_0_30px_rgba(246,224,136,0.6)] transition-all flex items-center gap-2 cursor-pointer transform hover:scale-105 active:scale-95 flex-shrink-0"
               id="btn-header-fale-conosco"
             >
-              <MessageCircle className="w-4 h-4 fill-[#07111e]/30 flex-shrink-0" />
+              <MessageCircle className="w-4 h-4 fill-[#180309]/30 flex-shrink-0" />
               <span className="whitespace-nowrap font-black">Fale Conosco</span>
             </button>
           </div>
@@ -223,7 +223,7 @@ export const Header: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#07111e] border-b border-[#c5a059]/30 px-6 py-5 space-y-4 animate-in slide-in-from-top duration-200">
+        <div className="lg:hidden bg-[#180309] border-b border-[#c5a059]/30 px-6 py-5 space-y-4 animate-in slide-in-from-top duration-200">
           <div className="flex flex-col space-y-3 text-base">
             <button
               onClick={() => scrollToSection('hero')}
@@ -277,7 +277,7 @@ export const Header: React.FC = () => {
                 setMobileMenuOpen(false);
                 handleWhatsAppClick();
               }}
-              className="w-full bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold py-3 rounded-md flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+              className="w-full bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-bold py-3 rounded-md flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
             >
               <MessageCircle className="w-5 h-5" />
               Fale Conosco no WhatsApp
@@ -305,7 +305,7 @@ export const Header: React.FC = () => {
                       setMobileMenuOpen(false);
                       setActiveView(currentUser.role === 'admin' ? 'admin-panel' : 'client-area');
                     }}
-                    className="flex-1 bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-black py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 shadow"
+                    className="flex-1 bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-black py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 shadow"
                   >
                     <LayoutDashboard className="w-4 h-4" />
                     Abrir Meu Painel
@@ -327,7 +327,7 @@ export const Header: React.FC = () => {
                   setMobileMenuOpen(false);
                   openAuthModal('client');
                 }}
-                className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white border border-[#c5a059]/40 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-md"
+                className="w-full bg-[#240710] hover:bg-[#3d0f1e] text-white border border-[#c5a059]/40 py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 shadow-md"
               >
                 <LogIn className="w-4 h-4 text-[#c5a059]" />
                 <span>Portal do Cliente (Entrar / Criar Conta)</span>

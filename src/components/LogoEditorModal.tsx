@@ -49,7 +49,7 @@ export const LogoEditorModal: React.FC<LogoEditorModalProps> = ({
       <div className="bg-white rounded-2xl max-w-3xl w-full border-2 border-[#c5a059] shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col relative z-[100000]">
         
         {/* Header */}
-        <div className="bg-[#0b192c] text-white px-6 py-4 flex items-center justify-between border-b border-[#c5a059]/40 flex-shrink-0">
+        <div className="bg-[#180309] text-white px-6 py-4 flex items-center justify-between border-b border-[#c5a059]/40 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-[#c5a059]/20 border border-[#c5a059] flex items-center justify-center text-[#f6e088]">
               <Palette className="w-5 h-5" />
@@ -59,7 +59,7 @@ export const LogoEditorModal: React.FC<LogoEditorModalProps> = ({
                 <h3 className="font-serif-title font-bold text-base text-white">
                   Trocar Logomarca da Empresa
                 </h3>
-                <span className="text-[10px] bg-[#c5a059] text-[#07111e] px-2 py-0.5 rounded font-black tracking-wider uppercase">
+                <span className="text-[10px] bg-[#c5a059] text-[#180309] px-2 py-0.5 rounded font-black tracking-wider uppercase">
                   ADMIN
                 </span>
               </div>
@@ -102,7 +102,7 @@ export const LogoEditorModal: React.FC<LogoEditorModalProps> = ({
 
             <button
               type="submit"
-              className="bg-[#0b192c] hover:bg-[#162a45] text-white border-2 border-[#c5a059] px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all cursor-pointer"
+              className="bg-[#240710] hover:bg-[#3d0f1e] text-white border-2 border-[#c5a059] px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all cursor-pointer"
             >
               {savedSuccess ? (
                 <>

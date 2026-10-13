@@ -192,7 +192,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
       <div className="bg-white rounded-2xl max-w-2xl w-full border-2 border-[#c5a059] shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col relative z-[100001]">
         
         {/* Modal Header */}
-        <div className="bg-[#0b192c] text-white px-6 py-4 flex items-center justify-between border-b border-[#c5a059]/40 flex-shrink-0">
+        <div className="bg-[#180309] text-white px-6 py-4 flex items-center justify-between border-b border-[#c5a059]/40 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-[#c5a059]/20 border border-[#c5a059] flex items-center justify-center text-[#f6e088]">
               <Scale className="w-5 h-5" />
@@ -202,7 +202,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                 <h3 className="font-serif-title font-bold text-base sm:text-lg text-white">
                   {isCreatingNew ? 'Adicionar Novo Advogado à Equipe' : `Editar Informações de ${formData.name || 'Advogado'}`}
                 </h3>
-                <span className="text-[10px] bg-[#c5a059] text-[#07111e] px-2 py-0.5 rounded font-black tracking-wider uppercase">
+                <span className="text-[10px] bg-[#c5a059] text-[#180309] px-2 py-0.5 rounded font-black tracking-wider uppercase">
                   ADMIN
                 </span>
               </div>
@@ -250,7 +250,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowAvatarPresets(!showAvatarPresets)}
-                  className="text-xs text-[#b38e42] hover:text-[#0b192c] font-bold flex items-center gap-1 underline"
+                  className="text-xs text-[#b38e42] hover:text-[#240710] font-bold flex items-center gap-1 underline"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>{showAvatarPresets ? 'Ocultar fotos sugeridas' : 'Escolher foto sugerida'}</span>
@@ -277,7 +277,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploadLoading}
-                  className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Upload className="w-3.5 h-3.5 text-[#c5a059]" />
                   <span>{uploadLoading ? 'Otimizando Foto...' : 'Enviar Foto do Computador'}</span>
@@ -339,7 +339,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                 value={formData.name || ''}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Ex: Dr. Roberto de Almeida"
-                className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#0b192c]"
+                className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#240710]"
               />
             </div>
 
@@ -442,7 +442,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
             <div className="flex items-center gap-2.5">
               <Award className="w-4 h-4 text-[#b38e42]" />
               <div>
-                <span className="text-xs font-bold text-[#0b192c] block">
+                <span className="text-xs font-bold text-[#240710] block">
                   Destaque Principal no Site
                 </span>
                 <span className="text-[11px] text-slate-600">
@@ -458,7 +458,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
                 onChange={(e) => setFormData({ ...formData, highlighted: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0b192c]"></div>
+              <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#240710]"></div>
             </label>
           </div>
 
@@ -510,7 +510,7 @@ export const EditLawyerModal: React.FC<EditLawyerModalProps> = ({
 
               <button
                 type="submit"
-                className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold px-6 py-2.5 rounded-lg flex items-center gap-2 shadow-lg transition-colors"
+                className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold px-6 py-2.5 rounded-lg flex items-center gap-2 shadow-lg transition-colors"
               >
                 <Save className="w-4 h-4 text-[#c5a059]" />
                 <span>{isCreatingNew ? 'Cadastrar Advogado' : 'Salvar Alterações'}</span>

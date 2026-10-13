@@ -177,7 +177,7 @@ export const AdminPanel: React.FC = () => {
         <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
           <ShieldCheck className="w-8 h-8" />
         </div>
-        <h2 className="font-serif-title text-2xl font-bold text-[#0b192c] mb-2">
+        <h2 className="font-serif-title text-2xl font-bold text-[#240710] mb-2">
           Acesso Restrito ao Administrador
         </h2>
         <p className="text-slate-600 text-sm mb-6">
@@ -185,7 +185,7 @@ export const AdminPanel: React.FC = () => {
         </p>
         <button
           onClick={() => setActiveView('home')}
-          className="bg-[#0b192c] hover:bg-[#162a45] text-white px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-wider"
+          className="bg-[#240710] hover:bg-[#3d0f1e] text-white px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-wider"
         >
           Voltar para a Página Inicial
         </button>
@@ -413,14 +413,14 @@ export const AdminPanel: React.FC = () => {
     <div className="min-h-screen bg-slate-100 text-slate-800 pb-24">
       {/* Toast feedback */}
       {successToast && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#0b192c] text-white border-2 border-[#c5a059] px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 animate-fade-in">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#180309] text-white border-2 border-[#c5a059] px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 animate-fade-in">
           <CheckCircle2 className="w-5 h-5 text-[#c5a059]" />
           <span className="text-xs font-bold">{successToast}</span>
         </div>
       )}
 
       {/* Admin Top Header */}
-      <div className="bg-[#0b192c] text-white border-b border-[#c5a059]/40 sticky top-0 z-30 shadow-md">
+      <div className="bg-[#180309] text-white border-b border-[#c5a059]/40 sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <BrandLogo 
@@ -428,7 +428,7 @@ export const AdminPanel: React.FC = () => {
               variant="admin" 
               onClick={() => setActiveView('home')} 
             />
-            <span className="hidden sm:inline-block text-[10px] bg-[#c5a059] text-[#07111e] px-2 py-0.5 rounded font-black tracking-wider uppercase">
+            <span className="hidden sm:inline-block text-[10px] bg-[#c5a059] text-[#180309] px-2 py-0.5 rounded font-black tracking-wider uppercase">
               PAINEL ADMIN
             </span>
           </div>
@@ -466,7 +466,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('dashboard')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
               activeTab === 'dashboard'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -478,7 +478,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('processes')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
               activeTab === 'processes'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -490,7 +490,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('clients')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
               activeTab === 'clients'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -502,7 +502,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('lawyers')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
               activeTab === 'lawyers'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -514,7 +514,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('areas')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
               activeTab === 'areas'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -526,7 +526,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('requests')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 relative ${
               activeTab === 'requests'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -541,7 +541,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('alerts')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 relative ${
               activeTab === 'alerts'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -558,7 +558,7 @@ export const AdminPanel: React.FC = () => {
             onClick={() => setActiveTab('settings')}
             className={`px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
               activeTab === 'settings'
-                ? 'bg-[#0b192c] text-white shadow'
+                ? 'bg-[#240710] text-white shadow'
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -576,7 +576,7 @@ export const AdminPanel: React.FC = () => {
                   <span className="text-xs uppercase font-bold text-slate-400 block mb-1">
                     Clientes Cadastrados
                   </span>
-                  <div className="font-serif-title text-3xl font-extrabold text-[#0b192c]">
+                  <div className="font-serif-title text-3xl font-extrabold text-[#240710]">
                     {totalClients}
                   </div>
                   <span className="text-[11px] text-slate-500 mt-1 block">Acesso com CPF / E-mail</span>
@@ -636,13 +636,13 @@ export const AdminPanel: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-8 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm">
                 <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
-                  <h3 className="font-serif-title text-lg font-bold text-[#0b192c] flex items-center gap-2">
+                  <h3 className="font-serif-title text-lg font-bold text-[#240710] flex items-center gap-2">
                     <Briefcase className="w-5 h-5 text-[#c5a059]" />
                     Últimos Processos Atualizados
                   </h3>
                   <button
                     onClick={() => setIsNewProcessModalOpen(true)}
-                    className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1"
+                    className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5 text-[#c5a059]" />
                     <span>Novo Processo</span>
@@ -657,7 +657,7 @@ export const AdminPanel: React.FC = () => {
                     >
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-mono font-bold text-[#0b192c]">
+                          <span className="text-xs font-mono font-bold text-[#240710]">
                             {proc.processNumber}
                           </span>
                           <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
@@ -679,7 +679,7 @@ export const AdminPanel: React.FC = () => {
                             });
                             setIsAdvanceStatusModalOpen(true);
                           }}
-                          className="bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
+                          className="bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
                         >
                           Atualizar Andamento
                         </button>
@@ -692,7 +692,7 @@ export const AdminPanel: React.FC = () => {
               <div className="lg:col-span-4 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-                    <h3 className="font-serif-title text-base font-bold text-[#0b192c] flex items-center gap-2">
+                    <h3 className="font-serif-title text-base font-bold text-[#240710] flex items-center gap-2">
                       <MessageSquare className="w-4 h-4 text-[#c5a059]" />
                       Novas Mensagens do Site
                     </h3>
@@ -702,7 +702,7 @@ export const AdminPanel: React.FC = () => {
                     {contactRequests.slice(0, 3).map((req) => (
                       <div key={req.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-bold text-[#0b192c]">{req.name}</span>
+                          <span className="font-bold text-[#240710]">{req.name}</span>
                           <span className="text-[10px] text-slate-400">{req.createdAt.split(' ')[0]}</span>
                         </div>
                         <p className="text-slate-600 line-clamp-2 mb-2">{req.description}</p>
@@ -735,7 +735,7 @@ export const AdminPanel: React.FC = () => {
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-serif-title text-lg font-bold text-[#0b192c] flex items-center gap-2">
+                    <h3 className="font-serif-title text-lg font-bold text-[#240710] flex items-center gap-2">
                       <span>Cadastros Automáticos de Clientes</span>
                       <span className="inline-flex items-center gap-1 text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded-full">
                         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -757,7 +757,7 @@ export const AdminPanel: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setIsNewClientModalOpen(true)}
-                    className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1"
+                    className="bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5 text-[#c5a059]" />
                     <span>Cadastrar Manualmente</span>
@@ -791,7 +791,7 @@ export const AdminPanel: React.FC = () => {
                             className="flex-shrink-0"
                           />
                           <div className="min-w-0">
-                            <h4 className="font-serif-title text-sm font-bold text-[#0b192c] truncate">
+                            <h4 className="font-serif-title text-sm font-bold text-[#240710] truncate">
                               {client.name}
                             </h4>
                             <p className="text-[11px] text-slate-500 truncate">{client.email}</p>
@@ -814,7 +814,7 @@ export const AdminPanel: React.FC = () => {
                       <div className="pt-2.5 border-t border-slate-200/80 flex items-center gap-1.5">
                         <button
                           onClick={() => handleOpenNewProcessForClient(client)}
-                          className="flex-1 bg-[#0b192c] hover:bg-[#162a45] text-white text-[11px] font-bold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 transition-colors"
+                          className="flex-1 bg-[#240710] hover:bg-[#3d0f1e] text-white text-[11px] font-bold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 transition-colors"
                           title="Vincular Novo Processo a este Cliente"
                         >
                           <Briefcase className="w-3 h-3 text-[#c5a059]" />
@@ -855,7 +855,7 @@ export const AdminPanel: React.FC = () => {
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
               <div>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   Gestão de Processos Trabalhistas
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -865,7 +865,7 @@ export const AdminPanel: React.FC = () => {
 
               <button
                 onClick={() => setIsNewProcessModalOpen(true)}
-                className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
+                className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
               >
                 <Plus className="w-4 h-4 text-[#c5a059]" />
                 <span>Cadastrar Novo Processo</span>
@@ -898,7 +898,7 @@ export const AdminPanel: React.FC = () => {
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-mono font-bold text-sm text-[#0b192c]">
+                          <span className="font-mono font-bold text-sm text-[#240710]">
                             {proc.processNumber}
                           </span>
                           <span className="text-xs bg-amber-100 text-amber-900 font-bold px-2.5 py-0.5 rounded-full uppercase">
@@ -909,7 +909,7 @@ export const AdminPanel: React.FC = () => {
                           </span>
                         </div>
 
-                        <h4 className="font-serif-title font-bold text-base text-[#0b192c]">
+                        <h4 className="font-serif-title font-bold text-base text-[#240710]">
                           {proc.title}
                         </h4>
 
@@ -932,7 +932,7 @@ export const AdminPanel: React.FC = () => {
                             });
                             setIsAdvanceStatusModalOpen(true);
                           }}
-                          className="bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-extrabold text-xs px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-sm transition-colors"
+                          className="bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-extrabold text-xs px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-sm transition-colors"
                         >
                           <Clock className="w-3.5 h-3.5" />
                           <span>Avançar Status</span>
@@ -981,7 +981,7 @@ export const AdminPanel: React.FC = () => {
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
               <div>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   Gestão de Clientes &amp; Logins
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -991,7 +991,7 @@ export const AdminPanel: React.FC = () => {
 
               <button
                 onClick={() => setIsNewClientModalOpen(true)}
-                className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
+                className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
               >
                 <Plus className="w-4 h-4 text-[#c5a059]" />
                 <span>Novo Cliente</span>
@@ -1018,7 +1018,7 @@ export const AdminPanel: React.FC = () => {
                         size="md"
                         className="flex-shrink-0"
                       />
-                      <h4 className="font-serif-title text-base font-bold text-[#0b192c]">
+                      <h4 className="font-serif-title text-base font-bold text-[#240710]">
                         {client.name}
                       </h4>
                     </div>
@@ -1051,7 +1051,7 @@ export const AdminPanel: React.FC = () => {
                           setSelectedClient(client);
                           setIsEditClientModalOpen(true);
                         }}
-                        className="text-slate-600 hover:text-[#0b192c] p-1 text-xs font-semibold flex items-center gap-1"
+                        className="text-slate-600 hover:text-[#240710] p-1 text-xs font-semibold flex items-center gap-1"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                         <span>Editar</span>
@@ -1082,7 +1082,7 @@ export const AdminPanel: React.FC = () => {
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
               <div>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   Corpo Jurídico &amp; Advogados ({lawyers.length})
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -1092,7 +1092,7 @@ export const AdminPanel: React.FC = () => {
 
               <button
                 onClick={() => setIsNewLawyerModalOpen(true)}
-                className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
+                className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
               >
                 <Plus className="w-4 h-4 text-[#c5a059]" />
                 <span>Adicionar Advogado</span>
@@ -1112,7 +1112,7 @@ export const AdminPanel: React.FC = () => {
                         className="flex-shrink-0"
                       />
                       <div>
-                        <h4 className="font-bold text-sm text-[#0b192c]">{lawyer.name}</h4>
+                        <h4 className="font-bold text-sm text-[#240710]">{lawyer.name}</h4>
                         <span className="text-xs text-slate-500 font-mono">{lawyer.oab}</span>
                         <p className="text-[11px] font-semibold text-[#b38e42]">{lawyer.roleTitle}</p>
                       </div>
@@ -1128,7 +1128,7 @@ export const AdminPanel: React.FC = () => {
                         setSelectedLawyer(lawyer);
                         setIsEditLawyerModalOpen(true);
                       }}
-                      className="text-slate-700 hover:text-[#0b192c] font-bold flex items-center gap-1"
+                      className="text-slate-700 hover:text-[#240710] font-bold flex items-center gap-1"
                     >
                       <Edit3 className="w-3.5 h-3.5 text-[#c5a059]" />
                       <span>Editar Advogado</span>
@@ -1158,7 +1158,7 @@ export const AdminPanel: React.FC = () => {
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
               <div>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   Áreas de Atuação Trabalhista ({practiceAreas.length})
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -1168,7 +1168,7 @@ export const AdminPanel: React.FC = () => {
 
               <button
                 onClick={() => setIsNewAreaModalOpen(true)}
-                className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
+                className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-sm"
               >
                 <Plus className="w-4 h-4 text-[#c5a059]" />
                 <span>Nova Área de Atuação</span>
@@ -1183,7 +1183,7 @@ export const AdminPanel: React.FC = () => {
                       <div className="w-8 h-8 rounded-lg bg-[#c5a059]/20 border border-[#c5a059] flex items-center justify-center text-[#b38e42]">
                         <Scale className="w-4 h-4" />
                       </div>
-                      <h4 className="font-serif-title font-bold text-sm text-[#0b192c]">
+                      <h4 className="font-serif-title font-bold text-sm text-[#240710]">
                         {area.title}
                       </h4>
                     </div>
@@ -1210,7 +1210,7 @@ export const AdminPanel: React.FC = () => {
                         setSelectedArea(area);
                         setIsEditAreaModalOpen(true);
                       }}
-                      className="text-slate-700 hover:text-[#0b192c] font-bold flex items-center gap-1"
+                      className="text-slate-700 hover:text-[#240710] font-bold flex items-center gap-1"
                     >
                       <Edit3 className="w-3.5 h-3.5 text-[#c5a059]" />
                       <span>Editar Área</span>
@@ -1240,7 +1240,7 @@ export const AdminPanel: React.FC = () => {
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
               <div>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   Solicitações de Atendimento do Site ({contactRequests.length})
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -1257,7 +1257,7 @@ export const AdminPanel: React.FC = () => {
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-serif-title font-bold text-[#0b192c] text-sm sm:text-base">
+                      <span className="font-serif-title font-bold text-[#240710] text-sm sm:text-base">
                         {req.name}
                       </span>
                       <span className="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded">
@@ -1280,7 +1280,7 @@ export const AdminPanel: React.FC = () => {
                   </div>
 
                   <div className="text-xs text-slate-700 bg-white p-3.5 rounded-lg border border-slate-200">
-                    <p className="font-bold text-[#0b192c] mb-1">{req.subject}</p>
+                    <p className="font-bold text-[#240710] mb-1">{req.subject}</p>
                     <p className="leading-relaxed">{req.description}</p>
                   </div>
 
@@ -1325,7 +1325,7 @@ export const AdminPanel: React.FC = () => {
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-8">
             <div className="pb-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   Configurações Institucionais e Dados do Site
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -1336,7 +1336,7 @@ export const AdminPanel: React.FC = () => {
               <button
                 type="button"
                 onClick={handleSaveSettings}
-                className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-lg flex items-center gap-2 shadow-md transition-all self-start sm:self-auto"
+                className="bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-lg flex items-center gap-2 shadow-md transition-all self-start sm:self-auto"
               >
                 <Save className="w-4 h-4 text-[#c5a059]" />
                 <span>Salvar Informações</span>
@@ -1348,7 +1348,7 @@ export const AdminPanel: React.FC = () => {
               {/* SECTION 0: Logomarca da Empresa / Identidade Visual */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200">
-                  <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+                  <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
                     <Palette className="w-4 h-4 text-[#c5a059]" />
                     Logomarca da Empresa &amp; Identidade Visual
                   </h4>
@@ -1370,7 +1370,7 @@ export const AdminPanel: React.FC = () => {
 
               {/* SECTION A: Banner Principal / Hero */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
-                <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+                <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-[#c5a059]" />
                   Banner Principal do Site (Página Inicial / Hero)
                 </h4>
@@ -1397,7 +1397,7 @@ export const AdminPanel: React.FC = () => {
                     value={settingsForm.heroTitle || ''}
                     onChange={(e) => setSettingsForm({ ...settingsForm, heroTitle: e.target.value })}
                     placeholder="Ex: Experiência, compromisso e segurança na defesa dos seus direitos."
-                    className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-bold text-[#0b192c]"
+                    className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-bold text-[#240710]"
                   />
                 </div>
 
@@ -1417,7 +1417,7 @@ export const AdminPanel: React.FC = () => {
 
               {/* SECTION B: Números e Estatísticas */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
-                <h4 className="font-serif-title text-sm font-bold text-[#0b192c] mb-4 flex items-center gap-2">
+                <h4 className="font-serif-title text-sm font-bold text-[#240710] mb-4 flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#c5a059]" />
                   Números em Destaque no Site (Estatísticas Institucionais)
                 </h4>
@@ -1429,7 +1429,7 @@ export const AdminPanel: React.FC = () => {
                       type="text"
                       value={settingsForm.statsLawyersCount}
                       onChange={(e) => setSettingsForm({ ...settingsForm, statsLawyersCount: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#0b192c]"
+                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#240710]"
                     />
                   </div>
 
@@ -1439,7 +1439,7 @@ export const AdminPanel: React.FC = () => {
                       type="text"
                       value={settingsForm.statsYearsExperience}
                       onChange={(e) => setSettingsForm({ ...settingsForm, statsYearsExperience: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#0b192c]"
+                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#240710]"
                     />
                   </div>
 
@@ -1449,7 +1449,7 @@ export const AdminPanel: React.FC = () => {
                       type="text"
                       value={settingsForm.statsClientsServed}
                       onChange={(e) => setSettingsForm({ ...settingsForm, statsClientsServed: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#0b192c]"
+                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#240710]"
                     />
                   </div>
 
@@ -1459,7 +1459,7 @@ export const AdminPanel: React.FC = () => {
                       type="text"
                       value={settingsForm.statsCasesHandled}
                       onChange={(e) => setSettingsForm({ ...settingsForm, statsCasesHandled: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#0b192c]"
+                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#240710]"
                     />
                   </div>
 
@@ -1469,7 +1469,7 @@ export const AdminPanel: React.FC = () => {
                       type="text"
                       value={settingsForm.statsSatisfactionRate}
                       onChange={(e) => setSettingsForm({ ...settingsForm, statsSatisfactionRate: e.target.value })}
-                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#0b192c]"
+                      className="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-[#240710]"
                     />
                   </div>
                 </div>
@@ -1478,7 +1478,7 @@ export const AdminPanel: React.FC = () => {
               {/* SECTION B: Telefones, WhatsApp e Atendimento */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200">
-                  <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+                  <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
                     <Phone className="w-4 h-4 text-[#c5a059]" />
                     Telefones, WhatsApp &amp; Comunicação
                   </h4>
@@ -1525,7 +1525,7 @@ export const AdminPanel: React.FC = () => {
                       value={settingsForm.whatsappFormatted}
                       onChange={(e) => setSettingsForm({ ...settingsForm, whatsappFormatted: e.target.value })}
                       placeholder="Ex: (11) 99999-8888"
-                      className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-semibold text-[#0b192c]"
+                      className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-semibold text-[#240710]"
                     />
                     <span className="text-[11px] text-slate-500 mt-1 block">
                       Formato amigável exibido nos botões e no topo.
@@ -1546,7 +1546,7 @@ export const AdminPanel: React.FC = () => {
                       />
                       <a
                         href={`tel:${(settingsForm.phone || '').replace(/\D/g, '')}`}
-                        className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
+                        className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
                         title="Testar discagem"
                       >
                         <Phone className="w-3.5 h-3.5 text-[#c5a059]" />
@@ -1575,7 +1575,7 @@ export const AdminPanel: React.FC = () => {
 
               {/* SECTION C: E-mails Oficiais & Horário */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
-                <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+                <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
                   <Mail className="w-4 h-4 text-[#c5a059]" />
                   E-mails Institucionais &amp; Expediente
                 </h4>
@@ -1595,7 +1595,7 @@ export const AdminPanel: React.FC = () => {
                       />
                       <a
                         href={`mailto:${settingsForm.email}`}
-                        className="bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
+                        className="bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
                         title="Testar envio de e-mail"
                       >
                         <Mail className="w-3.5 h-3.5 text-[#c5a059]" />
@@ -1635,7 +1635,7 @@ export const AdminPanel: React.FC = () => {
               {/* SECTION D: Localização, Endereço Físico & Google Maps */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200">
-                  <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+                  <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-[#c5a059]" />
                     Localização, Endereço Físico &amp; Rota (Google Maps)
                   </h4>
@@ -1713,7 +1713,7 @@ export const AdminPanel: React.FC = () => {
                         href={settingsForm.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(`${settingsForm.address}, ${settingsForm.cityState}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-[#c5a059] hover:bg-[#b38e42] text-[#07111e] text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
+                        className="bg-[#c5a059] hover:bg-[#b38e42] text-[#180309] text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
                         title="Ver rota no Google Maps"
                       >
                         <MapPin className="w-3.5 h-3.5" />
@@ -1726,7 +1726,7 @@ export const AdminPanel: React.FC = () => {
 
               {/* SECTION E: Identidade e Slogan */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
-                <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+                <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
                   <Scale className="w-4 h-4 text-[#c5a059]" />
                   Identidade do Escritório &amp; Slogan Institucional
                 </h4>
@@ -1756,7 +1756,7 @@ export const AdminPanel: React.FC = () => {
 
               {/* SECTION D: História e Textos Institucionais */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
-                <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+                <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
                   <FileText className="w-4 h-4 text-[#c5a059]" />
                   Textos Institucionais (Página Sobre Nós)
                 </h4>
@@ -1806,7 +1806,7 @@ export const AdminPanel: React.FC = () => {
 
               {/* SECTION E: Redes Sociais */}
               <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
-                <h4 className="font-serif-title text-sm font-bold text-[#0b192c] mb-4 flex items-center gap-2">
+                <h4 className="font-serif-title text-sm font-bold text-[#240710] mb-4 flex items-center gap-2">
                   <Share2 className="w-4 h-4 text-[#c5a059]" />
                   Links de Redes Sociais
                 </h4>
@@ -1863,7 +1863,7 @@ export const AdminPanel: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-lg flex items-center gap-2 shadow-lg"
+                  className="bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-lg flex items-center gap-2 shadow-lg"
                 >
                   <Save className="w-4 h-4 text-[#c5a059]" />
                   <span>Salvar Todas as Alterações</span>
@@ -1889,7 +1889,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Cadastrar Novo Processo Trabalhista
             </h3>
 
@@ -2018,7 +2018,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Salvar Processo
                 </button>
@@ -2039,7 +2039,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-1">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-1">
               Atualizar Andamento do Processo
             </h3>
             <p className="text-xs text-slate-500 mb-4 font-mono font-bold">
@@ -2098,7 +2098,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Confirmar Atualização
                 </button>
@@ -2119,7 +2119,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Editar Dados do Processo
             </h3>
 
@@ -2186,7 +2186,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Salvar Alterações
                 </button>
@@ -2207,7 +2207,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Cadastrar Novo Cliente
             </h3>
 
@@ -2297,7 +2297,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Criar Cadastro
                 </button>
@@ -2318,7 +2318,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Editar Cadastro do Cliente
             </h3>
 
@@ -2398,7 +2398,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Salvar Cliente
                 </button>
@@ -2419,7 +2419,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Adicionar Advogado à Equipe
             </h3>
 
@@ -2505,7 +2505,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Cadastrar Advogado
                 </button>
@@ -2526,7 +2526,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Editar Informações do Advogado
             </h3>
 
@@ -2625,7 +2625,7 @@ export const AdminPanel: React.FC = () => {
                   </button>
                   <button
                     type="submit"
-                    className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs px-6 py-2 rounded-lg shadow cursor-pointer transition-colors"
+                    className="bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs px-6 py-2 rounded-lg shadow cursor-pointer transition-colors"
                   >
                     Salvar Advogado
                   </button>
@@ -2647,7 +2647,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Cadastrar Nova Área de Atuação
             </h3>
 
@@ -2708,7 +2708,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Criar Área
                 </button>
@@ -2729,7 +2729,7 @@ export const AdminPanel: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c] mb-4">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710] mb-4">
               Editar Área de Atuação
             </h3>
 
@@ -2776,7 +2776,7 @@ export const AdminPanel: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#0b192c] text-white font-bold text-xs px-6 py-2 rounded-lg"
+                  className="bg-[#240710] text-white font-bold text-xs px-6 py-2 rounded-lg"
                 >
                   Salvar Área
                 </button>
@@ -2794,7 +2794,7 @@ export const AdminPanel: React.FC = () => {
               <Trash2 className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="font-serif-title font-bold text-lg text-[#0b192c]">
+              <h3 className="font-serif-title font-bold text-lg text-[#240710]">
                 Confirmar Exclusão
               </h3>
               <p className="text-xs text-slate-600 mt-2">

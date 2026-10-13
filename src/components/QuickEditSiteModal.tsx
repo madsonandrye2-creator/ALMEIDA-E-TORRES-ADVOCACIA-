@@ -76,13 +76,13 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
           <div className="w-12 h-12 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto">
             <ShieldAlert className="w-6 h-6" />
           </div>
-          <h3 className="font-serif-title font-bold text-lg text-[#0b192c]">Acesso Restrito ao Administrador</h3>
+          <h3 className="font-serif-title font-bold text-lg text-[#240710]">Acesso Restrito ao Administrador</h3>
           <p className="text-xs text-slate-600">
             Você precisa estar logado com a conta de administrador para alterar as informações do site.
           </p>
           <button
             onClick={onClose}
-            className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-bold py-2.5 rounded-lg"
+            className="w-full bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-bold py-2.5 rounded-lg"
           >
             Entendido / Fechar
           </button>
@@ -114,7 +114,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
         <div className="bg-white rounded-2xl max-w-3xl w-full border-2 border-[#c5a059] shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col relative z-[100000]">
           
           {/* Modal Header */}
-          <div className="bg-[#0b192c] text-white px-6 py-4 flex items-center justify-between border-b border-[#c5a059]/40 flex-shrink-0">
+          <div className="bg-[#180309] text-white px-6 py-4 flex items-center justify-between border-b border-[#c5a059]/40 flex-shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-[#c5a059]/20 border border-[#c5a059] flex items-center justify-center text-[#f6e088]">
                 <Scale className="w-5 h-5" />
@@ -124,7 +124,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                   <h3 className="font-serif-title font-bold text-base text-white">
                     Alterar Informações do Site
                   </h3>
-                  <span className="text-[10px] bg-[#c5a059] text-[#07111e] px-2 py-0.5 rounded font-black tracking-wider uppercase">
+                  <span className="text-[10px] bg-[#c5a059] text-[#180309] px-2 py-0.5 rounded font-black tracking-wider uppercase">
                     ADMIN
                   </span>
                 </div>
@@ -149,7 +149,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
               onClick={() => setActiveTab('contacts')}
               className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'contacts'
-                  ? 'bg-[#0b192c] text-white shadow'
+                  ? 'bg-[#240710] text-white shadow'
                   : 'text-slate-600 hover:bg-white'
               }`}
             >
@@ -162,7 +162,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
               onClick={() => setActiveTab('lawyers')}
               className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'lawyers'
-                  ? 'bg-[#0b192c] text-[#f6e088] shadow border border-[#c5a059]'
+                  ? 'bg-[#240710] text-[#f6e088] shadow border border-[#c5a059]'
                   : 'text-slate-700 bg-amber-50 hover:bg-white'
               }`}
             >
@@ -175,7 +175,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
               onClick={() => setActiveTab('location')}
               className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'location'
-                  ? 'bg-[#0b192c] text-white shadow'
+                  ? 'bg-[#240710] text-white shadow'
                   : 'text-slate-600 hover:bg-white'
               }`}
             >
@@ -188,7 +188,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
               onClick={() => setActiveTab('texts')}
               className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'texts'
-                  ? 'bg-[#0b192c] text-white shadow'
+                  ? 'bg-[#240710] text-white shadow'
                   : 'text-slate-600 hover:bg-white'
               }`}
             >
@@ -201,7 +201,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
               onClick={() => setActiveTab('stats')}
               className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'stats'
-                  ? 'bg-[#0b192c] text-white shadow'
+                  ? 'bg-[#240710] text-white shadow'
                   : 'text-slate-600 hover:bg-white'
               }`}
             >
@@ -214,7 +214,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
               onClick={() => setActiveTab('logo')}
               className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'logo'
-                  ? 'bg-[#0b192c] text-[#f6e088] shadow border border-[#c5a059]'
+                  ? 'bg-[#240710] text-[#f6e088] shadow border border-[#c5a059]'
                   : 'text-slate-700 bg-amber-50 hover:bg-white'
               }`}
             >
@@ -227,7 +227,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
               onClick={() => setActiveTab('general')}
               className={`px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'general'
-                  ? 'bg-[#0b192c] text-white shadow'
+                  ? 'bg-[#240710] text-white shadow'
                   : 'text-slate-600 hover:bg-white'
               }`}
             >
@@ -256,7 +256,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                       setIsCreatingLawyer(true);
                       setIsEditLawyerOpen(true);
                     }}
-                    className="bg-[#0b192c] hover:bg-[#162a45] text-[#f6e088] text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 flex-shrink-0 shadow cursor-pointer"
+                    className="bg-[#240710] hover:bg-[#3d0f1e] text-[#f6e088] text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 flex-shrink-0 shadow cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>+ Adicionar Advogado</span>
@@ -294,7 +294,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                         />
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
-                            <h4 className="font-bold text-xs text-[#0b192c] truncate">
+                            <h4 className="font-bold text-xs text-[#240710] truncate">
                               {lawyer.name}
                             </h4>
                             <span className="text-[10px] font-mono bg-white border border-slate-200 px-1.5 py-0.5 rounded text-slate-600 flex-shrink-0">
@@ -341,7 +341,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                                 setIsCreatingLawyer(false);
                                 setIsEditLawyerOpen(true);
                               }}
-                              className="bg-white hover:bg-amber-50 text-[#0b192c] border border-amber-300 px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm transition-colors cursor-pointer"
+                              className="bg-white hover:bg-amber-50 text-[#240710] border border-amber-300 px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm transition-colors cursor-pointer"
                             >
                               <Edit3 className="w-3.5 h-3.5 text-[#c5a059]" />
                               <span>Editar</span>
@@ -513,7 +513,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                       placeholder="Av. Paulista, 1578 - 14º Andar, Conj. 1402"
-                      className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#0b192c]"
+                      className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#240710]"
                       required
                     />
                   </div>
@@ -589,7 +589,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                           href={formData.googleMapsUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-[#0b192c] hover:bg-[#162a45] text-[#f6e088] text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
+                          className="bg-[#240710] hover:bg-[#3d0f1e] text-[#f6e088] text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-1 flex-shrink-0 transition-colors"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                           <span>Ver no Mapa</span>
@@ -612,7 +612,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                     rows={2}
                     value={formData.heroTitle}
                     onChange={(e) => setFormData({ ...formData, heroTitle: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#0b192c]"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#240710]"
                     required
                   />
                 </div>
@@ -730,7 +730,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                     type="text"
                     value={formData.officeName}
                     onChange={(e) => setFormData({ ...formData, officeName: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#0b192c]"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#240710]"
                     required
                   />
                 </div>
@@ -757,7 +757,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
                   onClose();
                   setActiveView('admin-panel');
                 }}
-                className="text-xs text-[#0b192c] hover:underline font-bold flex items-center gap-1 cursor-pointer"
+                className="text-xs text-[#240710] hover:underline font-bold flex items-center gap-1 cursor-pointer"
               >
                 <span>Abrir Painel Completo de Gestão</span>
                 <ExternalLink className="w-3.5 h-3.5 text-[#c5a059]" />
@@ -774,7 +774,7 @@ export const QuickEditSiteModal: React.FC<QuickEditSiteModalProps> = ({
 
                 <button
                   type="submit"
-                  className="bg-[#0b192c] hover:bg-[#162a45] text-white border-2 border-[#c5a059] px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all cursor-pointer"
+                  className="bg-[#240710] hover:bg-[#3d0f1e] text-white border-2 border-[#c5a059] px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all cursor-pointer"
                 >
                   {savedSuccess ? (
                     <>

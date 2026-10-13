@@ -42,7 +42,7 @@ export const getCleanInitials = (name?: string): string => {
 // Deterministic gradient selection based on name
 const getDynamicGradient = (name?: string) => {
   const gradients = [
-    'from-[#0b192c] via-[#162a45] to-[#07111e]', // Luxury Navy Gold
+    'from-[#240710] via-[#3d0f1e] to-[#180309]', // Luxury Wine Gold
     'from-[#1a1423] via-[#2d1b4e] to-[#0d0a14]', // Royal Amethyst
     'from-[#0c231e] via-[#143d34] to-[#061512]', // Emerald Justice
     'from-[#241315] via-[#421b20] to-[#150a0b]', // Deep Burgundy
@@ -104,11 +104,11 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
 
   const getBackgroundGradient = () => {
     if (variant === 'dynamic') return getDynamicGradient(name);
-    if (variant === 'emerald') return 'from-[#062c1d] via-[#0e4b33] to-[#07111e]';
-    if (variant === 'crimson') return 'from-[#3b0d11] via-[#5c161c] to-[#07111e]';
-    if (variant === 'navy') return 'from-[#07111e] via-[#0b192c] to-[#162a45]';
+    if (variant === 'emerald') return 'from-[#062c1d] via-[#0e4b33] to-[#180309]';
+    if (variant === 'crimson') return 'from-[#3b0d11] via-[#5c161c] to-[#180309]';
+    if (variant === 'navy') return 'from-[#180309] via-[#240710] to-[#3d0f1e]';
     // Gold luxury default
-    return 'from-[#07111e] via-[#0b192c] to-[#1a2f4c]';
+    return 'from-[#180309] via-[#240710] to-[#3d0f1e]';
   };
 
   return (
@@ -160,7 +160,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
         <button
           type="button"
           onClick={onEditClick}
-          className="absolute -bottom-1 -right-1 bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] p-1.5 rounded-full shadow-lg border-2 border-white transition-all transform hover:scale-110 cursor-pointer"
+          className="absolute -bottom-1 -right-1 bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] p-1.5 rounded-full shadow-lg border-2 border-white transition-all transform hover:scale-110 cursor-pointer"
           title="Alterar foto de perfil"
           aria-label="Alterar foto de perfil"
         >

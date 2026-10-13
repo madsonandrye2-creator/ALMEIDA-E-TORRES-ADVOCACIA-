@@ -103,7 +103,7 @@ export const ContactSection: React.FC = () => {
             <MessageCircle className="w-3.5 h-3.5" />
             <span>Fale com Nossos Especialistas</span>
           </div>
-          <h2 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#0b192c] mb-4">
+          <h2 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#240710] mb-4">
             Atendimento ao Cliente &amp; Contato
           </h2>
           <div className="w-16 h-1 bg-[#c5a059] mx-auto mb-5 rounded-full" />
@@ -116,7 +116,7 @@ export const ContactSection: React.FC = () => {
           
           {/* Left Column: Office Contacts Card */}
           <div className="lg:col-span-5 flex flex-col justify-between">
-            <div className="bg-[#0b192c] rounded-2xl p-8 text-white shadow-xl border border-[#c5a059]/40 relative overflow-hidden mb-6">
+            <div className="bg-[#240710] rounded-2xl p-8 text-white shadow-xl border border-[#c5a059]/40 relative overflow-hidden mb-6">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#c5a059]/10 rounded-full blur-3xl pointer-events-none" />
 
               <h3 className="font-serif-title text-2xl font-bold text-[#f6e088] mb-6">
@@ -251,7 +251,7 @@ export const ContactSection: React.FC = () => {
             <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-3">
               <ShieldCheck className="w-5 h-5 text-[#b38e42] flex-shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-xs font-bold text-[#0b192c] uppercase">
+                <h4 className="text-xs font-bold text-[#240710] uppercase">
                   Proteção de Dados &amp; Sigilo Profissional
                 </h4>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">
@@ -268,7 +268,7 @@ export const ContactSection: React.FC = () => {
               {!submitted ? (
                 <>
                   <div className="mb-6">
-                    <h3 className="font-serif-title text-2xl font-bold text-[#0b192c] mb-1">
+                    <h3 className="font-serif-title text-2xl font-bold text-[#240710] mb-1">
                       Envie seu Caso para Análise
                     </h3>
                     <p className="text-xs text-slate-500">
@@ -381,7 +381,7 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider py-4 px-6 rounded-lg transition-all shadow-md flex items-center justify-center gap-2"
+                      className="w-full bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs uppercase tracking-wider py-4 px-6 rounded-lg transition-all shadow-md flex items-center justify-center gap-2"
                     >
                       <Send className="w-4 h-4 text-[#c5a059]" />
                       <span>{submitting ? 'Registrando...' : 'Registrar Solicitação & Continuar'}</span>
@@ -395,7 +395,7 @@ export const ContactSection: React.FC = () => {
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
 
-                  <h3 className="font-serif-title text-2xl font-bold text-[#0b192c] mb-2">
+                  <h3 className="font-serif-title text-2xl font-bold text-[#240710] mb-2">
                     Solicitação Recebida com Sucesso!
                   </h3>
 

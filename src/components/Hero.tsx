@@ -58,12 +58,12 @@ export const Hero: React.FC = () => {
   const visibleLawyers = lawyers.slice(0, 4);
 
   return (
-    <section id="hero" className="relative bg-gradient-to-b from-[#07111e] via-[#0b192c] to-[#0f223a] text-white pt-10 pb-20 md:pt-16 md:pb-28 overflow-hidden border-b border-[#c5a059]/30">
+    <section id="hero" className="relative bg-gradient-to-b from-[#180309] via-[#240710] to-[#1d040c] text-white pt-10 pb-20 md:pt-16 md:pb-28 overflow-hidden border-b border-[#c5a059]/30">
       
       {/* Radiant Luxury Ambient Lighting & Sunburst Halos */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.22)_0%,rgba(15,34,58,0.4)_50%,transparent_75%)] pointer-events-none blur-2xl" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.22)_0%,rgba(36,7,16,0.5)_50%,transparent_75%)] pointer-events-none blur-2xl" />
       <div className="absolute top-20 right-[-100px] w-[450px] h-[450px] bg-[#c5a059]/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-[-100px] w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-[-100px] w-[500px] h-[500px] bg-[#7e1735]/20 rounded-full blur-3xl pointer-events-none" />
       
       {/* Refined Geometric Pattern Overlay */}
       <div 
@@ -83,7 +83,7 @@ export const Hero: React.FC = () => {
           <button
             type="button"
             onClick={() => scrollToSection('equipe')}
-            className="inline-flex flex-wrap items-center justify-center gap-3 bg-[#07111e]/90 hover:bg-[#0f223a] border border-[#c5a059]/50 hover:border-[#f6e088] px-4 py-2 rounded-full mb-6 shadow-[0_0_25px_rgba(197,160,89,0.25)] hover:shadow-[0_0_35px_rgba(246,224,136,0.4)] backdrop-blur-md transition-all cursor-pointer group"
+            className="inline-flex flex-wrap items-center justify-center gap-3 bg-[#180309]/90 hover:bg-[#280814] border border-[#c5a059]/50 hover:border-[#f6e088] px-4 py-2 rounded-full mb-6 shadow-[0_0_25px_rgba(197,160,89,0.25)] hover:shadow-[0_0_35px_rgba(246,224,136,0.4)] backdrop-blur-md transition-all cursor-pointer group"
             title="Conheça nosso corpo jurídico completo"
           >
             
@@ -98,7 +98,7 @@ export const Hero: React.FC = () => {
                   referrerPolicy="no-referrer"
                 />
               ))}
-              <div className="w-7 h-7 rounded-full bg-[#c5a059] text-[#07111e] font-black text-[10px] flex items-center justify-center border-2 border-[#07111e] shadow-sm">
+              <div className="w-7 h-7 rounded-full bg-[#c5a059] text-[#180309] font-black text-[10px] flex items-center justify-center border-2 border-[#180309] shadow-sm">
                 +6
               </div>
             </div>
@@ -140,16 +140,16 @@ export const Hero: React.FC = () => {
             <button
               onClick={handleWhatsApp}
               id="btn-hero-fale-conosco"
-              className="w-full sm:w-auto bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#b38e42] hover:brightness-110 text-[#07111e] font-black text-sm uppercase tracking-wider px-8 py-4 rounded-xl shadow-[0_0_35px_rgba(197,160,89,0.45)] hover:shadow-[0_0_50px_rgba(246,224,136,0.75)] transition-all flex items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.03] active:scale-[0.98]"
+              className="w-full sm:w-auto bg-gradient-to-r from-[#c5a059] via-[#f6e088] to-[#b38e42] hover:brightness-110 text-[#180309] font-black text-sm uppercase tracking-wider px-8 py-4 rounded-xl shadow-[0_0_35px_rgba(197,160,89,0.45)] hover:shadow-[0_0_50px_rgba(246,224,136,0.75)] transition-all flex items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.03] active:scale-[0.98]"
             >
-              <MessageCircle className="w-5 h-5 fill-[#07111e]/30" />
+              <MessageCircle className="w-5 h-5 fill-[#180309]/30" />
               <span>Fale Conosco no WhatsApp</span>
             </button>
 
             <button
               onClick={handleProcessTracking}
               id="btn-hero-acompanhe-processo"
-              className="w-full sm:w-auto bg-[#0b192c]/90 hover:bg-[#162a45] text-white border-2 border-[#c5a059] hover:border-[#f6e088] font-bold text-sm uppercase tracking-wider px-7 py-4 rounded-xl shadow-[0_0_20px_rgba(197,160,89,0.2)] hover:shadow-[0_0_30px_rgba(197,160,89,0.4)] transition-all flex items-center justify-center gap-2.5 cursor-pointer transform hover:scale-[1.03] active:scale-[0.98]"
+              className="w-full sm:w-auto bg-[#240710]/90 hover:bg-[#3d0f1e] text-white border-2 border-[#c5a059] hover:border-[#f6e088] font-bold text-sm uppercase tracking-wider px-7 py-4 rounded-xl shadow-[0_0_20px_rgba(197,160,89,0.2)] hover:shadow-[0_0_30px_rgba(197,160,89,0.4)] transition-all flex items-center justify-center gap-2.5 cursor-pointer transform hover:scale-[1.03] active:scale-[0.98]"
             >
               <FileText className="w-5 h-5 text-[#f6e088]" />
               <span>Acompanhe seu Processo</span>
@@ -158,7 +158,7 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* Quick Process Search Card - Glowing Golden Frame */}
-          <div className="bg-gradient-to-b from-[#0b192c]/95 via-[#07111e]/95 to-[#0b192c]/95 border-2 border-[#c5a059]/60 hover:border-[#c5a059] rounded-2xl p-5 sm:p-6 max-w-xl mx-auto shadow-[0_15px_45px_rgba(0,0,0,0.7),0_0_30px_rgba(197,160,89,0.2)] backdrop-blur-md transition-all">
+          <div className="bg-gradient-to-b from-[#240710]/95 via-[#180309]/95 to-[#240710]/95 border-2 border-[#c5a059]/60 hover:border-[#c5a059] rounded-2xl p-5 sm:p-6 max-w-xl mx-auto shadow-[0_15px_45px_rgba(0,0,0,0.7),0_0_30px_rgba(197,160,89,0.2)] backdrop-blur-md transition-all">
             <div className="flex items-center justify-between text-xs text-slate-200 mb-3 px-1">
               <span className="font-bold text-[#f6e088] flex items-center gap-1.5 text-sm">
                 <Search className="w-4 h-4 text-[#c5a059]" />
@@ -176,11 +176,11 @@ export const Hero: React.FC = () => {
                 value={quickQuery}
                 onChange={(e) => setQuickQuery(e.target.value)}
                 placeholder="Digite seu CPF ou Nº do Processo..."
-                className="flex-1 bg-[#07111e] border-2 border-white/15 focus:border-[#f6e088] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none transition-colors shadow-inner"
+                className="flex-1 bg-[#180309] border-2 border-white/15 focus:border-[#f6e088] rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:outline-none transition-colors shadow-inner"
               />
               <button
                 type="submit"
-                className="bg-gradient-to-r from-[#c5a059] to-[#d4af37] hover:brightness-110 text-[#07111e] font-black text-xs uppercase tracking-wider px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                className="bg-gradient-to-r from-[#c5a059] to-[#d4af37] hover:brightness-110 text-[#180309] font-black text-xs uppercase tracking-wider px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span>Consultar</span>
                 <ArrowRight className="w-4 h-4" />
@@ -201,11 +201,11 @@ export const Hero: React.FC = () => {
             type="button"
             onClick={() => setIsPrivacyModalOpen(true)}
             id="badge-link-lgpd"
-            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            className="w-full text-left bg-[#240710]/90 hover:bg-[#340b17] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
             title="Clique para ler a Política de Sigilo, Proteção de Dados e LGPD"
           >
             <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#180309] text-[#f6e088] transition-all">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div className="truncate">
@@ -221,11 +221,11 @@ export const Hero: React.FC = () => {
             type="button"
             onClick={() => scrollToSection('equipe')}
             id="badge-link-equipe"
-            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            className="w-full text-left bg-[#240710]/90 hover:bg-[#340b17] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
             title="Clique para conhecer os 10 advogados do Corpo Jurídico"
           >
             <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#180309] text-[#f6e088] transition-all">
                 <Users className="w-5 h-5" />
               </div>
               <div className="truncate">
@@ -241,11 +241,11 @@ export const Hero: React.FC = () => {
             type="button"
             onClick={() => scrollToSection('areas')}
             id="badge-link-areas"
-            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            className="w-full text-left bg-[#240710]/90 hover:bg-[#340b17] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
             title="Clique para ver as Especialidades em Direito Trabalhista"
           >
             <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#180309] text-[#f6e088] transition-all">
                 <Award className="w-5 h-5" />
               </div>
               <div className="truncate">
@@ -261,11 +261,11 @@ export const Hero: React.FC = () => {
             type="button"
             onClick={handleProcessTracking}
             id="badge-link-portal"
-            className="w-full text-left bg-[#0b192c]/90 hover:bg-[#12243d] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
+            className="w-full text-left bg-[#240710]/90 hover:bg-[#340b17] border border-[#c5a059]/35 hover:border-[#f6e088] rounded-xl p-4 flex items-center justify-between gap-3 shadow-lg hover:shadow-[0_0_25px_rgba(197,160,89,0.35)] hover:-translate-y-1 transition-all duration-200 group cursor-pointer"
             title="Clique para acessar a Linha do Tempo do seu Processo 24h"
           >
             <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#07111e] text-[#f6e088] transition-all">
+              <div className="w-11 h-11 rounded-lg bg-[#c5a059]/15 border border-[#c5a059]/50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-[#c5a059] group-hover:text-[#180309] text-[#f6e088] transition-all">
                 <FileText className="w-5 h-5" />
               </div>
               <div className="truncate">

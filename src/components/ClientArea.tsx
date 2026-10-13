@@ -52,7 +52,7 @@ export const ClientArea: React.FC = () => {
         <p className="text-slate-600 mb-4">Você precisa estar logado como cliente para visualizar esta área.</p>
         <button
           onClick={() => setActiveView('home')}
-          className="bg-[#0b192c] text-white px-6 py-2.5 rounded-lg text-sm font-semibold"
+          className="bg-[#240710] text-white px-6 py-2.5 rounded-lg text-sm font-semibold"
         >
           Voltar para a Página Inicial
         </button>
@@ -207,7 +207,7 @@ export const ClientArea: React.FC = () => {
     <div className="min-h-screen bg-slate-100/70 pb-20">
       
       {/* Top Header Banner */}
-      <div className="bg-[#07111e] text-white border-b border-[#c5a059]/30 pt-10 pb-16 px-4 sm:px-8">
+      <div className="bg-[#180309] text-white border-b border-[#c5a059]/30 pt-10 pb-16 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <UserAvatar
@@ -263,14 +263,14 @@ export const ClientArea: React.FC = () => {
             {/* Personal Data Card */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
               <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-                <h3 className="font-serif-title text-base font-bold text-[#0b192c] flex items-center gap-2">
+                <h3 className="font-serif-title text-base font-bold text-[#240710] flex items-center gap-2">
                   <UserIcon className="w-4 h-4 text-[#c5a059]" />
                   Seus Dados Cadastrais
                 </h3>
 
                 <button
                   onClick={handleOpenEditProfile}
-                  className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#b38e42] bg-amber-50 hover:bg-amber-100/80 border border-[#c5a059]/40 px-2.5 py-1 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-[#240710] hover:text-[#b38e42] bg-amber-50 hover:bg-amber-100/80 border border-[#c5a059]/40 px-2.5 py-1 rounded-lg transition-colors"
                   title="Editar ou atualizar seus dados cadastrais"
                 >
                   <Edit3 className="w-3.5 h-3.5 text-[#c5a059]" />
@@ -289,7 +289,7 @@ export const ClientArea: React.FC = () => {
                     </p>
                     <button
                       onClick={handleOpenEditProfile}
-                      className="bg-[#c5a059] hover:bg-[#b38e42] text-[#07111e] font-extrabold text-[11px] px-3 py-1 rounded-md transition-colors"
+                      className="bg-[#c5a059] hover:bg-[#b38e42] text-[#180309] font-extrabold text-[11px] px-3 py-1 rounded-md transition-colors"
                     >
                       Cadastrar Dados Agora
                     </button>
@@ -355,7 +355,7 @@ export const ClientArea: React.FC = () => {
             {/* List of Client Processes */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
               <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-                <h3 className="font-serif-title text-base font-bold text-[#0b192c] flex items-center gap-2">
+                <h3 className="font-serif-title text-base font-bold text-[#240710] flex items-center gap-2">
                   <Briefcase className="w-4 h-4 text-[#c5a059]" />
                   Seus Processos ({clientProcesses.length})
                 </h3>
@@ -381,7 +381,7 @@ export const ClientArea: React.FC = () => {
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-xs font-mono font-bold text-[#0b192c]">
+                          <span className="text-xs font-mono font-bold text-[#240710]">
                             {proc.processNumber}
                           </span>
                           <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${
@@ -409,7 +409,7 @@ export const ClientArea: React.FC = () => {
             </div>
 
             {/* Quick Contact with Office Card */}
-            <div className="bg-gradient-to-br from-[#0b192c] to-[#162a45] rounded-2xl p-6 text-white shadow-md border border-[#c5a059]/30">
+            <div className="bg-gradient-to-br from-[#180309] to-[#3d0f1e] rounded-2xl p-6 text-white shadow-md border border-[#c5a059]/30">
               <h4 className="font-serif-title text-base font-bold text-[#f6e088] mb-2 flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-[#c5a059]" />
                 Dúvidas sobre o andamento?
@@ -420,9 +420,9 @@ export const ClientArea: React.FC = () => {
               {activeProcess && (
                 <button
                   onClick={() => handleContactLawyer(activeProcess)}
-                  className="w-full bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold text-xs uppercase tracking-wider py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md"
+                  className="w-full bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-bold text-xs uppercase tracking-wider py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md"
                 >
-                  <MessageCircle className="w-4 h-4 fill-[#07111e]/20" />
+                  <MessageCircle className="w-4 h-4 fill-[#180309]/20" />
                   <span>Falar com {activeProcess.lawyerName.split(' ')[0]}</span>
                 </button>
               )}
@@ -442,14 +442,14 @@ export const ClientArea: React.FC = () => {
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#c5a059]">
                         Processo Selecionado
                       </span>
-                      <h2 className="font-serif-title text-xl sm:text-2xl font-bold text-[#0b192c]">
+                      <h2 className="font-serif-title text-xl sm:text-2xl font-bold text-[#240710]">
                         {activeProcess.title}
                       </h2>
                     </div>
 
                     <div className="text-right">
                       <span className="text-[10px] text-slate-400 block uppercase font-bold">Nº do Processo</span>
-                      <span className="text-sm sm:base font-mono font-bold text-[#0b192c] bg-slate-100 px-3 py-1 rounded-md border border-slate-200">
+                      <span className="text-sm sm:base font-mono font-bold text-[#240710] bg-slate-100 px-3 py-1 rounded-md border border-slate-200">
                         {activeProcess.processNumber}
                       </span>
                     </div>
@@ -461,7 +461,7 @@ export const ClientArea: React.FC = () => {
                       <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
                         Advogado Responsável
                       </span>
-                      <p className="text-sm font-bold text-[#0b192c]">
+                      <p className="text-sm font-bold text-[#240710]">
                         {activeProcess.lawyerName}
                       </p>
                       <p className="text-xs text-slate-500 font-semibold">
@@ -473,7 +473,7 @@ export const ClientArea: React.FC = () => {
                       <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
                         Tribunal / Órgão
                       </span>
-                      <p className="text-sm font-bold text-[#0b192c]">
+                      <p className="text-sm font-bold text-[#240710]">
                         {activeProcess.court}
                       </p>
                       <p className="text-xs text-slate-500">
@@ -485,7 +485,7 @@ export const ClientArea: React.FC = () => {
                       <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
                         Parte Reclamada (Empresa)
                       </span>
-                      <p className="text-sm font-bold text-[#0b192c]">
+                      <p className="text-sm font-bold text-[#240710]">
                         {activeProcess.opposingParty}
                       </p>
                       <p className="text-xs text-slate-500">
@@ -518,7 +518,7 @@ export const ClientArea: React.FC = () => {
                 <div className="w-16 h-16 bg-amber-50 text-[#b38e42] border border-[#c5a059]/40 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
                   <ShieldCheck className="w-8 h-8" />
                 </div>
-                <h3 className="font-serif-title text-xl sm:text-2xl font-bold text-[#0b192c] mb-2">
+                <h3 className="font-serif-title text-xl sm:text-2xl font-bold text-[#240710] mb-2">
                   Cadastro Concluído com Sucesso!
                 </h3>
                 <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed">
@@ -530,9 +530,9 @@ export const ClientArea: React.FC = () => {
                       const msg = encodeURIComponent(`Olá! Acabei de criar minha conta no Portal do Cliente (${currentUser.name}) e gostaria de verificar o cadastro do meu processo.`);
                       window.open(`https://wa.me/${officeSettings.whatsapp}?text=${msg}`, '_blank');
                     }}
-                    className="bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all shadow-md flex items-center gap-2"
+                    className="bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all shadow-md flex items-center gap-2"
                   >
-                    <MessageCircle className="w-4 h-4 fill-[#07111e]/20" />
+                    <MessageCircle className="w-4 h-4 fill-[#180309]/20" />
                     <span>Vincular Meu Processo no WhatsApp</span>
                   </button>
 
@@ -568,7 +568,7 @@ export const ClientArea: React.FC = () => {
                 <Edit3 className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   Atualizar Dados Cadastrais
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -632,7 +632,7 @@ export const ClientArea: React.FC = () => {
                         type="button"
                         onClick={() => avatarFileInputRef.current?.click()}
                         disabled={isUploadingPhoto}
-                        className="flex-1 min-w-[140px] bg-[#0b192c] hover:bg-[#162a45] text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors shadow-sm disabled:opacity-50"
+                        className="flex-1 min-w-[140px] bg-[#240710] hover:bg-[#3d0f1e] text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors shadow-sm disabled:opacity-50"
                       >
                         {isUploadingPhoto ? (
                           <span>Otimizando...</span>
@@ -826,7 +826,7 @@ export const ClientArea: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSavingProfile}
-                  className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2"
+                  className="bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2"
                 >
                   {isSavingProfile ? (
                     <span>Salvando...</span>

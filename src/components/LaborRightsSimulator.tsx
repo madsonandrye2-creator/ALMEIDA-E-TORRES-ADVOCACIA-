@@ -51,7 +51,7 @@ export const LaborRightsSimulator: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-[#07111e] text-white border-y border-[#c5a059]/30 relative overflow-hidden">
+    <section className="py-16 bg-[#180309] text-white border-y border-[#c5a059]/30 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         
         <div className="max-w-3xl mx-auto text-center mb-10">
@@ -67,7 +67,7 @@ export const LaborRightsSimulator: React.FC = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto bg-[#0b192c] rounded-2xl p-6 sm:p-8 border border-[#c5a059]/40 shadow-2xl">
+        <div className="max-w-4xl mx-auto bg-[#240710] rounded-2xl p-6 sm:p-8 border border-[#c5a059]/40 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Inputs Column */}
@@ -79,7 +79,7 @@ export const LaborRightsSimulator: React.FC = () => {
                 <select
                   value={dismissalType}
                   onChange={(e) => setDismissalType(e.target.value as any)}
-                  className="w-full bg-[#07111e] border border-white/20 focus:border-[#c5a059] rounded-lg p-2.5 text-xs text-white"
+                  className="w-full bg-[#180309] border border-white/20 focus:border-[#c5a059] rounded-lg p-2.5 text-xs text-white"
                 >
                   <option value="sem_justa_causa">Demissão sem justa causa pelo empregador</option>
                   <option value="rescisao_indireta">Rescisão Indireta (Falta grave da empresa / Atraso de salário)</option>
@@ -98,7 +98,7 @@ export const LaborRightsSimulator: React.FC = () => {
                     value={salary}
                     onChange={(e) => setSalary(e.target.value)}
                     placeholder="Ex: 3500"
-                    className="w-full bg-[#07111e] border border-white/20 focus:border-[#c5a059] rounded-lg p-2.5 text-xs text-white"
+                    className="w-full bg-[#180309] border border-white/20 focus:border-[#c5a059] rounded-lg p-2.5 text-xs text-white"
                   />
                 </div>
 
@@ -111,7 +111,7 @@ export const LaborRightsSimulator: React.FC = () => {
                     value={monthsWorked}
                     onChange={(e) => setMonthsWorked(e.target.value)}
                     placeholder="Ex: 24"
-                    className="w-full bg-[#07111e] border border-white/20 focus:border-[#c5a059] rounded-lg p-2.5 text-xs text-white"
+                    className="w-full bg-[#180309] border border-white/20 focus:border-[#c5a059] rounded-lg p-2.5 text-xs text-white"
                   />
                 </div>
               </div>
@@ -140,7 +140,7 @@ export const LaborRightsSimulator: React.FC = () => {
             </div>
 
             {/* Results & CTA Column */}
-            <div className="lg:col-span-5 bg-[#07111e] rounded-xl p-6 border border-[#c5a059]/40 text-center">
+            <div className="lg:col-span-5 bg-[#180309] rounded-xl p-6 border border-[#c5a059]/40 text-center">
               <span className="text-[10px] uppercase font-bold text-[#c5a059] tracking-wider block mb-1">
                 Estimativa Referencial de Verbas
               </span>
@@ -155,9 +155,9 @@ export const LaborRightsSimulator: React.FC = () => {
 
               <button
                 onClick={handleSendToLawyer}
-                className="w-full bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
               >
-                <MessageCircle className="w-4 h-4 fill-[#07111e]/20" />
+                <MessageCircle className="w-4 h-4 fill-[#180309]/20" />
                 <span>Enviar Cálculo para o Advogado</span>
               </button>
             </div>

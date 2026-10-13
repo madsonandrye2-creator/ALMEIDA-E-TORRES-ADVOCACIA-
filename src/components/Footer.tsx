@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#07111e] text-white border-t border-[#c5a059]/30 relative overflow-hidden">
+    <footer className="bg-[#180309] text-white border-t border-[#c5a059]/30 relative overflow-hidden">
       {/* Upper Footer Block */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 pt-16 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
                 href={officeSettings.socialInstagram || 'https://instagram.com'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c5a059] hover:text-[#07111e] border border-white/10 flex items-center justify-center text-slate-300 transition-all"
+                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c5a059] hover:text-[#180309] border border-white/10 flex items-center justify-center text-slate-300 transition-all"
                 title="Instagram"
               >
                 <Instagram className="w-4 h-4" />
@@ -78,7 +78,7 @@ export const Footer: React.FC = () => {
                 href={officeSettings.socialLinkedin || 'https://linkedin.com'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c5a059] hover:text-[#07111e] border border-white/10 flex items-center justify-center text-slate-300 transition-all"
+                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c5a059] hover:text-[#180309] border border-white/10 flex items-center justify-center text-slate-300 transition-all"
                 title="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
@@ -87,7 +87,7 @@ export const Footer: React.FC = () => {
                 href={officeSettings.socialFacebook || 'https://facebook.com'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c5a059] hover:text-[#07111e] border border-white/10 flex items-center justify-center text-slate-300 transition-all"
+                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-[#c5a059] hover:text-[#180309] border border-white/10 flex items-center justify-center text-slate-300 transition-all"
                 title="Facebook"
               >
                 <Facebook className="w-4 h-4" />
@@ -95,7 +95,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="pt-2">
-              <span className="inline-flex items-center gap-1.5 text-[11px] text-[#f6e088] bg-[#0b192c] px-3 py-1 rounded border border-[#c5a059]/30">
+              <span className="inline-flex items-center gap-1.5 text-[11px] text-[#f6e088] bg-[#240710] px-3 py-1 rounded border border-[#c5a059]/30">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#c5a059]" />
                 Conforme Provimento OAB nº 205/2021
               </span>
@@ -235,7 +235,7 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Lower Bottom Sub-footer */}
-      <div className="bg-[#0b192c] border-t border-white/10 py-5 px-4 sm:px-8 text-xs text-slate-400">
+      <div className="bg-[#240710] border-t border-white/10 py-5 px-4 sm:px-8 text-xs text-slate-400">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-center sm:text-left">
             &copy; {new Date().getFullYear()} {officeSettings.officeName}. Todos os direitos reservados.
@@ -259,7 +259,7 @@ export const Footer: React.FC = () => {
 
           <button
             onClick={scrollToTop}
-            className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#c5a059] hover:text-[#07111e] flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#c5a059] hover:text-[#180309] flex items-center justify-center transition-colors"
             title="Voltar ao topo"
           >
             <ArrowUp className="w-4 h-4" />

@@ -237,7 +237,7 @@ export const AuthModal: React.FC = () => {
 
         {/* Top Header */}
         <div className="text-center mb-6 pt-1">
-          <div className="w-12 h-12 rounded-xl bg-[#0b192c] text-[#c5a059] border border-[#c5a059]/50 flex items-center justify-center mx-auto mb-3 shadow-md">
+          <div className="w-12 h-12 rounded-xl bg-[#240710] text-[#c5a059] border border-[#c5a059]/50 flex items-center justify-center mx-auto mb-3 shadow-md">
             {authMode === 'signup' ? (
               <UserPlus className="w-6 h-6" />
             ) : authMode === 'google-direct' ? (
@@ -246,7 +246,7 @@ export const AuthModal: React.FC = () => {
               <UserIcon className="w-6 h-6" />
             )}
           </div>
-          <h3 className="font-serif-title text-2xl font-bold text-[#0b192c]">
+          <h3 className="font-serif-title text-2xl font-bold text-[#240710]">
             {authMode === 'signup' 
               ? 'Criar Conta de Cliente' 
               : authMode === 'google-direct'
@@ -276,7 +276,7 @@ export const AuthModal: React.FC = () => {
               }}
               className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 authMode === 'signup'
-                  ? 'bg-[#0b192c] text-white shadow'
+                  ? 'bg-[#240710] text-white shadow'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -293,7 +293,7 @@ export const AuthModal: React.FC = () => {
               }}
               className={`py-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 authMode === 'signin'
-                  ? 'bg-[#0b192c] text-white shadow'
+                  ? 'bg-[#240710] text-white shadow'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -434,7 +434,7 @@ export const AuthModal: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer mt-1"
+                className="w-full bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer mt-1"
               >
                 <Check className="w-4 h-4 text-[#c5a059]" />
                 <span>{loading ? 'Acessando...' : 'Acessar com este E-mail Google'}</span>
@@ -511,7 +511,7 @@ export const AuthModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleForgotPasswordWhatsApp}
-                  className="bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold px-3 py-1.5 rounded text-[11px] uppercase tracking-wider cursor-pointer"
+                  className="bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-bold px-3 py-1.5 rounded text-[11px] uppercase tracking-wider cursor-pointer"
                 >
                   Falar no WhatsApp do Escritório
                 </button>
@@ -521,7 +521,7 @@ export const AuthModal: React.FC = () => {
             <button
               type="submit"
               disabled={loading || googleLoading}
-              className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
               <LogIn className="w-4 h-4 text-[#c5a059]" />
               <span>{loading ? 'Entrando...' : 'Entrar no Portal do Cliente'}</span>
@@ -678,7 +678,7 @@ export const AuthModal: React.FC = () => {
             <button
               type="submit"
               disabled={loading || googleLoading}
-              className="w-full bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
               <UserPlus className="w-4 h-4 text-[#c5a059]" />
               <span>{loading ? 'Criando Conta...' : 'Finalizar Cadastro de Cliente'}</span>

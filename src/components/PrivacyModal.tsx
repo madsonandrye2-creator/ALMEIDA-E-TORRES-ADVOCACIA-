@@ -25,12 +25,12 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, type, onClos
         </button>
 
         <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-          <div className="w-10 h-10 rounded-lg bg-[#0b192c] text-[#c5a059] flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-[#240710] text-[#c5a059] flex items-center justify-center">
             {type === 'privacy' ? <ShieldCheck className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
           </div>
           <div>
             <span className="text-xs uppercase font-bold text-[#c5a059] tracking-wider">Conformidade Legal &amp; OAB</span>
-            <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+            <h3 className="font-serif-title text-xl font-bold text-[#240710]">
               {type === 'privacy' ? 'Política de Privacidade & Proteção de Dados (LGPD)' : 'Termos de Uso do Portal Institucional'}
             </h3>
           </div>
@@ -42,7 +42,7 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, type, onClos
               A <strong>{officeSettings.officeName}</strong> tem o compromisso inegociável de zelar pela privacidade, sigilo e proteção dos dados pessoais de seus clientes, em estrita conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD)</strong> e o <strong>Estatuto da Advocacia e da OAB (Lei nº 8.906/1994)</strong>.
             </p>
 
-            <h4 className="font-bold text-[#0b192c] text-sm pt-2">1. Coleta e Finalidade dos Dados</h4>
+            <h4 className="font-bold text-[#240710] text-sm pt-2">1. Coleta e Finalidade dos Dados</h4>
             <p>
               Os dados coletados através dos formulários institucionais (nome, e-mail, telefone, relatos fáticos e documentos comprobatórios) são utilizados exclusivamente para:
             </p>
@@ -53,12 +53,12 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, type, onClos
               <li>Comunicação oficial e envio de atualizações via WhatsApp ou e-mail.</li>
             </ul>
 
-            <h4 className="font-bold text-[#0b192c] text-sm pt-2">2. Sigilo Profissional e Segurança</h4>
+            <h4 className="font-bold text-[#240710] text-sm pt-2">2. Sigilo Profissional e Segurança</h4>
             <p>
               Todas as comunicações e documentos compartilhados com nossos advogados estão resguardados pelo <em>Sigilo Profissional</em> (art. 7º, inciso II da Lei 8.906/94). Não comercializamos, compartilhamos ou transferimos dados para terceiros alheios aos procedimentos jurídicos.
             </p>
 
-            <h4 className="font-bold text-[#0b192c] text-sm pt-2">3. Direitos do Titular</h4>
+            <h4 className="font-bold text-[#240710] text-sm pt-2">3. Direitos do Titular</h4>
             <p>
               O cliente pode a qualquer momento solicitar a confirmação, correção, atualização ou anonimização de seus dados cadastrais entrando em contato através do nosso canal oficial: <strong>{officeSettings.email}</strong>.
             </p>
@@ -69,17 +69,17 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, type, onClos
               Bem-vindo ao portal da <strong>{officeSettings.officeName}</strong>. O uso desta plataforma digital está sujeito às seguintes condições:
             </p>
 
-            <h4 className="font-bold text-[#0b192c] text-sm pt-2">1. Natureza das Informações</h4>
+            <h4 className="font-bold text-[#240710] text-sm pt-2">1. Natureza das Informações</h4>
             <p>
               As informações disponibilizadas neste site possuem caráter estritamente institucional e educativo, não substituindo o parecer formal emitido por um advogado devidamente constituído mediante procuração judicial.
             </p>
 
-            <h4 className="font-bold text-[#0b192c] text-sm pt-2">2. Acesso à Área do Cliente</h4>
+            <h4 className="font-bold text-[#240710] text-sm pt-2">2. Acesso à Área do Cliente</h4>
             <p>
               O acesso com CPF e senha é pessoal e intransferível. O cliente é responsável pela guarda de suas credenciais de segurança e deve comunicar imediatamente o escritório em caso de suspeita de extravio.
             </p>
 
-            <h4 className="font-bold text-[#0b192c] text-sm pt-2">3. Provimento nº 205/2021 da OAB</h4>
+            <h4 className="font-bold text-[#240710] text-sm pt-2">3. Provimento nº 205/2021 da OAB</h4>
             <p>
               Este ambiente digital opera em estrita conformidade com as regras de publicidade e comunicação da Ordem dos Advogados do Brasil, primando pela sobriedade, transparência e veracidade das informações veiculadas.
             </p>
@@ -89,7 +89,7 @@ export const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, type, onClos
         <div className="mt-6 pt-4 border-t border-slate-100 flex justify-end">
           <button
             onClick={onClose}
-            className="bg-[#0b192c] text-white font-bold text-xs uppercase px-6 py-2.5 rounded-lg"
+            className="bg-[#240710] text-white font-bold text-xs uppercase px-6 py-2.5 rounded-lg"
           >
             Entendido e Fechar
           </button>

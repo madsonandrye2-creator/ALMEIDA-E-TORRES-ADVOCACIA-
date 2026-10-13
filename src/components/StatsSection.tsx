@@ -40,7 +40,7 @@ export const StatsSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 bg-[#0b192c] text-white relative overflow-hidden border-y border-[#c5a059]/30">
+    <section className="py-16 bg-[#240710] text-white relative overflow-hidden border-y border-[#c5a059]/30">
       {/* Background accents */}
       <div className="absolute inset-0 bg-[radial-gradient(#c5a059_1px,transparent_1px)] [background-size:32px_32px] opacity-5 pointer-events-none" />
 
@@ -65,9 +65,9 @@ export const StatsSection: React.FC = () => {
             return (
               <div 
                 key={idx}
-                className="bg-[#07111e]/70 border border-[#c5a059]/30 rounded-xl p-5 text-center hover:border-[#c5a059] transition-all hover:-translate-y-1 shadow-lg group"
+                className="bg-[#180309]/70 border border-[#c5a059]/30 rounded-xl p-5 text-center hover:border-[#c5a059] transition-all hover:-translate-y-1 shadow-lg group"
               >
-                <div className="w-10 h-10 rounded-full bg-[#c5a059]/10 text-[#f6e088] mx-auto flex items-center justify-center mb-3 group-hover:bg-[#c5a059] group-hover:text-[#07111e] transition-colors">
+                <div className="w-10 h-10 rounded-full bg-[#c5a059]/10 text-[#f6e088] mx-auto flex items-center justify-center mb-3 group-hover:bg-[#c5a059] group-hover:text-[#180309] transition-colors">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className="font-serif-title text-2xl sm:text-3xl font-extrabold text-[#f6e088] tracking-tight mb-1">

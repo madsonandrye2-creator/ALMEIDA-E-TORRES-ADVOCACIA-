@@ -66,7 +66,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 onClick={this.handleReload}
-                className="w-full sm:w-auto bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                className="w-full sm:w-auto bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
               >
                 <RefreshCw className="w-4 h-4" />
                 <span>Recarregar Página</span>

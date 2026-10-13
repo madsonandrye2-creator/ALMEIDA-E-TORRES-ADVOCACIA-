@@ -89,13 +89,13 @@ export const AlertsManagerSection: React.FC = () => {
     <div className="space-y-8 animate-fade-in">
       
       {/* Header Banner */}
-      <div className="bg-gradient-to-br from-[#07111e] via-[#0b192c] to-[#12233c] text-white p-6 sm:p-8 rounded-2xl border-2 border-[#c5a059]/40 shadow-xl relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#180309] via-[#240710] to-[#3d0f1e] text-white p-6 sm:p-8 rounded-2xl border-2 border-[#c5a059]/40 shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#c5a059]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-[#c5a059] text-[#07111e] font-black text-[11px] uppercase tracking-wider px-2.5 py-0.5 rounded flex items-center gap-1.5 shadow-sm">
+              <span className="bg-[#c5a059] text-[#180309] font-black text-[11px] uppercase tracking-wider px-2.5 py-0.5 rounded flex items-center gap-1.5 shadow-sm">
                 <Bell className="w-3.5 h-3.5" />
                 CENTRAL DE AVISOS EM TEMPO REAL
               </span>
@@ -155,7 +155,7 @@ export const AlertsManagerSection: React.FC = () => {
             <Zap className="w-5 h-5 text-[#c5a059]" />
           </div>
           <div>
-            <h4 className="text-xs sm:text-sm font-bold text-[#0b192c]">
+            <h4 className="text-xs sm:text-sm font-bold text-[#240710]">
               Testar Notificações e Sons de Alerta
             </h4>
             <p className="text-[11px] sm:text-xs text-slate-600">
@@ -183,7 +183,7 @@ export const AlertsManagerSection: React.FC = () => {
 
           <button
             onClick={() => triggerTestAlert('maintenance')}
-            className="flex-1 sm:flex-none bg-[#0b192c] hover:bg-[#162a45] text-[#f6e088] border border-[#c5a059]/40 font-bold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            className="flex-1 sm:flex-none bg-[#240710] hover:bg-[#3d0f1e] text-[#f6e088] border border-[#c5a059]/40 font-bold text-xs px-3.5 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <Activity className="w-3.5 h-3.5 text-[#c5a059]" />
             <span>Diagnóstico do Sistema</span>
@@ -198,11 +198,11 @@ export const AlertsManagerSection: React.FC = () => {
           className="w-full px-6 py-4 bg-slate-50 hover:bg-slate-100/80 border-b border-slate-200 flex items-center justify-between transition-colors text-left cursor-pointer"
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#0b192c] text-[#c5a059] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#240710] text-[#c5a059] flex items-center justify-center">
               <Sliders className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-sm text-[#0b192c]">
+              <h3 className="font-bold text-sm text-[#240710]">
                 Canais de Envio & Destinatários dos Avisos
               </h3>
               <p className="text-xs text-slate-500">
@@ -278,7 +278,7 @@ export const AlertsManagerSection: React.FC = () => {
                     className="mt-0.5 w-4 h-4 text-[#c5a059] rounded border-slate-300 focus:ring-[#c5a059]"
                   />
                   <div>
-                    <span className="font-bold text-xs text-[#0b192c] block">
+                    <span className="font-bold text-xs text-[#240710] block">
                       🎉 Avisar a Cada Nova Conta
                     </span>
                     <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">
@@ -295,7 +295,7 @@ export const AlertsManagerSection: React.FC = () => {
                     className="mt-0.5 w-4 h-4 text-red-600 rounded border-slate-300 focus:ring-red-500"
                   />
                   <div>
-                    <span className="font-bold text-xs text-[#0b192c] block">
+                    <span className="font-bold text-xs text-[#240710] block">
                       🚨 Avisar Erros / Manutenção
                     </span>
                     <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">
@@ -312,7 +312,7 @@ export const AlertsManagerSection: React.FC = () => {
                     className="mt-0.5 w-4 h-4 text-[#c5a059] rounded border-slate-300 focus:ring-[#c5a059]"
                   />
                   <div>
-                    <span className="font-bold text-xs text-[#0b192c] block">
+                    <span className="font-bold text-xs text-[#240710] block">
                       📩 Avisar Novas Mensagens
                     </span>
                     <span className="text-[11px] text-slate-500 leading-tight block mt-0.5">
@@ -329,7 +329,7 @@ export const AlertsManagerSection: React.FC = () => {
                     className="mt-0.5 w-4 h-4 text-[#c5a059] rounded border-slate-300 focus:ring-[#c5a059]"
                   />
                   <div>
-                    <span className="font-bold text-xs text-[#0b192c] block flex items-center gap-1">
+                    <span className="font-bold text-xs text-[#240710] block flex items-center gap-1">
                       <Volume2 className="w-3.5 h-3.5 text-[#c5a059]" />
                       Sons de Alerta (Áudio)
                     </span>
@@ -347,7 +347,7 @@ export const AlertsManagerSection: React.FC = () => {
                     className="mt-0.5 w-4 h-4 text-[#c5a059] rounded border-slate-300 focus:ring-[#c5a059]"
                   />
                   <div>
-                    <span className="font-bold text-xs text-[#0b192c] block flex items-center gap-1">
+                    <span className="font-bold text-xs text-[#240710] block flex items-center gap-1">
                       <Globe className="w-3.5 h-3.5 text-blue-500" />
                       Push do Navegador
                     </span>
@@ -371,7 +371,7 @@ export const AlertsManagerSection: React.FC = () => {
 
               <button
                 type="submit"
-                className="bg-[#0b192c] hover:bg-[#162a45] text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer"
+                className="bg-[#240710] hover:bg-[#3d0f1e] text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer"
               >
                 <Check className="w-4 h-4 text-[#c5a059]" />
                 <span>Salvar Preferências</span>
@@ -386,7 +386,7 @@ export const AlertsManagerSection: React.FC = () => {
         {/* Filter Navigation */}
         <div className="p-4 sm:p-6 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h3 className="font-serif-title font-bold text-lg text-[#0b192c] flex items-center gap-2">
+            <h3 className="font-serif-title font-bold text-lg text-[#240710] flex items-center gap-2">
               <Activity className="w-5 h-5 text-[#c5a059]" />
               <span>Registro de Alertas do Sistema</span>
               <span className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-mono font-bold">
@@ -403,7 +403,7 @@ export const AlertsManagerSection: React.FC = () => {
               onClick={() => setFilterType('all')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 filterType === 'all'
-                  ? 'bg-[#0b192c] text-white shadow-sm'
+                  ? 'bg-[#240710] text-white shadow-sm'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
@@ -502,7 +502,7 @@ export const AlertsManagerSection: React.FC = () => {
                           </span>
 
                           {!alert.read && (
-                            <span className="bg-[#c5a059] text-[#07111e] text-[10px] font-black px-1.5 py-0.2 rounded">
+                            <span className="bg-[#c5a059] text-[#180309] text-[10px] font-black px-1.5 py-0.2 rounded">
                               NOVO
                             </span>
                           )}
@@ -512,7 +512,7 @@ export const AlertsManagerSection: React.FC = () => {
                           </span>
                         </div>
 
-                        <h4 className="font-bold text-sm sm:text-base text-[#0b192c]">
+                        <h4 className="font-bold text-sm sm:text-base text-[#240710]">
                           {alert.title}
                         </h4>
 

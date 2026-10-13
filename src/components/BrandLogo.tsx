@@ -167,14 +167,14 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       case 'silver':
         return 'bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-400/50 text-slate-200 shadow-md';
       case 'blue':
-        return 'bg-gradient-to-br from-[#0b192c] to-[#1e3a8a] border border-blue-400/50 text-blue-300 shadow-md';
+        return 'bg-gradient-to-br from-[#180309] to-[#3d0f1e] border border-[#c5a059]/50 text-[#f6e088] shadow-md';
       case 'emerald':
-        return 'bg-gradient-to-br from-[#062c1d] to-[#0b192c] border border-emerald-500/50 text-emerald-300 shadow-md';
+        return 'bg-gradient-to-br from-[#062c1d] to-[#180309] border border-emerald-500/50 text-emerald-300 shadow-md';
       case 'crimson':
-        return 'bg-gradient-to-br from-[#3b0d11] to-[#0b192c] border border-red-500/50 text-red-300 shadow-md';
+        return 'bg-gradient-to-br from-[#3b0d11] to-[#180309] border border-red-500/50 text-red-300 shadow-md';
       case 'gold':
       default:
-        return 'bg-gradient-to-br from-[#0b192c] via-[#112338] to-[#162a45] border border-[#c5a059]/70 text-[#f6e088] shadow-md';
+        return 'bg-gradient-to-br from-[#180309] via-[#240710] to-[#3d0f1e] border border-[#c5a059]/70 text-[#f6e088] shadow-md';
     }
   };
 
@@ -244,7 +244,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         return 'bg-transparent p-0 border-0 shadow-none';
       case 'gold-halo':
       default:
-        return `bg-gradient-to-br from-[#07111e] via-[#0b192c] to-[#162a45] p-2.5 sm:p-3 rounded-2xl border-2 border-[#c5a059] ${
+        return `bg-gradient-to-br from-[#180309] via-[#240710] to-[#3d0f1e] p-2.5 sm:p-3 rounded-2xl border-2 border-[#c5a059] ${
           hasGlow ? 'shadow-[0_0_35px_rgba(197,160,89,0.55)] group-hover:shadow-[0_0_50px_rgba(246,224,136,0.85)]' : 'shadow-xl'
         } group-hover:border-[#f6e088] ring-1 ring-[#c5a059]/50`;
     }
@@ -319,7 +319,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
                 variant === 'header' 
                   ? 'text-lg sm:text-xl lg:text-2xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]' 
                   : 'text-lg sm:text-xl'
-              } ${isLightMode ? 'text-[#0b192c]' : 'text-white'}`}>
+              } ${isLightMode ? 'text-[#240710]' : 'text-white'}`}>
                 {renderFormattedText(logoText, isLightMode)}
               </span>
               {logoSubtext && (
@@ -356,7 +356,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
                     : variant === 'auth' || variant === 'preview'
                     ? 'text-2xl sm:text-3xl'
                     : 'text-lg sm:text-xl'
-                } ${isLightMode ? 'text-[#0b192c]' : 'text-white'}`}
+                } ${isLightMode ? 'text-[#240710]' : 'text-white'}`}
               >
                 {renderFormattedText(logoText, isLightMode)}
               </span>

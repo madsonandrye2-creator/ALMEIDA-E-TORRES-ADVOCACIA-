@@ -52,23 +52,23 @@ export const PracticeAreas: React.FC = () => {
             <Scale className="w-3.5 h-3.5" />
             <span>Especialidades Jurídicas</span>
           </div>
-          <h2 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#0b192c] mb-4">
+          <h2 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#240710] mb-4">
             Áreas de Atuação
           </h2>
           <div className="w-16 h-1 bg-[#c5a059] mx-auto mb-5 rounded-full" />
           <p className="text-slate-600 text-base leading-relaxed">
-            Com foco primordial em <strong className="text-[#0b192c]">Direito Trabalhista</strong>, defendemos trabalhadores em todas as fases contratuais e rescisórias com soluções jurídicas precisas e eficazes.
+            Com foco primordial em <strong className="text-[#240710]">Direito Trabalhista</strong>, defendemos trabalhadores em todas as fases contratuais e rescisórias com soluções jurídicas precisas e eficazes.
           </p>
         </div>
 
         {/* Featured Main Focus Card - DIREITO TRABALHISTA */}
         {mainArea && (
-          <div className="mb-12 bg-gradient-to-br from-[#07111e] via-[#0b192c] to-[#162a45] rounded-2xl p-8 sm:p-10 text-white shadow-2xl border-2 border-[#c5a059] relative overflow-hidden">
+          <div className="mb-12 bg-gradient-to-br from-[#180309] via-[#240710] to-[#3d0f1e] rounded-2xl p-8 sm:p-10 text-white shadow-2xl border-2 border-[#c5a059] relative overflow-hidden">
             <div className="absolute top-0 right-0 w-80 h-80 bg-[#c5a059]/15 rounded-full blur-3xl pointer-events-none" />
             
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-8">
-                <div className="inline-flex items-center gap-2 bg-[#c5a059] text-[#07111e] text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider mb-4 shadow-sm">
+                <div className="inline-flex items-center gap-2 bg-[#c5a059] text-[#180309] text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider mb-4 shadow-sm">
                   <Scale className="w-3.5 h-3.5" />
                   <span>Foco Principal do Escritório</span>
                 </div>
@@ -94,7 +94,7 @@ export const PracticeAreas: React.FC = () => {
               <div className="lg:col-span-4 flex flex-col gap-3 justify-center">
                 <button
                   onClick={() => setSelectedAreaForDetail(mainArea)}
-                  className="w-full bg-gradient-to-r from-[#c5a059] to-[#d4af37] hover:brightness-110 text-[#07111e] font-extrabold text-xs uppercase tracking-wider py-3.5 px-5 rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-[#c5a059] to-[#d4af37] hover:brightness-110 text-[#180309] font-extrabold text-xs uppercase tracking-wider py-3.5 px-5 rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
                 >
                   <HelpCircle className="w-4 h-4" />
                   <span>Ver Detalhes dos Seus Direitos</span>
@@ -114,11 +114,11 @@ export const PracticeAreas: React.FC = () => {
                 className="bg-white rounded-xl p-6 border border-slate-200 hover:border-[#c5a059] shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-lg bg-[#0b192c] text-[#c5a059] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-sm">
+                  <div className="w-12 h-12 rounded-lg bg-[#240710] text-[#c5a059] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-sm">
                     <Icon className="w-6 h-6" />
                   </div>
 
-                  <h4 className="font-serif-title text-lg font-bold text-[#0b192c] mb-2 group-hover:text-[#b38e42] transition-colors">
+                  <h4 className="font-serif-title text-lg font-bold text-[#240710] mb-2 group-hover:text-[#b38e42] transition-colors">
                     {area.title}
                   </h4>
 
@@ -139,7 +139,7 @@ export const PracticeAreas: React.FC = () => {
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                   <button
                     onClick={() => setSelectedAreaForDetail(area)}
-                    className="text-xs font-bold text-[#0b192c] hover:text-[#c5a059] flex items-center gap-1.5 transition-colors group-hover:translate-x-1"
+                    className="text-xs font-bold text-[#240710] hover:text-[#c5a059] flex items-center gap-1.5 transition-colors group-hover:translate-x-1"
                   >
                     <span>Saiba mais</span>
                     <ArrowRight className="w-3.5 h-3.5 text-[#c5a059]" />
@@ -164,12 +164,12 @@ export const PracticeAreas: React.FC = () => {
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-[#0b192c] text-[#c5a059] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-[#240710] text-[#c5a059] flex items-center justify-center">
                 <Scale className="w-5 h-5" />
               </div>
               <div>
                 <span className="text-xs uppercase font-bold text-[#c5a059] tracking-wider">Área Jurídica</span>
-                <h3 className="font-serif-title text-xl font-bold text-[#0b192c]">
+                <h3 className="font-serif-title text-xl font-bold text-[#240710]">
                   {selectedAreaForDetail.title}
                 </h3>
               </div>
@@ -206,7 +206,7 @@ export const PracticeAreas: React.FC = () => {
                   setSelectedAreaForDetail(null);
                   handleConsult(areaTitle);
                 }}
-                className="bg-[#c5a059] hover:bg-[#d4af37] text-[#07111e] font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md"
+                className="bg-[#c5a059] hover:bg-[#d4af37] text-[#180309] font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Conversar sobre este Caso</span>

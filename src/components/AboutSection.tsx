@@ -52,7 +52,7 @@ export const AboutSection: React.FC = () => {
             <Award className="w-3.5 h-3.5" />
             <span>Nossa Trajetória</span>
           </div>
-          <h2 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#0b192c] mb-4">
+          <h2 className="font-serif-title text-3xl sm:text-4xl font-bold text-[#240710] mb-4">
             Sobre a Almeida e Torres Advocacia
           </h2>
           <div className="w-16 h-1 bg-[#c5a059] mx-auto mb-6 rounded-full" />
@@ -64,7 +64,7 @@ export const AboutSection: React.FC = () => {
         {/* Two-column Feature Block: Mission/Values & Visual Presentation */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
           {/* Left Column: Visual Highlight Card */}
-          <div className="lg:col-span-5 bg-gradient-to-br from-[#07111e] via-[#0b192c] to-[#162a45] rounded-2xl p-8 text-white shadow-xl relative overflow-hidden border border-[#c5a059]/40">
+          <div className="lg:col-span-5 bg-gradient-to-br from-[#180309] via-[#240710] to-[#3d0f1e] rounded-2xl p-8 text-white shadow-xl relative overflow-hidden border border-[#c5a059]/40">
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#c5a059]/10 rounded-full blur-2xl pointer-events-none" />
             
             <div className="w-12 h-12 rounded-lg bg-[#c5a059]/20 border border-[#c5a059] flex items-center justify-center mb-6">
@@ -107,10 +107,10 @@ export const AboutSection: React.FC = () => {
                   key={idx}
                   className="bg-slate-50 hover:bg-white border border-slate-200 hover:border-[#c5a059]/50 rounded-xl p-6 transition-all shadow-sm hover:shadow-md group"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-[#0b192c] text-[#c5a059] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                  <div className="w-12 h-12 rounded-lg bg-[#240710] text-[#c5a059] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h4 className="text-base font-bold text-[#0b192c] mb-2 group-hover:text-[#b38e42] transition-colors">
+                  <h4 className="text-base font-bold text-[#240710] mb-2 group-hover:text-[#b38e42] transition-colors">
                     {pillar.title}
                   </h4>
                   <p className="text-slate-600 text-sm leading-relaxed">

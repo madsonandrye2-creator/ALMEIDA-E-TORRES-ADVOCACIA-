@@ -145,7 +145,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
             <Eye className="w-4 h-4 text-[#c5a059]" />
             <span>PRÉ-VISUALIZAÇÃO EM TEMPO REAL NO SITE</span>
           </div>
-          <span className="text-[10px] bg-[#c5a059] text-[#07111e] px-2 py-0.5 rounded font-black tracking-wider uppercase">
+          <span className="text-[10px] bg-[#c5a059] text-[#180309] px-2 py-0.5 rounded font-black tracking-wider uppercase">
             {hasCustomImage ? 'IMAGEM PERSONALIZADA' : 'EMBLEMA VETORIAL'}
           </span>
         </div>
@@ -154,7 +154,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           
           {/* Preview A: Header Style (Dark) */}
-          <div className="bg-[#07111e] p-4 rounded-xl border border-[#c5a059]/30 flex flex-col justify-center min-h-[90px]">
+          <div className="bg-[#180309] p-4 rounded-xl border border-[#c5a059]/30 flex flex-col justify-center min-h-[90px]">
             <span className="text-[10px] uppercase font-bold text-slate-400 mb-2 tracking-wider flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-[#c5a059]"></span>
               No Cabeçalho &amp; Rodapé (Fundo Escuro)
@@ -167,7 +167,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
           {/* Preview B: Light Mode Style */}
           <div className="bg-white p-4 rounded-xl border border-slate-200 text-slate-900 flex flex-col justify-center min-h-[90px]">
             <span className="text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-wider flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0b192c]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#240710]"></span>
               Em Documentos &amp; Relatórios (Fundo Claro)
             </span>
             <div className="p-2 bg-slate-50 rounded-lg">
@@ -189,7 +189,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
       {/* 2. Text Brand Customization & Logo Sizing & Backdrop */}
       <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-5">
         <div className="flex items-center justify-between">
-          <h4 className="font-serif-title text-sm font-bold text-[#0b192c] flex items-center gap-2">
+          <h4 className="font-serif-title text-sm font-bold text-[#240710] flex items-center gap-2">
             <Palette className="w-4 h-4 text-[#c5a059]" />
             Destaque, Tamanho &amp; Apresentação da Logomarca
           </h4>
@@ -201,7 +201,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
         {/* Display Mode Switcher (Crucial for uploaded logos that already contain the name) */}
         {hasCustomImage && (
           <div className="bg-amber-50/80 border-2 border-[#c5a059]/60 rounded-xl p-4 space-y-3">
-            <label className="block text-xs font-black text-[#0b192c] uppercase flex items-center gap-2">
+            <label className="block text-xs font-black text-[#240710] uppercase flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-[#c5a059]" />
               <span>Modo de Apresentação da Imagem do Logo</span>
             </label>
@@ -212,7 +212,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                 onClick={() => handleUpdate({ logoDisplayMode: 'image-only' })}
                 className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
                   (formData.logoDisplayMode || 'auto') === 'image-only'
-                    ? 'bg-[#0b192c] text-white border-[#c5a059] shadow-md ring-2 ring-[#c5a059]/40'
+                    ? 'bg-[#240710] text-white border-[#c5a059] shadow-md ring-2 ring-[#c5a059]/40'
                     : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
                 }`}
               >
@@ -235,7 +235,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                 onClick={() => handleUpdate({ logoDisplayMode: 'image-with-text' })}
                 className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
                   formData.logoDisplayMode === 'image-with-text' || formData.logoDisplayMode === 'auto'
-                    ? 'bg-[#0b192c] text-white border-[#c5a059] shadow-md ring-2 ring-[#c5a059]/40'
+                    ? 'bg-[#240710] text-white border-[#c5a059] shadow-md ring-2 ring-[#c5a059]/40'
                     : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
                 }`}
               >
@@ -278,7 +278,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                     onClick={() => handleUpdate({ logoImageZoom: sz.id as any, logoSize: sz.id === 'medium' ? 'normal' : sz.id === 'large' ? 'large' : 'xlarge' })}
                     className={`py-2 px-1 text-center rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-[#0b192c] text-[#f6e088] border-[#c5a059] shadow-sm'
+                        ? 'bg-[#240710] text-[#f6e088] border-[#c5a059] shadow-sm'
                         : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -309,7 +309,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                     onClick={() => handleUpdate({ logoBackdrop: bd.id as any })}
                     className={`py-2 px-2 text-center rounded-lg border text-[11px] font-bold transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-[#0b192c] text-[#f6e088] border-[#c5a059] shadow-sm'
+                        ? 'bg-[#240710] text-[#f6e088] border-[#c5a059] shadow-sm'
                         : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
@@ -332,7 +332,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
               value={formData.logoText || ''}
               onChange={(e) => handleUpdate({ logoText: e.target.value })}
               placeholder="Ex: ALMEIDA & TORRES"
-              className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#0b192c]"
+              className="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-[#240710]"
             />
             <span className="text-[11px] text-slate-500 mt-1 block">
               Dica: O caractere <strong>&amp;</strong> ou <strong>e</strong> recebe destaque dourado automático.
@@ -365,7 +365,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
             onClick={() => setActiveSubTab('upload')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               activeSubTab === 'upload'
-                ? 'bg-[#0b192c] text-white shadow-md'
+                ? 'bg-[#240710] text-white shadow-md'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -378,7 +378,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
             onClick={() => setActiveSubTab('vector')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               activeSubTab === 'vector'
-                ? 'bg-[#0b192c] text-white shadow-md'
+                ? 'bg-[#240710] text-white shadow-md'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -391,7 +391,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
             onClick={() => setActiveSubTab('presets')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               activeSubTab === 'presets'
-                ? 'bg-[#0b192c] text-white shadow-md'
+                ? 'bg-[#240710] text-white shadow-md'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
@@ -417,12 +417,12 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                 className="hidden"
               />
 
-              <div className="w-14 h-14 rounded-full bg-[#0b192c] text-[#f6e088] flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform">
+              <div className="w-14 h-14 rounded-full bg-[#240710] text-[#f6e088] flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform">
                 <Upload className="w-7 h-7" />
               </div>
 
               <div>
-                <h5 className="font-serif-title font-bold text-sm text-[#0b192c]">
+                <h5 className="font-serif-title font-bold text-sm text-[#240710]">
                   Clique para selecionar a imagem do seu logo
                 </h5>
                 <p className="text-xs text-slate-600 mt-1">
@@ -430,7 +430,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                 </p>
               </div>
 
-              <div className="inline-flex items-center gap-1.5 bg-[#0b192c] text-white text-xs font-bold px-4 py-2 rounded-lg shadow group-hover:bg-[#162a45] transition-colors">
+              <div className="inline-flex items-center gap-1.5 bg-[#240710] text-white text-xs font-bold px-4 py-2 rounded-lg shadow group-hover:bg-[#3d0f1e] transition-colors">
                 <ImageIcon className="w-4 h-4 text-[#c5a059]" />
                 <span>Escolher Arquivo do Computador</span>
               </div>
@@ -461,7 +461,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                   type="button"
                   onClick={handleApplyUrl}
                   disabled={!imageUrlInput.trim()}
-                  className="bg-[#0b192c] hover:bg-[#162a45] disabled:opacity-50 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
+                  className="bg-[#240710] hover:bg-[#3d0f1e] disabled:opacity-50 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
                 >
                   Aplicar URL
                 </button>
@@ -519,7 +519,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                       }}
                       className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-[#0b192c] text-[#f6e088] border-[#c5a059] ring-2 ring-[#c5a059]/40 shadow-md'
+                          ? 'bg-[#240710] text-[#f6e088] border-[#c5a059] ring-2 ring-[#c5a059]/40 shadow-md'
                           : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'
                       }`}
                     >
@@ -562,7 +562,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                       onClick={() => handleUpdate({ logoShape: s.id as any, logoType: 'icon' })}
                       className={`py-2 px-3 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                         currentShape === s.id && formData.logoType !== 'image'
-                          ? 'bg-[#0b192c] text-[#f6e088] border-[#c5a059]'
+                          ? 'bg-[#240710] text-[#f6e088] border-[#c5a059]'
                           : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                       }`}
                     >
@@ -591,7 +591,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                       onClick={() => handleUpdate({ logoColorTheme: t.id as any, logoType: 'icon' })}
                       className={`py-2 px-2 rounded-lg border text-[11px] font-bold transition-all cursor-pointer ${
                         currentTheme === t.id && formData.logoType !== 'image'
-                          ? 'bg-[#0b192c] text-[#f6e088] border-[#c5a059]'
+                          ? 'bg-[#240710] text-[#f6e088] border-[#c5a059]'
                           : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                       }`}
                     >
@@ -630,7 +630,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                   className="bg-white hover:bg-amber-50/40 p-4 rounded-xl border border-slate-200 hover:border-[#c5a059] shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
                 >
                   <div className="space-y-1">
-                    <span className="font-serif-title font-bold text-xs text-[#0b192c] group-hover:text-amber-900 block">
+                    <span className="font-serif-title font-bold text-xs text-[#240710] group-hover:text-amber-900 block">
                       {preset.name}
                     </span>
                     <span className="text-[11px] text-slate-500 block">
@@ -638,7 +638,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
                     </span>
                   </div>
 
-                  <div className="w-10 h-10 rounded-lg bg-[#0b192c] text-[#f6e088] border border-[#c5a059] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <div className="w-10 h-10 rounded-lg bg-[#240710] text-[#f6e088] border border-[#c5a059] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     {React.createElement(LOGO_ICONS[preset.logoIcon] || Scale, { className: 'w-5 h-5' })}
                   </div>
                 </div>
@@ -654,7 +654,7 @@ export const LogoEditorSection: React.FC<LogoEditorSectionProps> = ({
         <button
           type="button"
           onClick={handleResetToDefault}
-          className="text-xs text-slate-500 hover:text-[#0b192c] flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+          className="text-xs text-slate-500 hover:text-[#240710] flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Restaurar Logomarca Padrão Original</span>
